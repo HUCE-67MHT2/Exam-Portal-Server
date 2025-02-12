@@ -1,4 +1,4 @@
-package com.nhom8.exam_portal_be;
+package com.exam_portal_be;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
