@@ -1,13 +1,13 @@
-package com.exam_portal_be;
+package com.exam_portal_server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ExamPortalBeApplicationTests {
+class ExamPortalServerApplicationTests {
 
-	@Test
-	void contextLoads() {
-	}
+    @Test
+    void contextLoads() {
+    }
 
 }
