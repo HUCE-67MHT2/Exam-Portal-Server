@@ -1,4 +1,4 @@
-package com.exam_portal_server;
+package com.examportal.server;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
