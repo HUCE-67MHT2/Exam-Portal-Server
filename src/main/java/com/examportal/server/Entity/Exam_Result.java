@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.sql.Timestamp;
@@ -30,7 +31,8 @@ public class Exam_Result implements Serializable {
     @Column(name = "submitted_at", nullable = false)
     private Timestamp submittedAt;
 
-    public Exam_Result() {}
+    public Exam_Result() {
+    }
 
     public Exam_Result(Long id, User student, Exam exam, BigDecimal score, Timestamp submittedAt) {
         this.id = id;

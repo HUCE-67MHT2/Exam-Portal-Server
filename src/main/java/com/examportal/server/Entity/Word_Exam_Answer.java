@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -29,7 +30,8 @@ public class Word_Exam_Answer implements Serializable {
     @Column(name = "submitted_at", nullable = false)
     private Timestamp submittedAt;
 
-    public Word_Exam_Answer() {}
+    public Word_Exam_Answer() {
+    }
 
     public Word_Exam_Answer(Long id, User student, Exam exam, String answerText, Timestamp submittedAt) {
         this.id = id;

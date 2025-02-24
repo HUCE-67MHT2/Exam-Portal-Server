@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -31,7 +32,8 @@ public class Question implements Serializable {
     @Column(name = "created_at", nullable = false, updatable = false)
     private Timestamp createdAt;
 
-    public Question() {}
+    public Question() {
+    }
 
     public Question(Long id, Exam exam, String questionText, String questionType, String correctAnswer, Timestamp createdAt) {
         this.id = id;

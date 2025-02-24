@@ -25,7 +25,8 @@ class OptionQuestion implements Serializable {
     @Column(name = "is_correct", nullable = false)
     private Boolean isCorrect;
 
-    public OptionQuestion() {}
+    public OptionQuestion() {
+    }
 
     public OptionQuestion(Long id, Question question, String optionText, Boolean isCorrect) {
         this.id = id;

@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface ExamRepository {
     List<Exam> getList();
+
     Exam getExamById(Long id);
+
     void save(Exam exam);
+
     void delete(Long id);
 }

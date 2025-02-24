@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
@@ -28,7 +29,8 @@ public class Student_Answer implements Serializable {
     @Column(name = "answer_text", columnDefinition = "TEXT")
     private String answerText;
 
-    public Student_Answer() {}
+    public Student_Answer() {
+    }
 
     public Student_Answer(Long id, Exam_Result examResult, Question question, String selectedOption, String answerText) {
         this.id = id;

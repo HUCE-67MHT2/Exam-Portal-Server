@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.Subject;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -10,30 +10,30 @@ import java.util.List;
 
 @Repository
 @Transactional
-public class ExamRepositoryImpl implements ExamRepository {
+public class SubjectRepositoryImpl implements SubjectRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
 
     @Override
-    public List<Exam> getList() {
-        String hql = "FROM Exam";
+    public List<Subject> getList() {
+        String hql = "FROM Subject";
         return entityManager.createQuery(hql).getResultList();
 
     }
 
     @Override
-    public Exam getExamById(Long id) {
-        return entityManager.find(Exam.class, id);
+    public Subject getSubjectById(Long id) {
+        return entityManager.find(Subject.class, id);
     }
 
     @Override
-    public void save(Exam exam) {
+    public void save(Subject subject) {
         try {
-            if (exam.getId() == null) {
-                entityManager.persist(exam);
+            if (subject.getId() == null) {
+                entityManager.persist(subject);
             } else {
-                entityManager.merge(exam);
+                entityManager.merge(subject);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -42,6 +42,6 @@ public class ExamRepositoryImpl implements ExamRepository {
 
     @Override
     public void delete(Long id) {
-        entityManager.remove(entityManager.find(Exam.class, id));
+        entityManager.remove(entityManager.find(Subject.class, id));
     }
 }

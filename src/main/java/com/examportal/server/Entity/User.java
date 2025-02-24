@@ -161,6 +161,7 @@ public class User {
     public void setUserRoles(Set<User_Role> userRoles) {
         this.userRoles = userRoles;
     }
+
     public Timestamp getCreated_at() {
         return created_at;
     }

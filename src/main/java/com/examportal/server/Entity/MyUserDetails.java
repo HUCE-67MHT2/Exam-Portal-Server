@@ -50,5 +50,6 @@ public class MyUserDetails implements UserDetails {
     @Override
     public boolean isEnabled() {
         return true;
-    }}
+    }
+}
 

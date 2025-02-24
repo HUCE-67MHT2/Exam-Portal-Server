@@ -21,7 +21,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
         try {
             String hql = "FROM User";
             return entityManager.createQuery(hql, User.class).getResultList();
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -35,7 +35,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             } else {
                 entityManager.persist(user);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -45,7 +45,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
     public User getUserById(int id) {
         try {
             return entityManager.find(User.class, id);
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
@@ -58,7 +58,7 @@ public class UserRepositoryImpl implements UserRepositoryCustom {
             if (user != null) {
                 entityManager.remove(user);
             }
-        } catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }

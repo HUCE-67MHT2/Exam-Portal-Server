@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serializable;
 
 @Entity
@@ -20,7 +21,8 @@ public class Subject implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    public Subject() {}
+    public Subject() {
+    }
 
     public Subject(Long id, String name, String description) {
         this.id = id;

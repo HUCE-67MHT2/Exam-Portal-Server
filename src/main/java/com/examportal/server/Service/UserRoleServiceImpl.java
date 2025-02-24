@@ -13,8 +13,7 @@ public class UserRoleServiceImpl implements UserRoleService {
     public void save(User_Role user_role) {
         try {
             userRoleRespository.save(user_role);
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }

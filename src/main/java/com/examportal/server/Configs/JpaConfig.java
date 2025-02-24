@@ -1,7 +1,6 @@
 package com.examportal.server.Configs;
 
 import jakarta.persistence.EntityManagerFactory;
-
 import org.springframework.boot.autoconfigure.domain.EntityScan;
 import org.springframework.boot.jdbc.DataSourceBuilder;
 import org.springframework.boot.orm.jpa.EntityManagerFactoryBuilder;
@@ -13,6 +12,7 @@ import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.transaction.PlatformTransactionManager;
 
 import javax.sql.DataSource;
+
 @Configuration
 @EnableJpaRepositories(basePackages = "com.examportal.server.Repositories")
 @EntityScan(basePackages = "com.examportal.server.Entity")  // Đảm bảo Spring quét các entity
