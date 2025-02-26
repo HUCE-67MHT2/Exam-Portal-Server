@@ -2,9 +2,10 @@ package com.examportal.server.Service;
 import com.examportal.server.Entity.Option;
 import com.examportal.server.Repositories.OptionQuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
-
+@Service
 public class OptionQuestionServiceImpl implements OptionQuestionService {
 
     @Autowired
