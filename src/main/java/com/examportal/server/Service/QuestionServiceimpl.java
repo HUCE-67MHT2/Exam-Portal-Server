@@ -15,12 +15,12 @@ public class QuestionServiceimpl implements QuestionService {
 
     @Override
     public List<Question> getList() {
-        return null;
+        return questionRepository.getList();
     }
 
     @Override
     public Question getQuestionById(Long id) {
-        return null;
+        return questionRepository.getQuestionById(id);
     }
 
     @Override

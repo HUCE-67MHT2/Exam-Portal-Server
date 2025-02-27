@@ -16,16 +16,15 @@ public class Exam implements Serializable {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false, length = 255)
     private String title;
 
-    @ManyToOne
-    @JoinColumn(name = "subject_id", nullable = false)
-    private Subject subject;
+    @Column(name = "subject_id", nullable = false)
+    private Long subject_id;
 
-    @ManyToOne
-    @JoinColumn(name = "teacher_id", nullable = false)
-    private User teacher;
+    @Column(name = "teacher_id", nullable = false)
+    private Long teacher_id;
 
     @Column(name = "start_time", nullable = false)
     private LocalDateTime startTime;
@@ -45,20 +44,20 @@ public class Exam implements Serializable {
     @Column(nullable = false)
     private String password;
 
-    public Exam(Long id, String title, Subject subject, User teacher, LocalDateTime startTime, Integer duration, String examType, String fileUrl, Timestamp created_at, String password) {
+    public Exam() {
+    }
+
+    public Exam(Long id, String title, Long subject_id, Long teacher_id, LocalDateTime startTime, Integer duration, String examType, String fileUrl, Timestamp created_at, String password) {
         this.id = id;
         this.title = title;
-        this.subject = subject;
-        this.teacher = teacher;
+        this.subject_id = subject_id;
+        this.teacher_id = teacher_id;
         this.startTime = startTime;
         this.duration = duration;
         this.examType = examType;
         this.fileUrl = fileUrl;
         this.created_at = created_at;
         this.password = password;
-    }
-
-    public Exam() {
     }
 
     public Long getId() {
@@ -77,20 +76,20 @@ public class Exam implements Serializable {
         this.title = title;
     }
 
-    public Subject getSubject() {
-        return subject;
+    public Long getSubject_id() {
+        return subject_id;
     }
 
-    public void setSubject(Subject subject) {
-        this.subject = subject;
+    public void setSubject_id(Long subject_id) {
+        this.subject_id = subject_id;
     }
 
-    public User getTeacher() {
-        return teacher;
+    public Long getTeacher_id() {
+        return teacher_id;
     }
 
-    public void setTeacher(User teacher) {
-        this.teacher = teacher;
+    public void setTeacher_id(Long teacher_id) {
+        this.teacher_id = teacher_id;
     }
 
     public LocalDateTime getStartTime() {

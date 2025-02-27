@@ -16,9 +16,8 @@ public class Question implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    @Column(name = "exam_id", nullable = false)
+    private Long exam_id;
 
     @Column(name = "question_text", columnDefinition = "TEXT", nullable = false)
     private String questionText;
@@ -35,13 +34,13 @@ public class Question implements Serializable {
     public Question() {
     }
 
-    public Question(Long id, Exam exam, String questionText, String questionType, String correctAnswer, Timestamp createdAt) {
-        this.id = id;
-        this.exam = exam;
-        this.questionText = questionText;
-        this.questionType = questionType;
-        this.correctAnswer = correctAnswer;
+    public Question(Timestamp createdAt, String correctAnswer, String questionType, String questionText, Long exam_id, Long id) {
         this.createdAt = createdAt;
+        this.correctAnswer = correctAnswer;
+        this.questionType = questionType;
+        this.questionText = questionText;
+        this.exam_id = exam_id;
+        this.id = id;
     }
 
     public Long getId() {
@@ -52,12 +51,12 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public Exam getExam() {
-        return exam;
+    public Long getExam_id() {
+        return exam_id;
     }
 
-    public void setExam(Exam exam) {
-        this.exam = exam;
+    public void setExam_id(Long exam_id) {
+        this.exam_id = exam_id;
     }
 
     public String getQuestionText() {

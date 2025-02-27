@@ -15,13 +15,12 @@ public class Student_Answer implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "result_id", nullable = false)
-    private Exam_Result examResult;
+    @Column(name = "result_id", nullable = false)
+    private Long result_id;
 
-    @ManyToOne
-    @JoinColumn(name = "question_id", nullable = false)
-    private Question question;
+
+    @Column(name = "question_id", nullable = false)
+    private Long question_id;
 
     @Column(name = "selected_option", length = 10)
     private String selectedOption;
@@ -32,10 +31,10 @@ public class Student_Answer implements Serializable {
     public Student_Answer() {
     }
 
-    public Student_Answer(Long id, Exam_Result examResult, Question question, String selectedOption, String answerText) {
+    public Student_Answer(Long id, Long result_id, Long question_id, String selectedOption, String answerText) {
         this.id = id;
-        this.examResult = examResult;
-        this.question = question;
+        this.result_id = result_id;
+        this.question_id = question_id;
         this.selectedOption = selectedOption;
         this.answerText = answerText;
     }
@@ -48,20 +47,20 @@ public class Student_Answer implements Serializable {
         this.id = id;
     }
 
-    public Exam_Result getExamResult() {
-        return examResult;
+    public Long getResult_id() {
+        return result_id;
     }
 
-    public void setExamResult(Exam_Result examResult) {
-        this.examResult = examResult;
+    public void setResult_id(Long result_id) {
+        this.result_id = result_id;
     }
 
-    public Question getQuestion() {
-        return question;
+    public Long getQuestion_id() {
+        return question_id;
     }
 
-    public void setQuestion(Question question) {
-        this.question = question;
+    public void setQuestion_id(Long question_id) {
+        this.question_id = question_id;
     }
 
     public String getSelectedOption() {

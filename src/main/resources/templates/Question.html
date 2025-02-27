@@ -267,43 +267,35 @@
 
 <div class="container mt-4">
     <div class="header-list">
-        <h2>Exams List</h2>
-        <button type="button" class="btn btn-secondary btn-sm btn-add-tour" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add new exam</button>
+        <h2>Question List</h2>
+        <button type="button" class="btn btn-secondary btn-sm btn-add-tour" data-bs-toggle="modal" data-bs-target="#addMovieModal">Add new question</button>
     </div>
 
     <table class="table table-striped table-bordered" >
         <thead>
         <tr>
             <th scope="col">Id</th>
-            <th scope="col">title</th>
-            <th scope="col">subject</th>
-            <th scope="col">teacher_id</th>
-            <th scope="col">startTime</th>
-            <th scope="col">duration</th>
-            <th scope="col">examType</th>
-            <th scope="col">fileUrl</th>
-            <th scope="col">created_at</th>
-            <th scope="col">password</th>
+            <th scope="col">exam_id</th>
+            <th scope="col">questionText</th>
+            <th scope="col">questionType</th>
+            <th scope="col">correctAnswer</th>
+            <th scope="col">createdAt</th>
             <th scope="col">Action</th>
         </tr>
         </thead>
         <tbody>
-        <tr th:each="exam : ${exams}">
-            <td th:text="${exam.id}" class="small-column"></td>
-            <td th:text="${exam.title}" class="small-column"></td>
-            <td th:text="${exam.subject_id}" class="medium-column"></td>
-            <td th:text="${exam.teacher_id}" class="medium-column"></td>
-            <td th:text="${exam.startTime}" class="medium-column"></td>
-            <td th:text="${exam.duration}" class="small-column"></td>
-            <td th:text="${exam.examType}" class="small-column"></td>
-            <td th:text="${exam.fileUrl}" class="small-column"></td>
-            <td th:text="${exam.created_at}" class="small-column"></td>
-            <td th:text="${exam.password}" class="medium-column"></td>
+        <tr th:each="question : ${questions}">
+            <td th:text="${question.id}" class="small-column"></td>
+            <td th:text="${question.exam_id}" class="small-column"></td>
+            <td th:text="${question.questionText}" class="medium-column"></td>
+            <td th:text="${question.questionType}" class="medium-column"></td>
+            <td th:text="${question.correctAnswer}" class="medium-column"></td>
+            <td th:text="${question.createdAt}" class="small-column"></td>
             <td class="row-btn-action">
-                <form action="#" th:action="@{/edit/exam/{id}(id=${exam.id})}" method="post">
+                <form action="#" th:action="@{/edit/question/{id}(id=${question.id})}" method="post">
                     <button type="submit" style="background-color: blue;" class="btn-size btn btn-secondary btn-sm">Edit</button>
                 </form>
-                <form action="#" th:action="@{/delete/exam/{id}(id=${exam.id})}" method="post">
+                <form action="#" th:action="@{/delete/question/{id}(id=${question.id})}" method="post">
                     <button type="submit" style="background-color: red;" class="btn-size btn btn-secondary btn-sm">Delete</button>
                 </form>
             </td>
@@ -320,39 +312,24 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
-                <form action="#" th:action="@{/addOrUpdateExam}" method="post">
+                <form action="#" th:action="@{/addOrUpdateQuestion}" method="post">
                     <div class="form-group mb-3">
-                        <label for="title">Title</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <label for="exam_id">exam_id</label>
+                        <input type="text" class="form-control" id="exam_id" name="exam_id" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="subject_id">subject_id</label>
-                        <textarea class="form-control" id="subject_id" name="subject_id" rows="3" required></textarea>
+                        <label for="questionText">questionText</label>
+                        <textarea class="form-control" id="questionText" name="questionText" rows="3" required></textarea>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="teacher_id">teacher_id</label>
-                        <input type="text"  class="form-control" id="teacher_id" name="teacher_id" required>
+                        <label for="questionType">questionType</label>
+                        <input type="text"  class="form-control" id="questionType" name="questionType" required>
                     </div>
                     <div class="form-group mb-3">
-                        <label for="startTime">Start Time</label>
-                        <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
+                        <label for="correctAnswer">correctAnswer</label>
+                        <input type="text" class="form-control" id="correctAnswer" name="correctAnswer" required>
                     </div>
-                    <div class="form-group mb-3">
-                        <label for="duration">Duration (min)</label>
-                        <input type="number" class="form-control" id="duration" name="duration" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="examType">examType</label>
-                        <input type="text" class="form-control" id="examType" name="examType" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="fileUrl">fileUrl</label>
-                        <input type="text" class="form-control" id="fileUrl" name="fileUrl" required>
-                    </div>
-                    <div class="form-group mb-3">
-                        <label for="password">password</label>
-                        <input type="text" class="form-control" id="password" name="password">
-                    </div>
+
 
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>

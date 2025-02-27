@@ -17,13 +17,11 @@ public class Exam_Result implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
     @JoinColumn(name = "student_id", nullable = false)
-    private User student;
+    private Long student_id;
 
-    @ManyToOne
     @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    private Long exam_id;
 
     @Column(name = "score", precision = 5, scale = 2, nullable = false)
     private BigDecimal score;
@@ -34,10 +32,10 @@ public class Exam_Result implements Serializable {
     public Exam_Result() {
     }
 
-    public Exam_Result(Long id, User student, Exam exam, BigDecimal score, Timestamp submittedAt) {
+    public Exam_Result(Long id, Long student_id, Long exam_id, BigDecimal score, Timestamp submittedAt) {
         this.id = id;
-        this.student = student;
-        this.exam = exam;
+        this.student_id = student_id;
+        this.exam_id = exam_id;
         this.score = score;
         this.submittedAt = submittedAt;
     }
@@ -50,20 +48,20 @@ public class Exam_Result implements Serializable {
         this.id = id;
     }
 
-    public User getStudent() {
-        return student;
+    public Long getStudent_id() {
+        return student_id;
     }
 
-    public void setStudent(User student) {
-        this.student = student;
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
-    public Exam getExam() {
-        return exam;
+    public Long getExam_id() {
+        return exam_id;
     }
 
-    public void setExam(Exam exam) {
-        this.exam = exam;
+    public void setExam_id(Long exam_id) {
+        this.exam_id = exam_id;
     }
 
     public BigDecimal getScore() {

@@ -16,13 +16,11 @@ public class Word_Exam_Answer implements Serializable {
     @Column(name = "id")
     private Long id;
 
-    @ManyToOne
-    @JoinColumn(name = "student_id", nullable = false)
-    private User student;
+    @Column(name = "student_id", nullable = false)
+    private Long student_id;
 
-    @ManyToOne
-    @JoinColumn(name = "exam_id", nullable = false)
-    private Exam exam;
+    @Column(name = "exam_id", nullable = false)
+    private Long exam_id;
 
     @Column(name = "answer_text", columnDefinition = "TEXT", nullable = false)
     private String answerText;
@@ -33,10 +31,10 @@ public class Word_Exam_Answer implements Serializable {
     public Word_Exam_Answer() {
     }
 
-    public Word_Exam_Answer(Long id, User student, Exam exam, String answerText, Timestamp submittedAt) {
+    public Word_Exam_Answer(Long id, Long student_id, Long exam_id, String answerText, Timestamp submittedAt) {
         this.id = id;
-        this.student = student;
-        this.exam = exam;
+        this.student_id = student_id;
+        this.exam_id = exam_id;
         this.answerText = answerText;
         this.submittedAt = submittedAt;
     }
@@ -49,20 +47,20 @@ public class Word_Exam_Answer implements Serializable {
         this.id = id;
     }
 
-    public User getStudent() {
-        return student;
+    public Long getStudent_id() {
+        return student_id;
     }
 
-    public void setStudent(User student) {
-        this.student = student;
+    public void setStudent_id(Long student_id) {
+        this.student_id = student_id;
     }
 
-    public Exam getExam() {
-        return exam;
+    public Long getExam_id() {
+        return exam_id;
     }
 
-    public void setExam(Exam exam) {
-        this.exam = exam;
+    public void setExam_id(Long exam_id) {
+        this.exam_id = exam_id;
     }
 
     public String getAnswerText() {
