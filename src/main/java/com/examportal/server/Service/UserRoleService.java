@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
-import com.examportal.server.Entity.User_Role;
+import com.examportal.server.Entity.UserRole;
 
 public interface UserRoleService {
-    void save(User_Role user_role);
+    void save(UserRole user_role);
 }

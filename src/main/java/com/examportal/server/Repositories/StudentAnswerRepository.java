@@ -1,15 +1,15 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.Student_Answer;
+import com.examportal.server.Entity.StudentAnswer;
 
 import java.util.List;
 
 public interface StudentAnswerRepository {
-    List<Student_Answer> getList();
+    List<StudentAnswer> getList();
 
-    Student_Answer getStudentAnswerById(Long id);
+    StudentAnswer getStudentAnswerById(Long id);
 
-    void save(Student_Answer student_answer);
+    void save(StudentAnswer student_answer);
 
     void delete(Long id);
 }

@@ -2,7 +2,7 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Entity.CustomUserDetails;
 import com.examportal.server.Entity.User;
-import com.examportal.server.Entity.User_Role;
+import com.examportal.server.Entity.UserRole;
 import com.examportal.server.Repositories.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -33,8 +33,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
     private UserDetails buildUserDetails(User user) {
         Collection<GrantedAuthority> grantedAuthoritySet = new HashSet<>();
-        Set<User_Role> roles = user.getUserRoles();
-        for (User_Role role : roles) {
+        Set<UserRole> roles = user.getUserRoles();
+        for (UserRole role : roles) {
             grantedAuthoritySet.add(new SimpleGrantedAuthority(role.getRole().getName()));
         }
         return new CustomUserDetails(grantedAuthoritySet, user.getEmail(), user.getFullName(), user.getPassword(), user.getUsername(), user.getGender(), user.getAddress(), user.getTelephone(), user.getEnabled(), true, true, true);

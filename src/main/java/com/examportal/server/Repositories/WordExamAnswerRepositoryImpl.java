@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.Word_Exam_Answer;
+import com.examportal.server.Entity.WordExamAnswer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -16,19 +16,19 @@ public class WordExamAnswerRepositoryImpl implements WordExamAnswerRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Word_Exam_Answer> getList() {
-        String hql = "FROM Word_Exam_Answer";
+    public List<WordExamAnswer> getList() {
+        String hql = "FROM WordExamAnswer";
         return entityManager.createQuery(hql).getResultList();
 
     }
 
     @Override
-    public Word_Exam_Answer getWordExamAnswerById(Long id) {
-        return entityManager.find(Word_Exam_Answer.class, id);
+    public WordExamAnswer getWordExamAnswerById(Long id) {
+        return entityManager.find(WordExamAnswer.class, id);
     }
 
     @Override
-    public void save(Word_Exam_Answer word_exam_answer) {
+    public void save(WordExamAnswer word_exam_answer) {
         try {
             if (word_exam_answer.getId() == null) {
                 entityManager.persist(word_exam_answer);
@@ -42,6 +42,6 @@ public class WordExamAnswerRepositoryImpl implements WordExamAnswerRepository {
 
     @Override
     public void delete(Long id) {
-        entityManager.remove(entityManager.find(Word_Exam_Answer.class, id));
+        entityManager.remove(entityManager.find(WordExamAnswer.class, id));
     }
 }

@@ -41,11 +41,11 @@ public class User {
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
-    private Set<User_Role> userRoles;
+    private Set<UserRole> userRoles;
 
     public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender,
                 Date birthday, String address, String email, String telephone, String avatar_url,
-                Set<User_Role> userRoles) {
+                Set<UserRole> userRoles) {
         super();
         this.id = id;
         this.username = username;
@@ -154,11 +154,11 @@ public class User {
         this.avatar_url = avatar_url;
     }
 
-    public Set<User_Role> getUserRoles() {
+    public Set<UserRole> getUserRoles() {
         return userRoles;
     }
 
-    public void setUserRoles(Set<User_Role> userRoles) {
+    public void setUserRoles(Set<UserRole> userRoles) {
         this.userRoles = userRoles;
     }
 

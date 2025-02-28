@@ -17,9 +17,9 @@ public class Role {
 
     @OneToMany(mappedBy = "role")
     @JsonManagedReference
-    private Set<User_Role> roleUsers;
+    private Set<UserRole> roleUsers;
 
-    public Role(Long id, String name, Set<User_Role> roleUsers) {
+    public Role(Long id, String name, Set<UserRole> roleUsers) {
         super();
         this.id = id;
         this.name = name;
@@ -47,11 +47,11 @@ public class Role {
         this.name = name;
     }
 
-    public Set<User_Role> getRoleUsers() {
+    public Set<UserRole> getRoleUsers() {
         return roleUsers;
     }
 
-    public void setRoleUsers(Set<User_Role> roleUsers) {
+    public void setRoleUsers(Set<UserRole> roleUsers) {
         this.roleUsers = roleUsers;
     }
 

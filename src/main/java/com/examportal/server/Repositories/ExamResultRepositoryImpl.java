@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.Exam_Result;
+import com.examportal.server.Entity.ExamResult;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -16,18 +16,18 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Exam_Result> getList() {
-        String hql = "FROM Exam_Result";
+    public List<ExamResult> getList() {
+        String hql = "FROM ExamResult";
         return entityManager.createQuery(hql).getResultList();
     }
 
     @Override
-    public Exam_Result getExamResultById(Long id) {
-        return entityManager.find(Exam_Result.class, id);
+    public ExamResult getExamResultById(Long id) {
+        return entityManager.find(ExamResult.class, id);
     }
 
     @Override
-    public void save(Exam_Result examResult) {
+    public void save(ExamResult examResult) {
         try {
             if (examResult.getId() == null) {
                 entityManager.persist(examResult);
@@ -41,6 +41,6 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
 
     @Override
     public void delete(Long id) {
-        entityManager.remove(entityManager.find(Exam_Result.class, id));
+        entityManager.remove(entityManager.find(ExamResult.class, id));
     }
 }

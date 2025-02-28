@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class OptionQuestionRepositoryImpl implements OptionQuestionRepository {
@@ -17,7 +18,7 @@ public class OptionQuestionRepositoryImpl implements OptionQuestionRepository {
     @Override
     public List<Option> getList() {
         String hql = "FROM Option";
-        return entityManager.createQuery(hql,Option.class).getResultList();
+        return entityManager.createQuery(hql, Option.class).getResultList();
     }
 
     @Override

@@ -30,11 +30,12 @@ public class ExamController {
         examService.save(exam);
         return "redirect:/exam";
     }
+
     @GetMapping("/edit/exam/{id}")
     public String editExam(@PathVariable("id") Long id, Model model) {
         Exam exam = examService.getExamById(id);
         model.addAttribute("exam", exam);
-        return "Update_Exam";
+        return "UpdateExam";
     }
 
     @PostMapping("/delete/exam/{id}")

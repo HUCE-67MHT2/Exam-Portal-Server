@@ -1,6 +1,6 @@
 package com.examportal.server.Service;
 
-import com.examportal.server.Entity.Exam_Result;
+import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Repositories.ExamResultRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -14,17 +14,17 @@ public class ExamResultServiceImpl implements ExamResultService {
     private ExamResultRepository examResultRepository;
 
     @Override
-    public List<Exam_Result> getList() {
+    public List<ExamResult> getList() {
         return examResultRepository.getList();
     }
 
     @Override
-    public Exam_Result getExamResultById(Long id) {
+    public ExamResult getExamResultById(Long id) {
         return examResultRepository.getExamResultById(id);
     }
 
     @Override
-    public void save(Exam_Result examResult) {
+    public void save(ExamResult examResult) {
         examResultRepository.save(examResult);
     }
 
