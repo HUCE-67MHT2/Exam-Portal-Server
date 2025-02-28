@@ -34,7 +34,7 @@ public class SecurityConfig {
                         .requestMatchers("/api/**").permitAll() // Cho phép tất cả yêu cầu đến API mà không cần xác thực
                         .anyRequest().authenticated() // Yêu cầu xác thực cho tất cả các yêu cầu khác
                 )
-                .formLogin(); // Bật xác thực OAuth2
+                .formLogin();  // Bật xác thực OAuth2
         return http.build();
     }
 
