@@ -5,7 +5,7 @@ import com.examportal.server.DTO.ChangeInfo;
 import com.examportal.server.DTO.ChangePasswordDTO;
 import com.examportal.server.Entity.Role;
 import com.examportal.server.Entity.User;
-import com.examportal.server.Entity.User_Role;
+import com.examportal.server.Entity.UserRole;
 import com.examportal.server.Request.LoginRequest;
 import com.examportal.server.Request.RegisterRequest;
 import com.examportal.server.Service.RoleService;
@@ -151,7 +151,7 @@ public class AuthController {
             throw new RuntimeException("Role 'User' not found");
         }
 
-        User_Role userRole = new User_Role();
+        UserRole userRole = new UserRole();
         userRole.setUser(user);
         userRole.setRole(role);
         userRoleService.save(userRole);
