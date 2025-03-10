@@ -34,7 +34,7 @@ public class JpaConfig {
     @Bean
     public DataSource dataSource() {
         return DataSourceBuilder.create()
-                .url("jdbc:mysql://localhost:3306/exam_portal_management")
+                .url("jdbc:mysql://localhost:3306/exam_portal_managerment")
                 .username("root")
                 .password("123456")
                 .build();

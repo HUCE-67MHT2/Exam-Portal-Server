@@ -34,6 +34,10 @@ public class User {
     private String telephone;
     @Column(name = "avatar_url")
     private String avatar_url;
+    @Column(name = "school")
+    private String school;
+    @Column(name = "class")
+    private String className;
     @Column(name = "created_at")
     private Timestamp created_at;
     @Column(name = "updated_at")
@@ -43,10 +47,10 @@ public class User {
     @JsonManagedReference
     private Set<UserRole> userRoles;
 
-    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender,
-                Date birthday, String address, String email, String telephone, String avatar_url,
-                Set<UserRole> userRoles) {
-        super();
+    public User() {
+    }
+
+    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatar_url, String school, String className, Timestamp created_at, Timestamp updated_at, Set<UserRole> userRoles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -58,12 +62,11 @@ public class User {
         this.email = email;
         this.telephone = telephone;
         this.avatar_url = avatar_url;
+        this.school = school;
+        this.className = className;
+        this.created_at = created_at;
+        this.updated_at = updated_at;
         this.userRoles = userRoles;
-    }
-
-    public User() {
-        super();
-        // TODO Auto-generated constructor stub
     }
 
     public Long getId() {
@@ -154,12 +157,20 @@ public class User {
         this.avatar_url = avatar_url;
     }
 
-    public Set<UserRole> getUserRoles() {
-        return userRoles;
+    public String getSchool() {
+        return school;
     }
 
-    public void setUserRoles(Set<UserRole> userRoles) {
-        this.userRoles = userRoles;
+    public void setSchool(String school) {
+        this.school = school;
+    }
+
+    public String getClassName() {
+        return className;
+    }
+
+    public void setClassName(String className) {
+        this.className = className;
     }
 
     public Timestamp getCreated_at() {
@@ -174,7 +185,15 @@ public class User {
         return updated_at;
     }
 
-    public void setUpdated_at(Timestamp timestamp) {
-        this.updated_at = timestamp;
+    public void setUpdated_at(Timestamp updated_at) {
+        this.updated_at = updated_at;
+    }
+
+    public Set<UserRole> getUserRoles() {
+        return userRoles;
+    }
+
+    public void setUserRoles(Set<UserRole> userRoles) {
+        this.userRoles = userRoles;
     }
 }

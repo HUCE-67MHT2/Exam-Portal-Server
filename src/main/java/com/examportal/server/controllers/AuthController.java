@@ -3,6 +3,7 @@ package com.examportal.server.controllers;
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ChangeInfo;
 import com.examportal.server.DTO.ChangePasswordDTO;
+import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Role;
 import com.examportal.server.Entity.User;
 import com.examportal.server.Entity.UserRole;
@@ -50,12 +51,12 @@ public class AuthController {
     @Autowired
     private UserRoleService userRoleService;
 
-    @PostMapping("/login")
-    public ResponseEntity<?> login(@RequestBody LoginRequest loginRequest) {
+    @PostMapping("/login/student")
+    public ResponseEntity<?> loginStudent(@RequestBody LoginRequest loginRequest) {
         try {
             User user = userService.getUserByUsername(loginRequest.getUsername());
             if(user == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Người dùng không tồn tại!");
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ResponseDTO("Người dùng không tồn tại!"));
 
             }
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -64,7 +65,7 @@ public class AuthController {
 
             boolean isPasswordMatch = encoder.matches(rawPassword, encodedPasswordFromDB);
             if(!isPasswordMatch) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Mật khẩu sai!");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Mật khẩu sai!"));
             }
             // Thực hiện quá trình xác thực (authentication)
             Authentication authentication = authenticationManager.authenticate(
@@ -80,11 +81,54 @@ public class AuthController {
             List<String> roles = userDetails.getAuthorities().stream()
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
+            if (!roles.contains("student")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body( new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
+            }
             String token = jwtTokenUtil.generateToken(username, roles);
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred"));
+        }
+    }
+    @PostMapping("/login/teacher")
+    public ResponseEntity<?> loginTeacher(@RequestBody LoginRequest loginRequest) {
+        try {
+            User user = userService.getUserByUsername(loginRequest.getUsername());
+            if(user == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ResponseDTO("Người dùng không tồn tại!"));
+
+            }
+            BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+            String rawPassword = loginRequest.getPassword();
+            String encodedPasswordFromDB = user.getPassword(); // Mật khẩu đã mã hóa từ cơ sở dữ liệu
+
+            boolean isPasswordMatch = encoder.matches(rawPassword, encodedPasswordFromDB);
+            if(!isPasswordMatch) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Mật khẩu sai!"));
+            }
+            // Thực hiện quá trình xác thực (authentication)
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
+            );
+
+            // Lưu trữ đối tượng Authentication vào SecurityContextHolder
+            SecurityContextHolder.getContext().setAuthentication(authentication);
+
+            // Lấy UserDetails sau khi xác thực thành công
+            UserDetails userDetails = (UserDetails) authentication.getPrincipal();
+            String username = userDetails.getUsername();
+            List<String> roles = userDetails.getAuthorities().stream()
+                    .map(GrantedAuthority::getAuthority)
+                    .collect(Collectors.toList());
+            if (!roles.contains("teacher")) {
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body( new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
+            }
+            String token = jwtTokenUtil.generateToken(username, roles);
+            return ResponseEntity.ok(new JwtResponse(token));
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred"));
         }
     }
     @GetMapping("/get/user")
@@ -123,15 +167,15 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("get user error");
         }
     }
-    @PostMapping("/register")
-    public ResponseEntity<?> registerUser(@RequestBody RegisterRequest registerRequest) {
+    @PostMapping("/register/student")
+    public ResponseEntity<?> registerStudent(@RequestBody RegisterRequest registerRequest) {
         // Kiểm tra xem username hoặc email đã tồn tại hay chưa
         if (userService.getUserByUsername(registerRequest.getEmail()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Email đã tồn tại!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("email đã tồn tại!"));
         }
 
         if (userService.getUserByEmail(registerRequest.getEmail()) != null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("email đã được đăng kí!");
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Email đã được đăng kí!"));
         }
         BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
         String rawPassword = registerRequest.getPassword();
@@ -142,20 +186,60 @@ public class AuthController {
         user.setPassword(encodedPassword); // Nhớ mã hóa mật khẩu trước khi lưu
         user.setEmail(registerRequest.getEmail());
         user.setEnabled(true);
-        user.setFullName("nguyen van A");
-        user.setTelephone("19001013");
+        user.setFullName(registerRequest.getName());
+        user.setSchool(registerRequest.getSchoolName());
+        user.setClassName(registerRequest.getClassName());
+        user.setBirthday(registerRequest.getDob());
+        user.setAddress(registerRequest.getConsious());
         userService.AddOrUpdate(user);
 
-        Role role = roleService.findByRoleName("User");
+        Role role = roleService.findByRoleName("student");
         if (role == null) {
-            throw new RuntimeException("Role 'User' not found");
+            throw new RuntimeException("Role 'student' not found");
         }
 
         UserRole userRole = new UserRole();
         userRole.setUser(user);
         userRole.setRole(role);
         userRoleService.save(userRole);
-        return ResponseEntity.ok("register successful");
+        return ResponseEntity.ok(new ResponseDTO("register successful"));
+    }
+    @PostMapping("/register/teacher")
+    public ResponseEntity<?> registerTeacher(@RequestBody RegisterRequest registerRequest) {
+        // Kiểm tra xem username hoặc email đã tồn tại hay chưa
+        if (userService.getUserByUsername(registerRequest.getEmail()) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("email đã tồn tại!"));
+        }
+
+        if (userService.getUserByEmail(registerRequest.getEmail()) != null) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("email đã được đăng kí!"));
+        }
+        BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
+        String rawPassword = registerRequest.getPassword();
+        String encodedPassword = encoder.encode(rawPassword);
+        // Tạo người dùng mới
+        User user = new User();
+        user.setUsername(registerRequest.getEmail());
+        user.setPassword(encodedPassword); // Nhớ mã hóa mật khẩu trước khi lưu
+        user.setEmail(registerRequest.getEmail());
+        user.setEnabled(true);
+        user.setFullName(registerRequest.getName());
+        user.setSchool(registerRequest.getSchoolName());
+        user.setClassName(registerRequest.getClassName());
+        user.setBirthday(registerRequest.getDob());
+        user.setAddress(registerRequest.getConsious());
+        userService.AddOrUpdate(user);
+
+        Role role = roleService.findByRoleName("teacher");
+        if (role == null) {
+            throw new RuntimeException("Role 'teacher' not found");
+        }
+
+        UserRole userRole = new UserRole();
+        userRole.setUser(user);
+        userRole.setRole(role);
+        userRoleService.save(userRole);
+        return ResponseEntity.ok(new ResponseDTO("register successful"));
     }
 
     @PostMapping("/change/info/user")
