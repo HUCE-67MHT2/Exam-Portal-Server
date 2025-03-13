@@ -55,8 +55,8 @@ public class AuthController {
     public ResponseEntity<?> loginStudent(@RequestBody LoginRequest loginRequest) {
         try {
             User user = userService.getUserByUsername(loginRequest.getUsername());
-            if(user == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ResponseDTO("Người dùng không tồn tại!"));
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Người dùng không tồn tại!"));
 
             }
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -64,8 +64,8 @@ public class AuthController {
             String encodedPasswordFromDB = user.getPassword(); // Mật khẩu đã mã hóa từ cơ sở dữ liệu
 
             boolean isPasswordMatch = encoder.matches(rawPassword, encodedPasswordFromDB);
-            if(!isPasswordMatch) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Mật khẩu sai!"));
+            if (!isPasswordMatch) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Mật khẩu sai!"));
             }
             // Thực hiện quá trình xác thực (authentication)
             Authentication authentication = authenticationManager.authenticate(
@@ -82,7 +82,7 @@ public class AuthController {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
             if (!roles.contains("student")) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body( new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
             }
             String token = jwtTokenUtil.generateToken(username, roles);
             return ResponseEntity.ok(new JwtResponse(token));
@@ -91,12 +91,13 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred"));
         }
     }
+
     @PostMapping("/login/teacher")
     public ResponseEntity<?> loginTeacher(@RequestBody LoginRequest loginRequest) {
         try {
             User user = userService.getUserByUsername(loginRequest.getUsername());
-            if(user == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body( new ResponseDTO("Người dùng không tồn tại!"));
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Người dùng không tồn tại!"));
 
             }
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
@@ -104,8 +105,8 @@ public class AuthController {
             String encodedPasswordFromDB = user.getPassword(); // Mật khẩu đã mã hóa từ cơ sở dữ liệu
 
             boolean isPasswordMatch = encoder.matches(rawPassword, encodedPasswordFromDB);
-            if(!isPasswordMatch) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Mật khẩu sai!"));
+            if (!isPasswordMatch) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Mật khẩu sai!"));
             }
             // Thực hiện quá trình xác thực (authentication)
             Authentication authentication = authenticationManager.authenticate(
@@ -122,7 +123,7 @@ public class AuthController {
                     .map(GrantedAuthority::getAuthority)
                     .collect(Collectors.toList());
             if (!roles.contains("teacher")) {
-                return ResponseEntity.status(HttpStatus.FORBIDDEN).body( new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
+                return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
             }
             String token = jwtTokenUtil.generateToken(username, roles);
             return ResponseEntity.ok(new JwtResponse(token));
@@ -131,20 +132,21 @@ public class AuthController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred"));
         }
     }
+
     @GetMapping("/get/user")
-    public ResponseEntity<?> getUser(HttpServletRequest request){
+    public ResponseEntity<?> getUser(HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
 
-            if (jwt == null ) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token" );
+            if (jwt == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
             }
             if (jwt.startsWith("Bearer ")) {
                 jwt = jwt.substring(7);
             }
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
             java.util.Date expiration = claims.getExpiration();
-            if(expiration.before(new java.util.Date())) {
+            if (expiration.before(new java.util.Date())) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token exprired");
             }
             String username = claims.getSubject(); // sub
@@ -159,14 +161,14 @@ public class AuthController {
             }
             Map<String, Object> responseBody = new HashMap<>();
             user.setPassword("");
-            responseBody.put("user",user);
+            responseBody.put("user", user);
             return ResponseEntity.ok(responseBody);
 
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("get user error");
         }
     }
+
     @PostMapping("/register/student")
     public ResponseEntity<?> registerStudent(@RequestBody RegisterRequest registerRequest) {
         // Kiểm tra xem username hoặc email đã tồn tại hay chưa
@@ -204,6 +206,7 @@ public class AuthController {
         userRoleService.save(userRole);
         return ResponseEntity.ok(new ResponseDTO("register successful"));
     }
+
     @PostMapping("/register/teacher")
     public ResponseEntity<?> registerTeacher(@RequestBody RegisterRequest registerRequest) {
         // Kiểm tra xem username hoặc email đã tồn tại hay chưa
@@ -243,7 +246,7 @@ public class AuthController {
     }
 
     @PostMapping("/change/info/user")
-    public ResponseEntity<?> changeInfoUser(HttpServletRequest request, @RequestBody ChangeInfo changeinfo){
+    public ResponseEntity<?> changeInfoUser(HttpServletRequest request, @RequestBody ChangeInfo changeinfo) {
         try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
@@ -273,14 +276,14 @@ public class AuthController {
             user.setTelephone(changeinfo.getTelephone());
             userService.AddOrUpdate(user);
             return ResponseEntity.ok("oke");
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }
     }
+
     @PostMapping("/change/password")
-    public ResponseEntity<?> changePassword(HttpServletRequest request, @RequestBody ChangePasswordDTO changePasswordDTo){
+    public ResponseEntity<?> changePassword(HttpServletRequest request, @RequestBody ChangePasswordDTO changePasswordDTo) {
         try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
@@ -306,7 +309,7 @@ public class AuthController {
             }
             String password = user.getPassword();
             BCryptPasswordEncoder encoder = new BCryptPasswordEncoder();
-            if(encoder.matches(changePasswordDTo.getPassword(), password)) {
+            if (encoder.matches(changePasswordDTo.getPassword(), password)) {
                 String encodedPassword = encoder.encode(changePasswordDTo.getNewPassword());
                 user.setPassword(encodedPassword);
                 userService.AddOrUpdate(user);
@@ -314,8 +317,7 @@ public class AuthController {
             }
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("Mật khâủ của bạn không đúng");
 
-        }
-        catch(Exception e) {
+        } catch (Exception e) {
             e.printStackTrace();
             throw e;
         }

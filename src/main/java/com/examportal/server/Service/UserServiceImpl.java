@@ -9,7 +9,7 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
 
     @Autowired
     private UserRepository userRepositoryCustom;
@@ -21,35 +21,39 @@ public class UserServiceImpl implements UserService{
         List<User> list = userRepositoryCustom.findAll();
         return list;
     }
+
     @Override
     public void AddOrUpdate(User user) {
         userRepositoryCustom.save(user);
 
     }
+
     @Override
     public User getUserById(int id) {
         return userRepositoryCustom.findById(id).get();
 
     }
+
     @Override
     public void deleteById(int id) {
         userRepositoryCustom.deleteById(id);
     }
+
     @Override
     public User getUserByUsername(String username) {
         User user = userRepositoryCustom.findByUsername(username);
-        if(user == null) {
+        if (user == null) {
             return null;
         }
         return user;
     }
+
     @Override
     public User getUserByEmail(String email) {
         // TODO Auto-generated method stub
-        if(userRespository.getUserbyEmail(email)== null) {
+        if (userRespository.getUserbyEmail(email) == null) {
             return null;
-        }
-        else {
+        } else {
             return userRespository.getUserbyEmail(email);
         }
     }
