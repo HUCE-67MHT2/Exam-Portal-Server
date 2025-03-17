@@ -20,7 +20,6 @@ public class GoogleDriveController {
     @PostMapping(value = "/upload", consumes = "multipart/form-data")
     public ResponseEntity<String> uploadFile(@RequestParam("file") MultipartFile file) {
         try {
-            System.out.println("Received file: " + file.getOriginalFilename());
             String fileLink = googleDriveService.uploadFile(file);
             return ResponseEntity.ok(fileLink);
         } catch (Exception e) {
