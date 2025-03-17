@@ -1,4 +1,4 @@
-package com.examportal.server.controllers;
+package com.examportal.server.Controllers;
 
 import com.examportal.server.Entity.Subject;
 import com.examportal.server.Service.SubjectService;

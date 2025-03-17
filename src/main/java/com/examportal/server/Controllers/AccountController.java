@@ -1,4 +1,4 @@
-package com.examportal.server.controllers;
+package com.examportal.server.Controllers;
 
 import org.springframework.stereotype.Controller;
 

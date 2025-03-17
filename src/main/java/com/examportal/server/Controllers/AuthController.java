@@ -1,4 +1,4 @@
-package com.examportal.server.controllers;
+package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ChangeInfo;
