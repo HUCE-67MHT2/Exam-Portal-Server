@@ -1,13 +1,19 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
+import com.examportal.server.DTO.ResponseDTO;
+import com.examportal.server.Entity.AnswerForExamFile;
+import com.examportal.server.Entity.AnswerRequest;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.User;
 import com.examportal.server.Request.Answer;
 import com.examportal.server.Request.Exam_File_Request;
+import com.examportal.server.Service.AnswerExamForFileService;
 import com.examportal.server.Service.ExamService;
 import com.examportal.server.Service.GoogleDriveService;
 import com.examportal.server.Service.UserService;
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,6 +41,9 @@ public class ApiExamController {
     @Autowired
     private ExamService examService;
 
+    @Autowired
+    private AnswerExamForFileService answerExamForFileService;
+
     @PostMapping("/add/exam/with/file")
     public ResponseEntity<?> addExamWithFile(HttpServletRequest request,
                                              @RequestParam("tenKyThi") String tenKyThi,
@@ -43,13 +52,16 @@ public class ApiExamController {
                                              @RequestParam("thoiGianLamBai") int thoiGianLamBai,
                                              @RequestParam("maKyThi") String maKyThi,
                                              @RequestParam("matKhauKyThi") String matKhauKyThi,
-                                             @RequestParam("answer") List<Answer> answers,
+                                             @RequestParam("answer") String answersJson,
                                              @RequestParam("file") MultipartFile file) {
         try {
+            ObjectMapper objectMapper = new ObjectMapper();
+            List<AnswerRequest> answers = objectMapper.readValue(answersJson, new TypeReference<List<AnswerRequest>>() {});
+
             String jwt = request.getHeader("Authorization");
 
             if (jwt == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Invalid or missing token"));
             }
             if (jwt.startsWith("Bearer ")) {
                 jwt = jwt.substring(7);
@@ -57,19 +69,19 @@ public class ApiExamController {
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
             java.util.Date expiration = claims.getExpiration();
             if (expiration.before(new java.util.Date())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("token exprired");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("token exprired"));
             }
             String username = claims.getSubject(); // sub
 
             if (username == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
             }
 
             User user = userService.getUserByUsername(username);
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("User not found"));
             }
-
+            System.out.print(tenKyThi + thoiGianLamBai + loaiDeThi + maKyThi + matKhauKyThi + answers + file);
             // Lưu thông tin Exam từ các tham số request
             Exam exam = new Exam();
             exam.setTitle(tenKyThi);
@@ -86,11 +98,21 @@ public class ApiExamController {
 
             // Lưu exam vào database
             examService.save(exam);
+            if (answers == null || answers.isEmpty()) {
+                throw new IllegalArgumentException("Danh sách câu trả lời không được rỗng hoặc null");
+            }
 
-            return ResponseEntity.ok("success");
+            for (AnswerRequest answer : answers) {
+                AnswerForExamFile answerForExamFile = new AnswerForExamFile();
+                answerForExamFile.setExam(exam);
+                answerForExamFile.setQuestionId(answer.getId());
+                answerForExamFile.setSelectedOption(answer.getSelect());
+                answerExamForFileService.addorUpdateAnswerForExamFile(answerForExamFile);
+            }
+            return ResponseEntity.ok(new ResponseDTO("success"));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("error");
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("error"));
         }
     }
 }
