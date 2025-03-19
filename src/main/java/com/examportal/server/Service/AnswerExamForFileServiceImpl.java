@@ -15,26 +15,26 @@ public class AnswerExamForFileServiceImpl implements AnswerExamForFileService {
 
     @Override
     public List<AnswerForExamFile> getLists() {
-        return List.of();
+        return answerExamForFileRepository.getLists();
     }
 
     @Override
     public AnswerForExamFile getAnswerForExamFileById(Long id) {
-        return null;
+        return answerExamForFileRepository.getAnswerForExamFileById(id);
     }
 
     @Override
     public void addorUpdateAnswerForExamFile(AnswerForExamFile answerForExamFile) {
-
+        answerExamForFileRepository.addorUpdateAnswerForExamFile(answerForExamFile);
     }
 
     @Override
     public void deleteAnswerForExamFile(Long id) {
-
+        answerExamForFileRepository.deleteAnswerForExamFile(id);
     }
 
     @Override
     public List<AnswerForExamFile> getAnswerForExamFileByExamId(Long examId) {
-        return List.of();
+        return answerExamForFileRepository.getAnswerForExamFileByExamId(examId);
     }
 }

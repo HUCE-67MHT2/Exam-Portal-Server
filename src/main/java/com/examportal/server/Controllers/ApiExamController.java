@@ -55,34 +55,49 @@ public class ApiExamController {
                                              @RequestParam("answer") String answersJson,
                                              @RequestParam("file") MultipartFile file) {
         try {
+            // In ra dữ liệu raw để kiểm tra trước khi parse
+            System.out.println("Raw answersJson: " + answersJson);
+
+            // Chuyển đổi JSON thành List<AnswerRequest>
             ObjectMapper objectMapper = new ObjectMapper();
             List<AnswerRequest> answers = objectMapper.readValue(answersJson, new TypeReference<List<AnswerRequest>>() {});
 
-            String jwt = request.getHeader("Authorization");
-
-            if (jwt == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Invalid or missing token"));
+            // Kiểm tra nếu danh sách answers không rỗng
+            if (answers == null || answers.isEmpty()) {
+                throw new IllegalArgumentException("Danh sách câu trả lời không được rỗng hoặc null");
             }
+
+            // In ra kết quả parse được để kiểm tra
+            answers.forEach(answer -> System.out.println("Parsed answer: ID: " + answer.getId() + ", Select: " + answer.getSelect()));
+
+            // Lấy JWT token từ header
+            String jwt = request.getHeader("Authorization");
+            if (jwt == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid or missing token"));
+            }
+
+            // Xử lý token và xác thực người dùng
             if (jwt.startsWith("Bearer ")) {
                 jwt = jwt.substring(7);
             }
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
             java.util.Date expiration = claims.getExpiration();
             if (expiration.before(new java.util.Date())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("token exprired"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Token expired"));
             }
-            String username = claims.getSubject(); // sub
 
+            String username = claims.getSubject(); // sub
             if (username == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
             }
 
+            // Kiểm tra người dùng
             User user = userService.getUserByUsername(username);
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("User not found"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
-            System.out.print(tenKyThi + thoiGianLamBai + loaiDeThi + maKyThi + matKhauKyThi + answers + file);
-            // Lưu thông tin Exam từ các tham số request
+
+            // Lưu thông tin exam vào database
             Exam exam = new Exam();
             exam.setTitle(tenKyThi);
             exam.setSubject_id(Long.parseLong("1"));
@@ -92,27 +107,31 @@ public class ApiExamController {
             exam.setCreated_at(new Timestamp(System.currentTimeMillis()));
             exam.setPassword(matKhauKyThi);
             exam.setTeacher_id(user.getId());
+
             // Upload file và lưu URL
             String fileLink = googleDriveService.uploadFile(file);
             exam.setFileUrl(fileLink);
 
             // Lưu exam vào database
             examService.save(exam);
-            if (answers == null || answers.isEmpty()) {
-                throw new IllegalArgumentException("Danh sách câu trả lời không được rỗng hoặc null");
-            }
 
-            for (AnswerRequest answer : answers) {
+            // Lưu câu trả lời vào database
+            answers.forEach(answer -> {
                 AnswerForExamFile answerForExamFile = new AnswerForExamFile();
                 answerForExamFile.setExam(exam);
-                answerForExamFile.setQuestionId(answer.getId());
+                answerForExamFile.setQuestionId(answer.getId()); // Chuyển từ String sang Long nếu cần
                 answerForExamFile.setSelectedOption(answer.getSelect());
+
+                // Lưu vào cơ sở dữ liệu
                 answerExamForFileService.addorUpdateAnswerForExamFile(answerForExamFile);
-            }
-            return ResponseEntity.ok(new ResponseDTO("success"));
+            });
+
+            return ResponseEntity.ok(new ResponseDTO("Success"));
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO(e.getMessage()));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("error"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Error"));
         }
     }
 }
