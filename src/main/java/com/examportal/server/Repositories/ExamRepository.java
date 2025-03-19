@@ -12,4 +12,6 @@ public interface ExamRepository {
     void save(Exam exam);
 
     void delete(Long id);
+
+    List<Exam> getExamByTeacherId(Long id);
 }

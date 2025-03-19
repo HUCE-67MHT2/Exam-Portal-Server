@@ -2,15 +2,17 @@ package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 @Table(name = "exams")
 
 public class Exam implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
     @Id
     @Column(name = "id")
@@ -26,8 +28,8 @@ public class Exam implements Serializable {
     @Column(name = "teacher_id", nullable = false)
     private Long teacher_id;
 
-    @Column(name = "start_time", nullable = false)
-    private LocalDateTime startTime;
+    @Column(name = "start_time", nullable = false, updatable = false)
+    private LocalDate startTime;
 
     @Column(nullable = false)
     private Integer duration;
@@ -44,10 +46,14 @@ public class Exam implements Serializable {
     @Column(nullable = false)
     private String password;
 
+    @Column(name = "end_time", nullable = false, updatable = false)
+    private LocalDate endTime;
+
+
     public Exam() {
     }
 
-    public Exam(Long id, String title, Long subject_id, Long teacher_id, LocalDateTime startTime, Integer duration, String examType, String fileUrl, Timestamp created_at, String password) {
+    public Exam(Long id, String title, Long subject_id, Long teacher_id, LocalDate startTime, Integer duration, String examType, String fileUrl, Timestamp created_at, String password, LocalDate endTime) {
         this.id = id;
         this.title = title;
         this.subject_id = subject_id;
@@ -58,6 +64,7 @@ public class Exam implements Serializable {
         this.fileUrl = fileUrl;
         this.created_at = created_at;
         this.password = password;
+        this.endTime = endTime;
     }
 
     public Long getId() {
@@ -92,11 +99,11 @@ public class Exam implements Serializable {
         this.teacher_id = teacher_id;
     }
 
-    public LocalDateTime getStartTime() {
+    public LocalDate getStartTime() {
         return startTime;
     }
 
-    public void setStartTime(LocalDateTime startTime) {
+    public void setStartTime(LocalDate startTime) {
         this.startTime = startTime;
     }
 
@@ -138,5 +145,13 @@ public class Exam implements Serializable {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public LocalDate getEndTime() {
+        return endTime;
+    }
+
+    public void setEndTime(LocalDate endTime) {
+        this.endTime = endTime;
     }
 }

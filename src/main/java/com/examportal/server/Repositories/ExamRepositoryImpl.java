@@ -44,4 +44,9 @@ public class ExamRepositoryImpl implements ExamRepository {
     public void delete(Long id) {
         entityManager.remove(entityManager.find(Exam.class, id));
     }
+
+    public List<Exam> getExamByTeacherId(Long id) {
+        String hql = "FROM Exam e WHERE e.teacher_id = :id";
+        return entityManager.createQuery(hql).setParameter("id", id).getResultList();
+    }
 }
