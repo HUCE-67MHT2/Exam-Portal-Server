@@ -8,18 +8,21 @@ public class ExamRequest {
     private String examType;
     private String examPassword;
     private Timestamp examCreatedDate;
-    private Timestamp examStatus;
+    private String examStatus;
     private int examDuration;
+    private String examSourceType;
     public ExamRequest() {
     }
 
-    public ExamRequest(String examId, String examName, String examType, String examPassword, Timestamp examCreatedDate, Timestamp examStatus) {
+    public ExamRequest(String examId, String examName, String examType, String examPassword, Timestamp examCreatedDate, String examStatus , String examSourceType, int examDuration) {
         this.examId = examId;
         this.examName = examName;
         this.examType = examType;
         this.examPassword = examPassword;
         this.examCreatedDate = examCreatedDate;
         this.examStatus = examStatus;
+        this.examDuration = examDuration;
+        this.examSourceType = examSourceType;
     }
 
     public String getExamId() {
@@ -62,11 +65,11 @@ public class ExamRequest {
         this.examCreatedDate = examCreatedDate;
     }
 
-    public Timestamp getExamStatus() {
+    public String getExamStatus() {
         return examStatus;
     }
 
-    public void setExamStatus(Timestamp examStatus) {
+    public void setExamStatus(String examStatus) {
         this.examStatus = examStatus;
     }
 
@@ -77,4 +80,13 @@ public class ExamRequest {
     public void setExamDuration(int examDuration) {
         this.examDuration = examDuration;
     }
+
+    public String getExamSourceType() {
+        return examSourceType;
+    }
+
+    public void setExamSourceType(String examSourceType) {
+        this.examSourceType = examSourceType;
+    }
+
 }

@@ -28,9 +28,6 @@ public class Exam implements Serializable {
     @Column(name = "teacher_id", nullable = false)
     private Long teacher_id;
 
-    @Column(name = "start_time", nullable = false, updatable = false)
-    private LocalDate startTime;
-
     @Column(nullable = false)
     private Integer duration;
 
@@ -49,6 +46,8 @@ public class Exam implements Serializable {
     @Column(name = "end_time", nullable = false, updatable = false)
     private LocalDate endTime;
 
+    @Column(name = "start_time", nullable = false, updatable = false)
+    private LocalDate startTime;
 
     public Exam() {
     }

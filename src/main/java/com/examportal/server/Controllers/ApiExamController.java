@@ -16,6 +16,7 @@ import com.examportal.server.Service.UserService;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import io.jsonwebtoken.Claims;
+import io.jsonwebtoken.JwtException;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -130,18 +131,15 @@ public class ApiExamController {
     public ResponseEntity<?> getListExams(HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
-            if (jwt == null) {
+            if (jwt == null || !jwt.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid or missing token"));
             }
-            if (jwt.startsWith("Bearer ")) {
-                jwt = jwt.substring(7);
-            }
+            jwt = jwt.substring(7);
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
-            java.util.Date expiration = claims.getExpiration();
-            if (expiration.before(new java.util.Date())) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("token exprired"));
+            if (claims.getExpiration().before(new java.util.Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Token expired"));
             }
-            String username = claims.getSubject(); // sub
+            String username = claims.getSubject();
             if (username == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
             }
@@ -152,20 +150,41 @@ public class ApiExamController {
 
             List<ExamRequest> examData = new ArrayList<>();
             List<Exam> exams = examService.getExamByTeacherId(user.getId());
-            for(Exam exam : exams) {
+            for (Exam exam : exams) {
                 ExamRequest examRequest = new ExamRequest();
                 examRequest.setExamId(exam.getId().toString());
                 examRequest.setExamName(exam.getTitle());
-                examRequest.setExamDuration(exam.getDuration());
                 examRequest.setExamType(exam.getExamType());
-                examRequest.setExamCreatedDate(exam.getCreated_at());
                 examRequest.setExamPassword(exam.getPassword());
+                examRequest.setExamCreatedDate(exam.getCreated_at());
+
+                LocalDate thoiGianBatDau = exam.getStartTime();
+                LocalDate thoiGianKetThuc = exam.getEndTime();
+
+                LocalDate now = LocalDate.now();
+                String status;
+                if (now.isBefore(thoiGianBatDau)) {
+                    status = "chưa mở";
+                } else if (now.isAfter(thoiGianKetThuc)) {
+                    status = "đã đóng";
+                } else {
+                    status = "đang mở";
+                }
+                examRequest.setExamStatus(status);
+
+                examRequest.setExamDuration(exam.getDuration());
+
+                String sourceType = (exam.getFileUrl() != null && !exam.getFileUrl().isEmpty()) ? "File" : "Sinh tự động";
+                examRequest.setExamSourceType(sourceType);
+
                 examData.add(examRequest);
             }
             return ResponseEntity.ok(examData);
+        } catch (JwtException e) {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("error"));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
         }
     }
 }
