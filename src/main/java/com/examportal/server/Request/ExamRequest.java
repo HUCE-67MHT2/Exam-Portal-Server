@@ -3,7 +3,7 @@ package com.examportal.server.Request;
 import java.sql.Timestamp;
 
 public class ExamRequest {
-    private String examId ;
+    private String examId;
     private String examName;
     private String examType;
     private String examPassword;
@@ -11,10 +11,11 @@ public class ExamRequest {
     private String examStatus;
     private int examDuration;
     private String examSourceType;
+
     public ExamRequest() {
     }
 
-    public ExamRequest(String examId, String examName, String examType, String examPassword, Timestamp examCreatedDate, String examStatus , String examSourceType, int examDuration) {
+    public ExamRequest(String examId, String examName, String examType, String examPassword, Timestamp examCreatedDate, String examStatus, String examSourceType, int examDuration) {
         this.examId = examId;
         this.examName = examName;
         this.examType = examType;

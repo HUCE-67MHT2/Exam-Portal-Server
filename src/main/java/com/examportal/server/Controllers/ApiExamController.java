@@ -6,9 +6,7 @@ import com.examportal.server.Entity.AnswerForExamFile;
 import com.examportal.server.Entity.AnswerRequest;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.User;
-import com.examportal.server.Request.Answer;
 import com.examportal.server.Request.ExamRequest;
-import com.examportal.server.Request.Exam_File_Request;
 import com.examportal.server.Service.AnswerExamForFileService;
 import com.examportal.server.Service.ExamService;
 import com.examportal.server.Service.GoogleDriveService;
@@ -26,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.ArrayList;
 import java.util.List;
@@ -51,24 +48,25 @@ public class ApiExamController {
 
     @PostMapping("/add/exam/with/file")
     public ResponseEntity<?> addExamWithFile(HttpServletRequest request,
-         @RequestParam("tenKyThi") String tenKyThi,
-         @RequestParam("loaiDeThi") String loaiDeThi,
-         @RequestParam("maDeThi") String maDeThi,
-         @RequestParam("thoiGianLamBai") int thoiGianLamBai,
-         @RequestParam("maKyThi") String maKyThi,
-         @RequestParam("matKhauKyThi") String matKhauKyThi,
-         @RequestParam("thoiGianBatDau") String thoiGianBatDau,
-         @RequestParam("thoiGianKetThuc") String thoiGianKetThuc,
-         @RequestParam("answer") String answersJson,
-         @RequestParam("file") MultipartFile file) {
+                                             @RequestParam("tenKyThi") String tenKyThi,
+                                             @RequestParam("loaiDeThi") String loaiDeThi,
+                                             @RequestParam("maDeThi") String maDeThi,
+                                             @RequestParam("thoiGianLamBai") int thoiGianLamBai,
+                                             @RequestParam("maKyThi") String maKyThi,
+                                             @RequestParam("matKhauKyThi") String matKhauKyThi,
+                                             @RequestParam("thoiGianBatDau") String thoiGianBatDau,
+                                             @RequestParam("thoiGianKetThuc") String thoiGianKetThuc,
+                                             @RequestParam("answer") String answersJson,
+                                             @RequestParam("file") MultipartFile file) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
-            List<AnswerRequest> answers = objectMapper.readValue(answersJson, new TypeReference<List<AnswerRequest>>() {});
+            List<AnswerRequest> answers = objectMapper.readValue(answersJson, new TypeReference<List<AnswerRequest>>() {
+            });
 
             String jwt = request.getHeader("Authorization");
 
             if (jwt == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("Invalid or missing token"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid or missing token"));
             }
             if (jwt.startsWith("Bearer ")) {
                 jwt = jwt.substring(7);
@@ -86,7 +84,7 @@ public class ApiExamController {
 
             User user = userService.getUserByUsername(username);
             if (user == null) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body( new ResponseDTO("User not found"));
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
             System.out.print(tenKyThi + thoiGianLamBai + loaiDeThi + maKyThi + matKhauKyThi + answers + file + thoiGianBatDau + thoiGianKetThuc);
             DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd");
@@ -127,6 +125,7 @@ public class ApiExamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("error"));
         }
     }
+
     @GetMapping("/get/list/exams")
     public ResponseEntity<?> getListExams(HttpServletRequest request) {
         try {

@@ -2,7 +2,6 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Repositories.ExamRepository;
-
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

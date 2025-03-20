@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "answer_for_exam_file")
-public class AnswerForExamFile  implements Serializable {
+public class AnswerForExamFile implements Serializable {
 
     private static final long serialVersionUID = 1L;
     @Id
@@ -23,7 +23,8 @@ public class AnswerForExamFile  implements Serializable {
     @JoinColumn(name = "exam_id", nullable = false)
     private Exam exam;  // Liên kết với bảng Exam
 
-    public AnswerForExamFile() {}
+    public AnswerForExamFile() {
+    }
 
     public AnswerForExamFile(String questionId, String selectedOption, Exam exam) {
         this.questionId = questionId;
@@ -32,15 +33,35 @@ public class AnswerForExamFile  implements Serializable {
     }
 
     // Getter & Setter
-    public Long getId() { return id; }
-    public void setId(Long id) { this.id = id; }
+    public Long getId() {
+        return id;
+    }
 
-    public String getQuestionId() { return questionId; }
-    public void setQuestionId(String questionId) { this.questionId = questionId; }
+    public void setId(Long id) {
+        this.id = id;
+    }
 
-    public String getSelectedOption() { return selectedOption; }
-    public void setSelectedOption(String selectedOption) { this.selectedOption = selectedOption; }
+    public String getQuestionId() {
+        return questionId;
+    }
 
-    public Exam getExam() { return exam; }
-    public void setExam(Exam exam) { this.exam = exam; }
+    public void setQuestionId(String questionId) {
+        this.questionId = questionId;
+    }
+
+    public String getSelectedOption() {
+        return selectedOption;
+    }
+
+    public void setSelectedOption(String selectedOption) {
+        this.selectedOption = selectedOption;
+    }
+
+    public Exam getExam() {
+        return exam;
+    }
+
+    public void setExam(Exam exam) {
+        this.exam = exam;
+    }
 }

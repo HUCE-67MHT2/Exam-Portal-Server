@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface AnswerExamForFileRepository {
     List<AnswerForExamFile> getLists();
+
     AnswerForExamFile getAnswerForExamFileById(Long id);
+
     void addorUpdateAnswerForExamFile(AnswerForExamFile answerForExamFile);
+
     void deleteAnswerForExamFile(Long id);
+
     List<AnswerForExamFile> getAnswerForExamFileByExamId(Long examId);
 }
