@@ -1,69 +1,68 @@
 package com.examportal.server.Entity;
-
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
-import java.time.LocalDate;
 
 @Entity
 @Table(name = "exams")
-
 public class Exam implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
+
     @Id
-    @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(nullable = false, length = 255)
-    private String title;
+    @Column(name = "exam_period_id", nullable = false)
+    private Long examPeriodId;
 
-    @Column(name = "subject_id", nullable = false)
-    private Long subject_id;
+    @Column(name = "name", nullable = false, length = 255)
+    private String name;
 
-    @Column(name = "teacher_id", nullable = false)
-    private Long teacher_id;
+    @Column(name = "description", columnDefinition = "TEXT")
+    private String description;
 
-    @Column(nullable = false)
-    private Integer duration;
-
-    @Column(name = "exam_type", length = 50, nullable = false)
+    @Column(name = "exam_type", nullable = false, length = 100)
     private String examType;
 
-    @Column(name = "file_url", length = 255)
+    @Column(name = "duration", nullable = false)
+    private int duration;
+
+    @Column(name = "subject", nullable = false, length = 100)
+    private String subject;
+
+    @Column(name = "file_url", length = 500)
     private String fileUrl;
 
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp created_at;
+    @Column(name = "create_date", nullable = false, updatable = false)
+    private Timestamp createDate;
 
-    @Column(nullable = false)
-    private String password;
+    @Column(name = "start_date", nullable = false)
+    private Timestamp startDate;
 
-    @Column(name = "end_time", nullable = false, updatable = false)
-    private LocalDate endTime;
+    @Column(name = "end_date", nullable = false)
+    private Timestamp endDate;
 
-    @Column(name = "start_time", nullable = false, updatable = false)
-    private LocalDate startTime;
-
+    // Constructor mặc định (bắt buộc cho JPA)
     public Exam() {
     }
 
-    public Exam(Long id, String title, Long subject_id, Long teacher_id, LocalDate startTime, Integer duration, String examType, String fileUrl, Timestamp created_at, String password, LocalDate endTime) {
+    public Exam(Long id, Long examPeriodId, String name, String description, String examType, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
         this.id = id;
-        this.title = title;
-        this.subject_id = subject_id;
-        this.teacher_id = teacher_id;
-        this.startTime = startTime;
-        this.duration = duration;
+        this.examPeriodId = examPeriodId;
+        this.name = name;
+        this.description = description;
         this.examType = examType;
+        this.duration = duration;
+        this.subject = subject;
         this.fileUrl = fileUrl;
-        this.created_at = created_at;
-        this.password = password;
-        this.endTime = endTime;
+        this.createDate = createDate;
+        this.startDate = startDate;
+        this.endDate = endDate;
     }
 
     public Long getId() {
@@ -74,44 +73,28 @@ public class Exam implements Serializable {
         this.id = id;
     }
 
-    public String getTitle() {
-        return title;
+    public Long getExamPeriodId() {
+        return examPeriodId;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setExamPeriodId(Long examPeriodId) {
+        this.examPeriodId = examPeriodId;
     }
 
-    public Long getSubject_id() {
-        return subject_id;
+    public String getName() {
+        return name;
     }
 
-    public void setSubject_id(Long subject_id) {
-        this.subject_id = subject_id;
+    public void setName(String name) {
+        this.name = name;
     }
 
-    public Long getTeacher_id() {
-        return teacher_id;
+    public String getDescription() {
+        return description;
     }
 
-    public void setTeacher_id(Long teacher_id) {
-        this.teacher_id = teacher_id;
-    }
-
-    public LocalDate getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(LocalDate startTime) {
-        this.startTime = startTime;
-    }
-
-    public Integer getDuration() {
-        return duration;
-    }
-
-    public void setDuration(Integer duration) {
-        this.duration = duration;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getExamType() {
@@ -122,6 +105,22 @@ public class Exam implements Serializable {
         this.examType = examType;
     }
 
+    public int getDuration() {
+        return duration;
+    }
+
+    public void setDuration(int duration) {
+        this.duration = duration;
+    }
+
+    public String getSubject() {
+        return subject;
+    }
+
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
+
     public String getFileUrl() {
         return fileUrl;
     }
@@ -130,27 +129,27 @@ public class Exam implements Serializable {
         this.fileUrl = fileUrl;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Timestamp getCreateDate() {
+        return createDate;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
     }
 
-    public String getPassword() {
-        return password;
+    public Timestamp getStartDate() {
+        return startDate;
     }
 
-    public void setPassword(String password) {
-        this.password = password;
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
     }
 
-    public LocalDate getEndTime() {
-        return endTime;
+    public Timestamp getEndDate() {
+        return endDate;
     }
 
-    public void setEndTime(LocalDate endTime) {
-        this.endTime = endTime;
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
     }
 }

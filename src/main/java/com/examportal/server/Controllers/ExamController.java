@@ -26,7 +26,7 @@ public class ExamController {
 
     @PostMapping("/addOrUpdateExam")
     public String addOrUpdateExam(Exam exam) {
-        exam.setCreated_at(new Timestamp(System.currentTimeMillis()));
+        exam.setCreateDate(new Timestamp(System.currentTimeMillis()));
         examService.save(exam);
         return "redirect:/exam";
     }

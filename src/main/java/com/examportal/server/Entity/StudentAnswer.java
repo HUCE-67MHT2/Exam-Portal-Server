@@ -12,31 +12,42 @@ public class StudentAnswer implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "result_id", nullable = false)
-    private Long result_id;
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
 
+    @Column(name = "exam_id", nullable = false)
+    private Long examId;
 
     @Column(name = "question_id", nullable = false)
-    private Long question_id;
+    private Long questionId;
 
-    @Column(name = "selected_option", length = 10)
-    private String selectedOption;
+    @Column(name = "answer_id", nullable = false)
+    private Long answerId;
 
     @Column(name = "answer_text", columnDefinition = "TEXT")
     private String answerText;
 
+    @Column(name = "is_correct", nullable = false)
+    private boolean isCorrect;
+
+    @Column(name = "score", nullable = false)
+    private float score;
+
     public StudentAnswer() {
     }
 
-    public StudentAnswer(Long id, Long result_id, Long question_id, String selectedOption, String answerText) {
+    public StudentAnswer(Long id, Long studentId, Long examId, Long questionId, Long answerId, String answerText, boolean isCorrect, float score) {
         this.id = id;
-        this.result_id = result_id;
-        this.question_id = question_id;
-        this.selectedOption = selectedOption;
+        this.studentId = studentId;
+        this.examId = examId;
+        this.questionId = questionId;
+        this.answerId = answerId;
         this.answerText = answerText;
+        this.isCorrect = isCorrect;
+        this.score = score;
     }
 
     public Long getId() {
@@ -47,28 +58,36 @@ public class StudentAnswer implements Serializable {
         this.id = id;
     }
 
-    public Long getResult_id() {
-        return result_id;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setResult_id(Long result_id) {
-        this.result_id = result_id;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public Long getQuestion_id() {
-        return question_id;
+    public Long getExamId() {
+        return examId;
     }
 
-    public void setQuestion_id(Long question_id) {
-        this.question_id = question_id;
+    public void setExamId(Long examId) {
+        this.examId = examId;
     }
 
-    public String getSelectedOption() {
-        return selectedOption;
+    public Long getQuestionId() {
+        return questionId;
     }
 
-    public void setSelectedOption(String selectedOption) {
-        this.selectedOption = selectedOption;
+    public void setQuestionId(Long questionId) {
+        this.questionId = questionId;
+    }
+
+    public Long getAnswerId() {
+        return answerId;
+    }
+
+    public void setAnswerId(Long answerId) {
+        this.answerId = answerId;
     }
 
     public String getAnswerText() {
@@ -77,5 +96,21 @@ public class StudentAnswer implements Serializable {
 
     public void setAnswerText(String answerText) {
         this.answerText = answerText;
+    }
+
+    public boolean isCorrect() {
+        return isCorrect;
+    }
+
+    public void setCorrect(boolean correct) {
+        isCorrect = correct;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
     }
 }

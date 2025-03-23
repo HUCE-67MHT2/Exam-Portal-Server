@@ -3,8 +3,6 @@ package com.examportal.server.Entity;
 import jakarta.persistence.*;
 
 import java.io.Serializable;
-import java.sql.Timestamp;
-
 @Entity
 @Table(name = "questions")
 public class Question implements Serializable {
@@ -13,34 +11,23 @@ public class Question implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "exam_id", nullable = false)
-    private Long exam_id;
+    @Column(name = "content", columnDefinition = "TEXT", nullable = false)
+    private String content;
 
-    @Column(name = "question_text", columnDefinition = "TEXT", nullable = false)
-    private String questionText;
+    @Column(name = "difficulty", length = 50, nullable = false)
+    private String difficulty;
 
-    @Column(name = "question_type", length = 50, nullable = false)
-    private String questionType;
-
-    @Column(name = "correct_answer", columnDefinition = "TEXT", nullable = false)
-    private String correctAnswer;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private Timestamp createdAt;
 
     public Question() {
     }
 
-    public Question(Timestamp createdAt, String correctAnswer, String questionType, String questionText, Long exam_id, Long id) {
-        this.createdAt = createdAt;
-        this.correctAnswer = correctAnswer;
-        this.questionType = questionType;
-        this.questionText = questionText;
-        this.exam_id = exam_id;
+    public Question(Long id, String content, String difficulty) {
         this.id = id;
+        this.content = content;
+        this.difficulty = difficulty;
     }
 
     public Long getId() {
@@ -51,44 +38,20 @@ public class Question implements Serializable {
         this.id = id;
     }
 
-    public Long getExam_id() {
-        return exam_id;
+    public String getContent() {
+        return content;
     }
 
-    public void setExam_id(Long exam_id) {
-        this.exam_id = exam_id;
+    public void setContent(String content) {
+        this.content = content;
     }
 
-    public String getQuestionText() {
-        return questionText;
+    public String getDifficulty() {
+        return difficulty;
     }
 
-    public void setQuestionText(String questionText) {
-        this.questionText = questionText;
-    }
-
-    public String getQuestionType() {
-        return questionType;
-    }
-
-    public void setQuestionType(String questionType) {
-        this.questionType = questionType;
-    }
-
-    public String getCorrectAnswer() {
-        return correctAnswer;
-    }
-
-    public void setCorrectAnswer(String correctAnswer) {
-        this.correctAnswer = correctAnswer;
-    }
-
-    public Timestamp getCreatedAt() {
-        return createdAt;
-    }
-
-    public void setCreatedAt(Timestamp createdAt) {
-        this.createdAt = createdAt;
+    public void setDifficulty(String difficulty) {
+        this.difficulty = difficulty;
     }
 }
 

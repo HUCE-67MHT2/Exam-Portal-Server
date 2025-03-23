@@ -14,34 +14,51 @@ public class User {
     @Column(name = "id")
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(name = "username")
     private String username;
+
     @Column(name = "password")
     private String password;
+
     @Column(name = "enabled")
     private Boolean enabled;
+
     @Column(name = "fullname")
     private String fullName;
+
     @Column(name = "gender")
     private Boolean gender;
-    @Column(name = "birthday")
+
+    @Column(name = "dob")  // Sửa lại tên cho phù hợp với bảng (dob)
     private Date birthday;
+
     @Column(name = "address")
     private String address;
+
     @Column(name = "email")
     private String email;
-    @Column(name = "telephone")
+
+    @Column(name = "phone")  // Sửa lại tên cho phù hợp với bảng (phone)
     private String telephone;
+
     @Column(name = "avatar_url")
-    private String avatar_url;
+    private String avatarUrl;
+
     @Column(name = "school")
     private String school;
+
     @Column(name = "class")
     private String className;
+
+    @Column(name = "status")  // Thêm trường status
+    private Integer status;
+
     @Column(name = "created_at")
-    private Timestamp created_at;
+    private Timestamp createdAt;
+
     @Column(name = "updated_at")
-    private Timestamp updated_at;
+    private Timestamp updatedAt;
 
     @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
     @JsonManagedReference
@@ -50,7 +67,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatar_url, String school, String className, Timestamp created_at, Timestamp updated_at, Set<UserRole> userRoles) {
+    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatarUrl, String school, String className, Integer status, Timestamp createdAt, Timestamp updatedAt, Set<UserRole> userRoles) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -61,11 +78,12 @@ public class User {
         this.address = address;
         this.email = email;
         this.telephone = telephone;
-        this.avatar_url = avatar_url;
+        this.avatarUrl = avatarUrl;
         this.school = school;
         this.className = className;
-        this.created_at = created_at;
-        this.updated_at = updated_at;
+        this.status = status;
+        this.createdAt = createdAt;
+        this.updatedAt = updatedAt;
         this.userRoles = userRoles;
     }
 
@@ -149,12 +167,12 @@ public class User {
         this.telephone = telephone;
     }
 
-    public String getAvatar_url() {
-        return avatar_url;
+    public String getAvatarUrl() {
+        return avatarUrl;
     }
 
-    public void setAvatar_url(String avatar_url) {
-        this.avatar_url = avatar_url;
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 
     public String getSchool() {
@@ -173,20 +191,28 @@ public class User {
         this.className = className;
     }
 
-    public Timestamp getCreated_at() {
-        return created_at;
+    public Integer getStatus() {
+        return status;
     }
 
-    public void setCreated_at(Timestamp created_at) {
-        this.created_at = created_at;
+    public void setStatus(Integer status) {
+        this.status = status;
     }
 
-    public Timestamp getUpdated_at() {
-        return updated_at;
+    public Timestamp getCreatedAt() {
+        return createdAt;
     }
 
-    public void setUpdated_at(Timestamp updated_at) {
-        this.updated_at = updated_at;
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public Timestamp getUpdatedAt() {
+        return updatedAt;
+    }
+
+    public void setUpdatedAt(Timestamp updatedAt) {
+        this.updatedAt = updatedAt;
     }
 
     public Set<UserRole> getUserRoles() {

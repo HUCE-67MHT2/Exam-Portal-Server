@@ -2,8 +2,8 @@ package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
 
+import java.io.Serial;
 import java.io.Serializable;
-import java.math.BigDecimal;
 import java.sql.Timestamp;
 
 @Entity
@@ -14,30 +14,34 @@ public class ExamResult implements Serializable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id")
+    @Column(name = "id", nullable = false)
     private Long id;
 
-    @JoinColumn(name = "student_id", nullable = false)
-    private Long student_id;
+    @Column(name = "student_id", nullable = false)
+    private Long studentId;
 
-    @JoinColumn(name = "exam_id", nullable = false)
-    private Long exam_id;
+    @Column(name = "exam_id", nullable = false)
+    private Long examId;
 
-    @Column(name = "score", precision = 5, scale = 2, nullable = false)
-    private BigDecimal score;
+    @Column(name = "total_score", nullable = false)
+    private float totalScore;
 
-    @Column(name = "submitted_at", nullable = false)
-    private Timestamp submittedAt;
+    @Column(name = "start_time", nullable = false)
+    private Timestamp startTime;
 
+    @Column(name = "submit_time", nullable = false)
+    private Timestamp submitTime;
+    // Constructor mặc định (bắt buộc cho JPA)
     public ExamResult() {
     }
 
-    public ExamResult(Long id, Long student_id, Long exam_id, BigDecimal score, Timestamp submittedAt) {
+    public ExamResult(Long id, Long studentId, Long examId, float totalScore, Timestamp startTime, Timestamp submitTime) {
         this.id = id;
-        this.student_id = student_id;
-        this.exam_id = exam_id;
-        this.score = score;
-        this.submittedAt = submittedAt;
+        this.studentId = studentId;
+        this.examId = examId;
+        this.totalScore = totalScore;
+        this.startTime = startTime;
+        this.submitTime = submitTime;
     }
 
     public Long getId() {
@@ -48,35 +52,43 @@ public class ExamResult implements Serializable {
         this.id = id;
     }
 
-    public Long getStudent_id() {
-        return student_id;
+    public Long getStudentId() {
+        return studentId;
     }
 
-    public void setStudent_id(Long student_id) {
-        this.student_id = student_id;
+    public void setStudentId(Long studentId) {
+        this.studentId = studentId;
     }
 
-    public Long getExam_id() {
-        return exam_id;
+    public Long getExamId() {
+        return examId;
     }
 
-    public void setExam_id(Long exam_id) {
-        this.exam_id = exam_id;
+    public void setExamId(Long examId) {
+        this.examId = examId;
     }
 
-    public BigDecimal getScore() {
-        return score;
+    public float getTotalScore() {
+        return totalScore;
     }
 
-    public void setScore(BigDecimal score) {
-        this.score = score;
+    public void setTotalScore(float totalScore) {
+        this.totalScore = totalScore;
     }
 
-    public Timestamp getSubmittedAt() {
-        return submittedAt;
+    public Timestamp getStartTime() {
+        return startTime;
     }
 
-    public void setSubmittedAt(Timestamp submittedAt) {
-        this.submittedAt = submittedAt;
+    public void setStartTime(Timestamp startTime) {
+        this.startTime = startTime;
+    }
+
+    public Timestamp getSubmitTime() {
+        return submitTime;
+    }
+
+    public void setSubmitTime(Timestamp submitTime) {
+        this.submitTime = submitTime;
     }
 }
