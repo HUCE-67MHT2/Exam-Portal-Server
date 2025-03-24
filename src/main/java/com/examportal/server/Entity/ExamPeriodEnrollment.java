@@ -2,12 +2,11 @@ package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "exam_period_enrollment")
+@Table(name = "exam_session_enrollments")
 
 public class ExamPeriodEnrollment  implements Serializable {
 

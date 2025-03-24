@@ -5,7 +5,7 @@ import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "answers")
+@Table(name = "question_answers")
 public class Answer implements Serializable {
 
     @Serial

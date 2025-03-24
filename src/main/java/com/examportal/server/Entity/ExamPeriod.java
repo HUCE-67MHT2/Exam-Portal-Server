@@ -6,7 +6,7 @@ import java.io.Serializable;
 import java.sql.Timestamp;
 
 @Entity
-@Table(name = "exam_periods")
+@Table(name = "exam_sessions")
 public class ExamPeriod implements Serializable {
 
     @Serial

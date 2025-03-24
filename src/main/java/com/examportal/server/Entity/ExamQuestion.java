@@ -2,11 +2,10 @@ package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 
 @Entity
-@Table(name = "exam_question")
+@Table(name = "exam_questions")
 public class ExamQuestion implements Serializable {
 
     private static final long serialVersionUID = 1L;
