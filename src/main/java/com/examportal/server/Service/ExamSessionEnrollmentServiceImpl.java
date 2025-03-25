@@ -7,7 +7,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class ExamPeriodEnrollmentServiceImpl implements ExamPeriodEnrollmentService{
+public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentService {
     @Autowired
     private ExamSessionEnrollmentRepository examPeriodEnrollmentRepository;
     @Override

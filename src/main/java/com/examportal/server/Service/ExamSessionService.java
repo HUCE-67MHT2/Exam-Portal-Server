@@ -4,7 +4,7 @@ import com.examportal.server.Entity.ExamSession;
 
 import java.util.List;
 
-public interface ExamPeriodService {
+public interface ExamSessionService {
     List<ExamSession> getList();
     void save(ExamSession examPeriod);
     void delete(Long id);

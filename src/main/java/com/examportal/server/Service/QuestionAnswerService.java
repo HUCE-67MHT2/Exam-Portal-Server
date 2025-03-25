@@ -1,10 +1,10 @@
-package com.examportal.server.Repositories;
+package com.examportal.server.Service;
 
 import com.examportal.server.Entity.QuestionAnswer;
 
 import java.util.List;
 
-public interface QuestionAnswerRepository {
+public interface QuestionAnswerService {
     List<QuestionAnswer> getList();
     QuestionAnswer getAnswerById(Long id);
     void save(QuestionAnswer answer);

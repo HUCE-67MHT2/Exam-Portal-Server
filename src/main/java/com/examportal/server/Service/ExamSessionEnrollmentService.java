@@ -4,7 +4,7 @@ import com.examportal.server.Entity.ExamSessionEnrollment;
 
 import java.util.List;
 
-public interface ExamPeriodEnrollmentService {
+public interface ExamSessionEnrollmentService {
     List<ExamSessionEnrollment> getList();
     ExamSessionEnrollment getExamPeriodEnrollment(Long id);
     void save(ExamSessionEnrollment examPeriodEnrollment);

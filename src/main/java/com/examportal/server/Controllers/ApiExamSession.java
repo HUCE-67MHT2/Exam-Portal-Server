@@ -5,7 +5,7 @@ import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.User;
 import com.examportal.server.Request.AddNewExamSessionRequest;
-import com.examportal.server.Service.ExamPeriodService;
+import com.examportal.server.Service.ExamSessionService;
 import com.examportal.server.Service.UserService;
 import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import java.util.Map;
 @RequestMapping("/api/exam-session")
 public class ApiExamSession {
     @Autowired
-    private ExamPeriodService examPeriodService;
+    private ExamSessionService examPeriodService;
 
     @Autowired
     private JwtTokenUtil jwtTokenUtil;

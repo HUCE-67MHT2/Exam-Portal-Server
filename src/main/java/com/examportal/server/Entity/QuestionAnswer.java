@@ -6,7 +6,7 @@ import java.io.Serializable;
 
 @Entity
 @Table(name = "question_answers")
-public class Answer implements Serializable {
+public class QuestionAnswer implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -39,10 +39,10 @@ public class Answer implements Serializable {
     @Column(name = "source", length = 50)
     private String source;
 
-    public Answer() {
+    public QuestionAnswer() {
     }
 
-    public Answer(Long id, Long question_id, Long exam_id, int questionNo, String answerText, boolean isCorrect, int ordering, String source) {
+    public QuestionAnswer(Long id, Long question_id, Long exam_id, int questionNo, String answerText, boolean isCorrect, int ordering, String source) {
         this.id = id;
         this.question_id = question_id;
         this.exam_id = exam_id;

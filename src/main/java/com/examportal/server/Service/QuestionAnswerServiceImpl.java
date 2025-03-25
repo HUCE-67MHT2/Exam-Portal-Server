@@ -1,28 +1,28 @@
 package com.examportal.server.Service;
 
-import com.examportal.server.Entity.Answer;
+import com.examportal.server.Entity.QuestionAnswer;
 import com.examportal.server.Repositories.QuestionAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 @Service
-public class AnswerServiceImpl implements AnswerService {
+public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 
     @Autowired
     private QuestionAnswerRepository answerRepository;
     @Override
-    public List<Answer> getList() {
+    public List<QuestionAnswer> getList() {
         return answerRepository.getList();
     }
 
     @Override
-    public Answer getAnswerById(Long id) {
+    public QuestionAnswer getAnswerById(Long id) {
         return answerRepository.getAnswerById(id);
     }
 
     @Override
-    public void save(Answer answer) {
+    public void save(QuestionAnswer answer) {
         answerRepository.save(answer);
     }
 

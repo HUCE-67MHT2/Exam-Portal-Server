@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.Answer;
+import com.examportal.server.Entity.QuestionAnswer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -15,19 +15,19 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<Answer> getList() {
-        String hql = "FROM Answer";
-        return entityManager.createQuery(hql,Answer.class).getResultList();
+    public List<QuestionAnswer> getList() {
+        String hql = "FROM QuestionAnswer";
+        return entityManager.createQuery(hql, QuestionAnswer.class).getResultList();
 
     }
 
     @Override
-    public Answer getAnswerById(Long id) {
-        return entityManager.find(Answer.class, id);
+    public QuestionAnswer getAnswerById(Long id) {
+        return entityManager.find(QuestionAnswer.class, id);
     }
 
     @Override
-    public void save(Answer answer) {
+    public void save(QuestionAnswer answer) {
        try{
            if (answer.getId() == null) {
                 entityManager.persist(answer);
@@ -42,7 +42,7 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
 
     @Override
     public void delete(Long id) {
-        Answer answer = entityManager.find(Answer.class, id);
+        QuestionAnswer answer = entityManager.find(QuestionAnswer.class, id);
         entityManager.remove(answer);
     }
 }
