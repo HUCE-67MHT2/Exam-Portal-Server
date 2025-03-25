@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.Entity.Answer;
-import com.examportal.server.Repositories.AnswerRepository;
+import com.examportal.server.Repositories.QuestionAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -10,7 +10,7 @@ import java.util.List;
 public class AnswerServiceImpl implements AnswerService {
 
     @Autowired
-    private AnswerRepository answerRepository;
+    private QuestionAnswerRepository answerRepository;
     @Override
     public List<Answer> getList() {
         return answerRepository.getList();

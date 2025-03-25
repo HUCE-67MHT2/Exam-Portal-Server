@@ -4,7 +4,7 @@ import com.examportal.server.Entity.ExamPeriod;
 
 import java.util.List;
 
-public interface ExamPeriodRepository {
+public interface ExamSessionRepository {
     List<ExamPeriod> getList();
     void save(ExamPeriod examPeriod);
     void delete(Long id);

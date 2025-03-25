@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.Entity.ExamPeriodEnrollment;
-import com.examportal.server.Repositories.ExamPeriodEnrollmentRepository;
+import com.examportal.server.Repositories.ExamSessionEnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,7 +9,7 @@ import java.util.List;
 @Service
 public class ExamPeriodEnrollmentServiceImpl implements ExamPeriodEnrollmentService{
     @Autowired
-    private ExamPeriodEnrollmentRepository examPeriodEnrollmentRepository;
+    private ExamSessionEnrollmentRepository examPeriodEnrollmentRepository;
     @Override
     public List<ExamPeriodEnrollment> getList() {
         return examPeriodEnrollmentRepository.getList();

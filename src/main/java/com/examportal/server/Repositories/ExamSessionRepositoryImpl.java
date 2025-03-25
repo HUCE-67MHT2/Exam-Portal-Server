@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.List;
 @Repository
 @Transactional
-public class ExamPeriodRepositoryImpl implements ExamPeriodRepository {
+public class ExamSessionRepositoryImpl implements ExamSessionRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
