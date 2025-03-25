@@ -10,25 +10,25 @@ import java.util.List;
 @Service
 public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentService {
     @Autowired
-    private ExamSessionEnrollmentRepository examPeriodEnrollmentRepository;
+    private ExamSessionEnrollmentRepository ExamSessionEnrollmentRepository;
 
     @Override
     public List<ExamSessionEnrollment> getList() {
-        return examPeriodEnrollmentRepository.getList();
+        return ExamSessionEnrollmentRepository.getList();
     }
 
     @Override
-    public ExamSessionEnrollment getExamPeriodEnrollment(Long id) {
-        return examPeriodEnrollmentRepository.getExamPeriodEnrollment(id);
+    public ExamSessionEnrollment getExamSessionEnrollment(Long id) {
+        return ExamSessionEnrollmentRepository.getExamSessionEnrollment(id);
     }
 
     @Override
-    public void save(ExamSessionEnrollment examPeriodEnrollment) {
-        examPeriodEnrollmentRepository.save(examPeriodEnrollment);
+    public void save(ExamSessionEnrollment examSessionEnrollment) {
+        ExamSessionEnrollmentRepository.save(examSessionEnrollment);
     }
 
     @Override
     public void delete(Long id) {
-        examPeriodEnrollmentRepository.delete(id);
+        ExamSessionEnrollmentRepository.delete(id);
     }
 }

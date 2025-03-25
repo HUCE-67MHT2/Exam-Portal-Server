@@ -22,18 +22,18 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
     }
 
     @Override
-    public ExamSessionEnrollment getExamPeriodEnrollment(Long id) {
+    public ExamSessionEnrollment getExamSessionEnrollment(Long id) {
         return entityManager.find(ExamSessionEnrollment.class, id);
     }
 
     @Override
-    public void save(ExamSessionEnrollment examPeriodEnrollment) {
+    public void save(ExamSessionEnrollment examSessionEnrollment) {
 
         try {
-            if (examPeriodEnrollment.getId() == null) {
-                entityManager.persist(examPeriodEnrollment);
+            if (examSessionEnrollment.getId() == null) {
+                entityManager.persist(examSessionEnrollment);
             } else {
-                entityManager.merge(examPeriodEnrollment);
+                entityManager.merge(examSessionEnrollment);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

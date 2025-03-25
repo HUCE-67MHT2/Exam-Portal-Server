@@ -23,7 +23,7 @@ public class ExamSessionEnrollmentController {
 
     @GetMapping("/{id}")
     public ResponseEntity<ExamSessionEnrollment> getExamSessionEnrollment(@PathVariable Long id) {
-        ExamSessionEnrollment enrollment = examSessionEnrollmentService.getExamPeriodEnrollment(id);
+        ExamSessionEnrollment enrollment = examSessionEnrollmentService.getExamSessionEnrollment(id);
         return ResponseEntity.ok(enrollment);
     }
 

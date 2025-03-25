@@ -22,13 +22,13 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     }
 
     @Override
-    public void save(ExamSession examPeriod) {
+    public void save(ExamSession examSession) {
 
         try {
-            if (examPeriod.getId() == null) {
-                entityManager.persist(examPeriod);
+            if (examSession.getId() == null) {
+                entityManager.persist(examSession);
             } else {
-                entityManager.merge(examPeriod);
+                entityManager.merge(examSession);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);
@@ -41,12 +41,12 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     }
 
     @Override
-    public ExamSession getExamPeriodById(Long id) {
+    public ExamSession getExamSessionById(Long id) {
         return entityManager.find(ExamSession.class, id);
     }
 
     @Override
-    public List<ExamSession> getExamPeriodsByTeacherId(Long id) {
+    public List<ExamSession> getExamSessionByTeacherId(Long id) {
         String hql = "from ExamSession where teacherId = :teacherId";
         return entityManager.createQuery(hql, ExamSession.class).setParameter("teacherId", id).getResultList();
     }

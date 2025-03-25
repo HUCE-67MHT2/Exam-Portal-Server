@@ -26,7 +26,7 @@ public class ApiExamSession {
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int CODE_LENGTH = 10;
     @Autowired
-    private ExamSessionService examPeriodService;
+    private ExamSessionService examSessionService;
     @Autowired
     private JwtTokenUtil jwtTokenUtil;
     @Autowired
@@ -46,7 +46,7 @@ public class ApiExamSession {
     }
 
     @GetMapping("/get/all/exam-period")
-    public ResponseEntity<?> getAllExamPeriod(HttpServletRequest request) {
+    public ResponseEntity<?> getAllExamSession(HttpServletRequest request) {
         try {
 
             String jwt = request.getHeader("Authorization");
@@ -66,9 +66,9 @@ public class ApiExamSession {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
-            List<ExamSession> examPeriods = examPeriodService.getExamPeriodsByTeacherId(user.getId());
+            List<ExamSession> examSessions = examSessionService.getExamSessionByTeacherId(user.getId());
             Map<String, Object> response = new HashMap<>();
-            response.put("examPeriods", examPeriods);
+            response.put("examSessions", examSessions);
             return ResponseEntity.ok(response);
 
         } catch (Exception e) {
@@ -77,7 +77,7 @@ public class ApiExamSession {
     }
 
     @PostMapping("/add/exam-period")
-    public ResponseEntity<?> addExamPeriod(@RequestBody AddNewExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
+    public ResponseEntity<?> addExamSession(@RequestBody AddNewExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
@@ -96,16 +96,16 @@ public class ApiExamSession {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
-            ExamSession examPeriod = new ExamSession();
-            examPeriod.setTeacherId(user.getId());
-            examPeriod.setPassword(newExamSessionRequest.getExam_sessions_password());
-            examPeriod.setCreateDate(new Timestamp(System.currentTimeMillis()));
-            examPeriod.setDescription(newExamSessionRequest.getExam_sessions_description());
-            examPeriod.setStartDate(newExamSessionRequest.getExam_sessions_start_date());
-            examPeriod.setEndDate(newExamSessionRequest.getExam_sessions_end_date());
-            examPeriod.setName(newExamSessionRequest.getExam_sessions_name());
-            examPeriod.setCode(generateExamSessionCode());
-            examPeriodService.save(examPeriod);
+            ExamSession examSession = new ExamSession();
+            examSession.setTeacherId(user.getId());
+            examSession.setPassword(newExamSessionRequest.getExam_sessions_password());
+            examSession.setCreateDate(new Timestamp(System.currentTimeMillis()));
+            examSession.setDescription(newExamSessionRequest.getExam_sessions_description());
+            examSession.setStartDate(newExamSessionRequest.getExam_sessions_start_date());
+            examSession.setEndDate(newExamSessionRequest.getExam_sessions_end_date());
+            examSession.setName(newExamSessionRequest.getExam_sessions_name());
+            examSession.setCode(generateExamSessionCode());
+            examSessionService.save(examSession);
             return ResponseEntity.ok(new ResponseDTO("Tạo kỳ thi thành công"));
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());

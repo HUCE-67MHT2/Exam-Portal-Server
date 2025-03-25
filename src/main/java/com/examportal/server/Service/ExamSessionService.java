@@ -7,11 +7,11 @@ import java.util.List;
 public interface ExamSessionService {
     List<ExamSession> getList();
 
-    void save(ExamSession examPeriod);
+    void save(ExamSession examSession);
 
     void delete(Long id);
 
-    ExamSession getExamPeriodById(Long id);
+    ExamSession getExamSessionById(Long id);
 
-    List<ExamSession> getExamPeriodsByTeacherId(Long id);
+    List<ExamSession> getExamSessionByTeacherId(Long id);
 }

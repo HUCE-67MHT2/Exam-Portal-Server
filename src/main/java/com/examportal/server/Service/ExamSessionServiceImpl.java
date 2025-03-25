@@ -19,8 +19,8 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     }
 
     @Override
-    public void save(ExamSession examPeriod) {
-        examPeriodRepository.save(examPeriod);
+    public void save(ExamSession examSession) {
+        examPeriodRepository.save(examSession);
     }
 
     @Override
@@ -29,12 +29,12 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     }
 
     @Override
-    public ExamSession getExamPeriodById(Long id) {
-        return examPeriodRepository.getExamPeriodById(id);
+    public ExamSession getExamSessionById(Long id) {
+        return examPeriodRepository.getExamSessionById(id);
     }
 
     @Override
-    public List<ExamSession> getExamPeriodsByTeacherId(Long id) {
-        return examPeriodRepository.getExamPeriodsByTeacherId(id);
+    public List<ExamSession> getExamSessionByTeacherId(Long id) {
+        return examPeriodRepository.getExamSessionByTeacherId(id);
     }
 }
