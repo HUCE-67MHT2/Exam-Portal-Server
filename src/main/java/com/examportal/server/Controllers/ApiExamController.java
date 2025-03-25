@@ -5,7 +5,8 @@ import com.examportal.server.Service.ExamService;
 import com.examportal.server.Service.GoogleDriveService;
 import com.examportal.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/api/exam")

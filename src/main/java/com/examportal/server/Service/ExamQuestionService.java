@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface ExamQuestionService {
     List<ExamQuestion> getList();
+
     ExamQuestion getExamQuestionById(Long id);
+
     void save(ExamQuestion examQuestion);
+
     void delete(ExamQuestion examQuestion);
 }

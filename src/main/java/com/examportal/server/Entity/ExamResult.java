@@ -2,7 +2,6 @@ package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
 
@@ -31,6 +30,7 @@ public class ExamResult implements Serializable {
 
     @Column(name = "submit_time", nullable = false)
     private Timestamp submitTime;
+
     // Constructor mặc định (bắt buộc cho JPA)
     public ExamResult() {
     }

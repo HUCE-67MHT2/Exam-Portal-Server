@@ -30,6 +30,7 @@ public class ExamQuestionController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @PostMapping
     public ResponseEntity<ExamQuestion> createExamQuestion(@RequestBody ExamQuestion examQuestion) {
         examQuestionService.save(examQuestion);
@@ -47,6 +48,7 @@ public class ExamQuestionController {
             return ResponseEntity.notFound().build();
         }
     }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deleteExamQuestion(@PathVariable Long id, @RequestBody ExamQuestion examQuestion) {
         ExamQuestion existingExamQuestion = examQuestionService.getExamQuestionById(id);

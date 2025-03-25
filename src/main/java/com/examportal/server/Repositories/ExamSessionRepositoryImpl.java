@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class ExamSessionRepositoryImpl implements ExamSessionRepository {
@@ -47,6 +48,6 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     @Override
     public List<ExamSession> getExamPeriodsByTeacherId(Long id) {
         String hql = "from ExamSession where teacherId = :teacherId";
-        return entityManager.createQuery(hql, ExamSession.class).setParameter("teacherId",id).getResultList();
+        return entityManager.createQuery(hql, ExamSession.class).setParameter("teacherId", id).getResultList();
     }
 }

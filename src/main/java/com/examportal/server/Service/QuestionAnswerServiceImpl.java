@@ -6,11 +6,13 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class QuestionAnswerServiceImpl implements QuestionAnswerService {
 
     @Autowired
     private QuestionAnswerRepository answerRepository;
+
     @Override
     public List<QuestionAnswer> getList() {
         return answerRepository.getList();

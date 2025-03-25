@@ -23,16 +23,14 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/exam-session")
 public class ApiExamSession {
-    @Autowired
-    private ExamSessionService examPeriodService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserService userService;
     private static final String ALPHABET = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
     private static final int CODE_LENGTH = 10;
+    @Autowired
+    private ExamSessionService examPeriodService;
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+    @Autowired
+    private UserService userService;
 
     // Phương thức để sinh mã code ngẫu nhiên
     public String generateExamSessionCode() {
@@ -46,9 +44,10 @@ public class ApiExamSession {
 
         return code.toString();
     }
+
     @GetMapping("/get/all/exam-period")
     public ResponseEntity<?> getAllExamPeriod(HttpServletRequest request) {
-        try{
+        try {
 
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
@@ -72,15 +71,14 @@ public class ApiExamSession {
             response.put("examPeriods", examPeriods);
             return ResponseEntity.ok(response);
 
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }
 
     @PostMapping("/add/exam-period")
     public ResponseEntity<?> addExamPeriod(@RequestBody AddNewExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
-        try{
+        try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid or missing token"));
@@ -109,8 +107,7 @@ public class ApiExamSession {
             examPeriod.setCode(generateExamSessionCode());
             examPeriodService.save(examPeriod);
             return ResponseEntity.ok(new ResponseDTO("Tạo kỳ thi thành công"));
-        }
-        catch(Exception e){
+        } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
         }
     }

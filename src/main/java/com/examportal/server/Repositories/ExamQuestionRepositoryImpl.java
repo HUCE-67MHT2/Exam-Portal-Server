@@ -18,7 +18,7 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     @Override
     public List<ExamQuestion> getList() {
         String hql = "FROM ExamQuestion";
-        return entityManager.createQuery(hql,ExamQuestion.class).getResultList();
+        return entityManager.createQuery(hql, ExamQuestion.class).getResultList();
     }
 
     @Override
@@ -29,14 +29,13 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     @Override
     public void save(ExamQuestion examQuestion) {
 
-        try{
+        try {
             if (examQuestion.getId() == null) {
                 entityManager.persist(examQuestion);
             } else {
                 entityManager.merge(examQuestion);
             }
-        }
-        catch (Exception e){
+        } catch (Exception e) {
             e.printStackTrace();
         }
     }

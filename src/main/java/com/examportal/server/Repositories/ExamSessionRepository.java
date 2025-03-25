@@ -6,8 +6,12 @@ import java.util.List;
 
 public interface ExamSessionRepository {
     List<ExamSession> getList();
+
     void save(ExamSession examPeriod);
+
     void delete(Long id);
+
     ExamSession getExamPeriodById(Long id);
+
     List<ExamSession> getExamPeriodsByTeacherId(Long id);
 }

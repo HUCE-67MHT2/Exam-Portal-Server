@@ -7,12 +7,14 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmentRepository {
 
     @PersistenceContext
     private EntityManager entityManager;
+
     @Override
     public List<ExamSessionEnrollment> getList() {
         String hql = "From ExamSessionEnrollment";

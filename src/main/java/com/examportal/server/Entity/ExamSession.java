@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
@@ -47,14 +48,6 @@ public class ExamSession implements Serializable {
     @Column(name = "status", length = 30)
     private String status;
 
-    public String getStatus() {
-        return status;
-    }
-
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
     public ExamSession() {
     }
 
@@ -69,6 +62,14 @@ public class ExamSession implements Serializable {
         this.code = code;
         this.password = password;
         this.type = type;
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
     }
 
     public Long getId() {

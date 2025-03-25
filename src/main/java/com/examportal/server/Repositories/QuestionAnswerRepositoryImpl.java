@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+
 @Repository
 @Transactional
 public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
@@ -28,16 +29,15 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
 
     @Override
     public void save(QuestionAnswer answer) {
-       try{
-           if (answer.getId() == null) {
+        try {
+            if (answer.getId() == null) {
                 entityManager.persist(answer);
-              } else {
+            } else {
                 entityManager.merge(answer);
-           }
-       }
-       catch (Exception e){
-           e.printStackTrace();
-       }
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override

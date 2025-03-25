@@ -1,4 +1,5 @@
 package com.examportal.server.Entity;
+
 import jakarta.persistence.*;
 
 import java.io.Serial;

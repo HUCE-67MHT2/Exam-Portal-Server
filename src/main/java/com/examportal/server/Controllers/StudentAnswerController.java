@@ -1,14 +1,8 @@
 package com.examportal.server.Controllers;
 
-import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Service.StudentAnswerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-
-import java.util.List;
 
 @Controller
 public class StudentAnswerController {

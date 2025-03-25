@@ -6,7 +6,10 @@ import java.util.List;
 
 public interface ExamSessionEnrollmentService {
     List<ExamSessionEnrollment> getList();
+
     ExamSessionEnrollment getExamPeriodEnrollment(Long id);
+
     void save(ExamSessionEnrollment examPeriodEnrollment);
+
     void delete(Long id);
 }

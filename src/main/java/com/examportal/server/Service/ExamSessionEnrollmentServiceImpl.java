@@ -6,10 +6,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+
 @Service
 public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentService {
     @Autowired
     private ExamSessionEnrollmentRepository examPeriodEnrollmentRepository;
+
     @Override
     public List<ExamSessionEnrollment> getList() {
         return examPeriodEnrollmentRepository.getList();
