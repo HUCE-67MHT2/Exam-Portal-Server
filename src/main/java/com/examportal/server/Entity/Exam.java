@@ -17,8 +17,8 @@ public class Exam implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "exam_period_id", nullable = false)
-    private Long examPeriodId;
+    @Column(name = "exam_session_id", nullable = false)
+    private Long examSessionId;
 
     @Column(name = "name", nullable = false, length = 255)
     private String name;
@@ -51,9 +51,9 @@ public class Exam implements Serializable {
     public Exam() {
     }
 
-    public Exam(Long id, Long examPeriodId, String name, String description, String examType, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
+    public Exam(Long id, Long examSessionId, String name, String description, String examType, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
         this.id = id;
-        this.examPeriodId = examPeriodId;
+        this.examSessionId = examSessionId;
         this.name = name;
         this.description = description;
         this.examType = examType;
@@ -73,12 +73,12 @@ public class Exam implements Serializable {
         this.id = id;
     }
 
-    public Long getExamPeriodId() {
-        return examPeriodId;
+    public Long getExamSessionId() {
+        return examSessionId;
     }
 
-    public void setExamPeriodId(Long examPeriodId) {
-        this.examPeriodId = examPeriodId;
+    public void setExamSessionId(Long examSessionId) {
+        this.examSessionId = examSessionId;
     }
 
     public String getName() {

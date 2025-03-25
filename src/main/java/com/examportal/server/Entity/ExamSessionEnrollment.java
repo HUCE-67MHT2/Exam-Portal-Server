@@ -17,8 +17,8 @@ public class ExamSessionEnrollment implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "exam_period_id", nullable = false)
-    private Long examPeriodId;
+    @Column(name = "exam_session_id", nullable = false)
+    private Long examSessionId;
 
     @Column(name = "student_id", nullable = false)
     private Long studentId;
@@ -29,9 +29,9 @@ public class ExamSessionEnrollment implements Serializable {
     public ExamSessionEnrollment() {
     }
 
-    public ExamSessionEnrollment(Long id, Long examPeriodId, Long studentId, Timestamp enrollDate) {
+    public ExamSessionEnrollment(Long id, Long examSessionId, Long studentId, Timestamp enrollDate) {
         this.id = id;
-        this.examPeriodId = examPeriodId;
+        this.examSessionId = examSessionId;
         this.studentId = studentId;
         this.enrollDate = enrollDate;
     }
@@ -44,12 +44,12 @@ public class ExamSessionEnrollment implements Serializable {
         this.id = id;
     }
 
-    public Long getExamPeriodId() {
-        return examPeriodId;
+    public Long getExamSessionId() {
+        return examSessionId;
     }
 
-    public void setExamPeriodId(Long examPeriodId) {
-        this.examPeriodId = examPeriodId;
+    public void setExamSessionId(Long examSessionId) {
+        this.examSessionId = examSessionId;
     }
 
     public Long getStudentId() {
