@@ -161,8 +161,9 @@ public class AuthController {
             }
             Map<String, Object> responseBody = new HashMap<>();
             user.setPassword("");
-            responseBody.put("user", user);
-            return ResponseEntity.ok(responseBody);
+            responseBody.put("user",user);
+
+            return ResponseEntity.status(200).body(user);
 
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body("get user error");
