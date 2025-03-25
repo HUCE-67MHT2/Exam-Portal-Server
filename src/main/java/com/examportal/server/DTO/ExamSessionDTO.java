@@ -1,64 +1,22 @@
-package com.examportal.server.Entity;
+package com.examportal.server.DTO;
 
-import jakarta.persistence.*;
-import java.io.Serial;
-import java.io.Serializable;
-import java.sql.Timestamp;
-
-@Entity
-@Table(name = "exam_sessions")
-public class ExamPeriod implements Serializable {
-
-    @Serial
-    private static final long serialVersionUID = 1L;
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id", nullable = false)
+public class ExamSessionDTO {
     private Long id;
-
-    @Column(name = "teacher_id", nullable = false)
     private Long teacherId;
-
-    @Column(name = "name", nullable = false, length = 255)
     private String name;
-
-    @Column(name = "description", columnDefinition = "TEXT")
     private String description;
-
-    @Column(name = "start_date", nullable = false)
-    private Timestamp startDate;
-
-    @Column(name = "end_date", nullable = false)
-    private Timestamp endDate;
-
-    @Column(name = "create_date", nullable = false, updatable = false)
-    private Timestamp createDate;
-
-    @Column(name = "code", nullable = false, length = 255)
+    private Long startDate;  // Timestamp (milliseconds)
+    private Long endDate;    // Timestamp (milliseconds)
+    private Long createDate; // Timestamp (milliseconds)
     private String code;
-
-    @Column(name = "password", nullable = false, length = 255)
     private String password;
-
-    @Column(name = "type", length = 30)
     private String type;
-
-    @Column(name = "status", length = 30)
     private String status;
 
-    public String getStatus() {
-        return status;
+    public ExamSessionDTO() {
     }
 
-    public void setStatus(String status) {
-        this.status = status;
-    }
-
-    public ExamPeriod() {
-    }
-
-    public ExamPeriod(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String type) {
+    public ExamSessionDTO(Long id, Long teacherId, String name, String description, Long startDate, Long endDate, Long createDate, String code, String password, String type, String status) {
         this.id = id;
         this.teacherId = teacherId;
         this.name = name;
@@ -69,6 +27,7 @@ public class ExamPeriod implements Serializable {
         this.code = code;
         this.password = password;
         this.type = type;
+        this.status = status;
     }
 
     public Long getId() {
@@ -103,27 +62,27 @@ public class ExamPeriod implements Serializable {
         this.description = description;
     }
 
-    public Timestamp getStartDate() {
+    public Long getStartDate() {
         return startDate;
     }
 
-    public void setStartDate(Timestamp startDate) {
+    public void setStartDate(Long startDate) {
         this.startDate = startDate;
     }
 
-    public Timestamp getEndDate() {
+    public Long getEndDate() {
         return endDate;
     }
 
-    public void setEndDate(Timestamp endDate) {
+    public void setEndDate(Long endDate) {
         this.endDate = endDate;
     }
 
-    public Timestamp getCreateDate() {
+    public Long getCreateDate() {
         return createDate;
     }
 
-    public void setCreateDate(Timestamp createDate) {
+    public void setCreateDate(Long createDate) {
         this.createDate = createDate;
     }
 
@@ -150,5 +109,12 @@ public class ExamPeriod implements Serializable {
     public void setType(String type) {
         this.type = type;
     }
-}
 
+    public String getStatus() {
+        return status;
+    }
+
+    public void setStatus(String status) {
+        this.status = status;
+    }
+}

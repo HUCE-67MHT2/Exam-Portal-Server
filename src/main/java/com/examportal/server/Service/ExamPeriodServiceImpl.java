@@ -31,4 +31,9 @@ public class ExamPeriodServiceImpl implements ExamPeriodService {
     public ExamPeriod getExamPeriodById(Long id) {
         return examPeriodRepository.getExamPeriodById(id);
     }
+
+    @Override
+    public List<ExamPeriod> getExamPeriodsByTeacherId(Long id) {
+        return examPeriodRepository.getExamPeriodsByTeacherId(id);
+    }
 }

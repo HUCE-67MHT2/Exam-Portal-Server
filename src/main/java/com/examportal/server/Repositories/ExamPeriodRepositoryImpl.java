@@ -43,4 +43,10 @@ public class ExamPeriodRepositoryImpl implements ExamPeriodRepository {
     public ExamPeriod getExamPeriodById(Long id) {
         return entityManager.find(ExamPeriod.class, id);
     }
+
+    @Override
+    public List<ExamPeriod> getExamPeriodsByTeacherId(Long id) {
+        String hql = "from ExamPeriod where teacherId = :teacherId";
+        return entityManager.createQuery(hql,ExamPeriod.class).setParameter("teacherId",id).getResultList();
+    }
 }

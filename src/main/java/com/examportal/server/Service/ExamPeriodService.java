@@ -9,4 +9,5 @@ public interface ExamPeriodService {
     void save(ExamPeriod examPeriod);
     void delete(Long id);
     ExamPeriod getExamPeriodById(Long id);
+    List<ExamPeriod> getExamPeriodsByTeacherId(Long id);
 }
