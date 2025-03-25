@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 @Entity
 @Table(name = "exam_session_enrollments")
 
-public class ExamPeriodEnrollment  implements Serializable {
+public class ExamSessionEnrollment implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -26,10 +26,10 @@ public class ExamPeriodEnrollment  implements Serializable {
     @Column(name = "enroll_date", nullable = false)
     private Timestamp enrollDate;
 
-    public ExamPeriodEnrollment() {
+    public ExamSessionEnrollment() {
     }
 
-    public ExamPeriodEnrollment(Long id, Long examPeriodId, Long studentId, Timestamp enrollDate) {
+    public ExamSessionEnrollment(Long id, Long examPeriodId, Long studentId, Timestamp enrollDate) {
         this.id = id;
         this.examPeriodId = examPeriodId;
         this.studentId = studentId;

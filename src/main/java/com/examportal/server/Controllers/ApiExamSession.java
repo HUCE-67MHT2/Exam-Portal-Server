@@ -2,7 +2,7 @@ package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ResponseDTO;
-import com.examportal.server.Entity.ExamPeriod;
+import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.User;
 import com.examportal.server.Request.AddNewExamSessionRequest;
 import com.examportal.server.Service.ExamPeriodService;
@@ -67,7 +67,7 @@ public class ApiExamSession {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
-            List<ExamPeriod> examPeriods = examPeriodService.getExamPeriodsByTeacherId(user.getId());
+            List<ExamSession> examPeriods = examPeriodService.getExamPeriodsByTeacherId(user.getId());
             Map<String, Object> response = new HashMap<>();
             response.put("examPeriods", examPeriods);
             return ResponseEntity.ok(response);
@@ -98,7 +98,7 @@ public class ApiExamSession {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
             }
-            ExamPeriod examPeriod = new ExamPeriod();
+            ExamSession examPeriod = new ExamSession();
             examPeriod.setTeacherId(user.getId());
             examPeriod.setPassword(newExamSessionRequest.getExam_sessions_password());
             examPeriod.setCreateDate(new Timestamp(System.currentTimeMillis()));

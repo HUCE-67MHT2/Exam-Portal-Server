@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Entity
 @Table(name = "exam_sessions")
-public class ExamPeriod implements Serializable {
+public class ExamSession implements Serializable {
 
     @Serial
     private static final long serialVersionUID = 1L;
@@ -55,10 +55,10 @@ public class ExamPeriod implements Serializable {
         this.status = status;
     }
 
-    public ExamPeriod() {
+    public ExamSession() {
     }
 
-    public ExamPeriod(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String type) {
+    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String type) {
         this.id = id;
         this.teacherId = teacherId;
         this.name = name;

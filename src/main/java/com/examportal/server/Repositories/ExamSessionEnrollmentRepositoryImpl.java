@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.ExamPeriodEnrollment;
+import com.examportal.server.Entity.ExamSessionEnrollment;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -14,18 +14,18 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
     @PersistenceContext
     private EntityManager entityManager;
     @Override
-    public List<ExamPeriodEnrollment> getList() {
-        String hql = "From ExamPeriodEnrollment";
-        return entityManager.createQuery(hql, ExamPeriodEnrollment.class).getResultList();
+    public List<ExamSessionEnrollment> getList() {
+        String hql = "From ExamSessionEnrollment";
+        return entityManager.createQuery(hql, ExamSessionEnrollment.class).getResultList();
     }
 
     @Override
-    public ExamPeriodEnrollment getExamPeriodEnrollment(Long id) {
-        return entityManager.find(ExamPeriodEnrollment.class, id);
+    public ExamSessionEnrollment getExamPeriodEnrollment(Long id) {
+        return entityManager.find(ExamSessionEnrollment.class, id);
     }
 
     @Override
-    public void save(ExamPeriodEnrollment examPeriodEnrollment) {
+    public void save(ExamSessionEnrollment examPeriodEnrollment) {
 
         try {
             if (examPeriodEnrollment.getId() == null) {
@@ -41,6 +41,6 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
     @Override
     public void delete(Long id) {
 
-        entityManager.remove(entityManager.find(ExamPeriodEnrollment.class, id));
+        entityManager.remove(entityManager.find(ExamSessionEnrollment.class, id));
     }
 }

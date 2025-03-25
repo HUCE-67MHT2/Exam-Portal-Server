@@ -1,6 +1,6 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.ExamPeriod;
+import com.examportal.server.Entity.ExamSession;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -15,13 +15,13 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     private EntityManager entityManager;
 
     @Override
-    public List<ExamPeriod> getList() {
-        String hql = "from ExamPeriod";
-        return entityManager.createQuery(hql,ExamPeriod.class).getResultList();
+    public List<ExamSession> getList() {
+        String hql = "from ExamSession";
+        return entityManager.createQuery(hql, ExamSession.class).getResultList();
     }
 
     @Override
-    public void save(ExamPeriod examPeriod) {
+    public void save(ExamSession examPeriod) {
 
         try {
             if (examPeriod.getId() == null) {
@@ -36,17 +36,17 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
 
     @Override
     public void delete(Long id) {
-        entityManager.remove(entityManager.find(ExamPeriod.class, id));
+        entityManager.remove(entityManager.find(ExamSession.class, id));
     }
 
     @Override
-    public ExamPeriod getExamPeriodById(Long id) {
-        return entityManager.find(ExamPeriod.class, id);
+    public ExamSession getExamPeriodById(Long id) {
+        return entityManager.find(ExamSession.class, id);
     }
 
     @Override
-    public List<ExamPeriod> getExamPeriodsByTeacherId(Long id) {
-        String hql = "from ExamPeriod where teacherId = :teacherId";
-        return entityManager.createQuery(hql,ExamPeriod.class).setParameter("teacherId",id).getResultList();
+    public List<ExamSession> getExamPeriodsByTeacherId(Long id) {
+        String hql = "from ExamSession where teacherId = :teacherId";
+        return entityManager.createQuery(hql, ExamSession.class).setParameter("teacherId",id).getResultList();
     }
 }

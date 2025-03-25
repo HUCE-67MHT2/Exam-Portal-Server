@@ -1,6 +1,6 @@
 package com.examportal.server.Service;
 
-import com.examportal.server.Entity.ExamPeriodEnrollment;
+import com.examportal.server.Entity.ExamSessionEnrollment;
 import com.examportal.server.Repositories.ExamSessionEnrollmentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -11,17 +11,17 @@ public class ExamPeriodEnrollmentServiceImpl implements ExamPeriodEnrollmentServ
     @Autowired
     private ExamSessionEnrollmentRepository examPeriodEnrollmentRepository;
     @Override
-    public List<ExamPeriodEnrollment> getList() {
+    public List<ExamSessionEnrollment> getList() {
         return examPeriodEnrollmentRepository.getList();
     }
 
     @Override
-    public ExamPeriodEnrollment getExamPeriodEnrollment(Long id) {
+    public ExamSessionEnrollment getExamPeriodEnrollment(Long id) {
         return examPeriodEnrollmentRepository.getExamPeriodEnrollment(id);
     }
 
     @Override
-    public void save(ExamPeriodEnrollment examPeriodEnrollment) {
+    public void save(ExamSessionEnrollment examPeriodEnrollment) {
         examPeriodEnrollmentRepository.save(examPeriodEnrollment);
     }
 

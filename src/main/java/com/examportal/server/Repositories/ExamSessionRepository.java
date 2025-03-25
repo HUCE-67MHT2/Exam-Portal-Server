@@ -1,13 +1,13 @@
 package com.examportal.server.Repositories;
 
-import com.examportal.server.Entity.ExamPeriod;
+import com.examportal.server.Entity.ExamSession;
 
 import java.util.List;
 
 public interface ExamSessionRepository {
-    List<ExamPeriod> getList();
-    void save(ExamPeriod examPeriod);
+    List<ExamSession> getList();
+    void save(ExamSession examPeriod);
     void delete(Long id);
-    ExamPeriod getExamPeriodById(Long id);
-    List<ExamPeriod> getExamPeriodsByTeacherId(Long id);
+    ExamSession getExamPeriodById(Long id);
+    List<ExamSession> getExamPeriodsByTeacherId(Long id);
 }
