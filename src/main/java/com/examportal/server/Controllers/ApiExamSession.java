@@ -4,7 +4,7 @@ import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.User;
-import com.examportal.server.Request.AddNewExamSessionRequest;
+import com.examportal.server.Request.ExamSessionRequest;
 import com.examportal.server.Service.ExamSessionService;
 import com.examportal.server.Service.UserService;
 import io.jsonwebtoken.Claims;
@@ -77,7 +77,7 @@ public class ApiExamSession {
     }
 
     @PostMapping("/add/exam-session")
-    public ResponseEntity<?> addExamSession(@RequestBody AddNewExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
+    public ResponseEntity<?> addExamSession(@RequestBody ExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {

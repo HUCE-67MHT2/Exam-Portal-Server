@@ -2,17 +2,17 @@ package com.examportal.server.Request;
 
 import java.sql.Timestamp;
 
-public class AddNewExamSessionRequest {
+public class ExamSessionRequest {
     private String exam_sessions_description;
     private Timestamp exam_sessions_end_date;
     private String exam_sessions_name;
     private String exam_sessions_password;
     private Timestamp exam_sessions_start_date;
 
-    public AddNewExamSessionRequest() {
+    public ExamSessionRequest() {
     }
 
-    public AddNewExamSessionRequest(String exam_sessions_description, Timestamp exam_sessions_end_date, String exam_sessions_name, String exam_sessions_password, Timestamp exam_sessions_start_date) {
+    public ExamSessionRequest(String exam_sessions_description, Timestamp exam_sessions_end_date, String exam_sessions_name, String exam_sessions_password, Timestamp exam_sessions_start_date) {
         this.exam_sessions_description = exam_sessions_description;
         this.exam_sessions_end_date = exam_sessions_end_date;
         this.exam_sessions_name = exam_sessions_name;
