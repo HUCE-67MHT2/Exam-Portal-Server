@@ -27,8 +27,8 @@ public class Exam implements Serializable {
     @Column(name = "description", columnDefinition = "TEXT")
     private String description;
 
-    @Column(name = "exam_type", nullable = false, length = 100)
-    private String examType;
+    @Column(name = "type", nullable = false, length = 50)
+    private String type;
 
     @Column(name = "duration", nullable = false)
     private int duration;
@@ -52,12 +52,12 @@ public class Exam implements Serializable {
     public Exam() {
     }
 
-    public Exam(Long id, Long examSessionId, String name, String description, String examType, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
+    public Exam(Long id, Long examSessionId, String name, String description, String type, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
         this.id = id;
         this.examSessionId = examSessionId;
         this.name = name;
         this.description = description;
-        this.examType = examType;
+        this.type = type;
         this.duration = duration;
         this.subject = subject;
         this.fileUrl = fileUrl;
@@ -98,12 +98,12 @@ public class Exam implements Serializable {
         this.description = description;
     }
 
-    public String getExamType() {
-        return examType;
+    public String getType() {
+        return type;
     }
 
-    public void setExamType(String examType) {
-        this.examType = examType;
+    public void setType(String type) {
+        this.type = type;
     }
 
     public int getDuration() {
