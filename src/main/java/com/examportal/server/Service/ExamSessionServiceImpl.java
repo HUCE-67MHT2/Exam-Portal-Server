@@ -37,4 +37,9 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     public List<ExamSession> getExamSessionByTeacherId(Long id) {
         return examPeriodRepository.getExamSessionByTeacherId(id);
     }
+
+    @Override
+    public ExamSession getExamSessionInfo(Long id) {
+        return examPeriodRepository.getExamSessionInfo(id);
+    }
 }

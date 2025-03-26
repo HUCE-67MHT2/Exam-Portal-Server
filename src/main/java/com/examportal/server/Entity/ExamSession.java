@@ -48,7 +48,7 @@ public class ExamSession implements Serializable {
     public ExamSession() {
     }
 
-    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password) {
+    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String status) {
         this.id = id;
         this.teacherId = teacherId;
         this.name = name;
@@ -58,6 +58,7 @@ public class ExamSession implements Serializable {
         this.createDate = createDate;
         this.code = code;
         this.password = password;
+        this.status = status;
     }
 
     public String getStatus() {

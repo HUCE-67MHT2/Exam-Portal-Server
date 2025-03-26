@@ -50,4 +50,12 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
         String hql = "from ExamSession where teacherId = :teacherId";
         return entityManager.createQuery(hql, ExamSession.class).setParameter("teacherId", id).getResultList();
     }
+
+    @Override
+    public ExamSession getExamSessionInfo(Long id) {
+        String hql = "SELECT e FROM ExamSession e WHERE e.id = :sessionId";
+        return entityManager.createQuery(hql, ExamSession.class)
+                .setParameter("sessionId", id)
+                .getSingleResult();
+    }
 }

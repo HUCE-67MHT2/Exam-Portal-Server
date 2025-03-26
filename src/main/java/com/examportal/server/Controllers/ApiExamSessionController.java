@@ -76,6 +76,16 @@ public class ApiExamSessionController {
         }
     }
 
+    @GetMapping("/get/exam-session-info/{id}")
+    public ResponseEntity<?> getExamSessionInfo(@PathVariable Long id) {
+        try {
+            ExamSession examSession = examSessionService.getExamSessionInfo(id);
+            return ResponseEntity.ok(examSession);
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
     @PostMapping("/add/exam-session")
     public ResponseEntity<?> addExamSession(@RequestBody ExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
         try {

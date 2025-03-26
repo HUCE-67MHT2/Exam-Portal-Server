@@ -14,4 +14,6 @@ public interface ExamSessionRepository {
     ExamSession getExamSessionById(Long id);
 
     List<ExamSession> getExamSessionByTeacherId(Long id);
+
+    ExamSession getExamSessionInfo(Long id);
 }
