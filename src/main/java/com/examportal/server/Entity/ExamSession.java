@@ -42,16 +42,13 @@ public class ExamSession implements Serializable {
     @Column(name = "password", nullable = false, length = 255)
     private String password;
 
-    @Column(name = "type", length = 30)
-    private String type;
-
     @Column(name = "status", length = 30)
     private String status;
 
     public ExamSession() {
     }
 
-    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String type) {
+    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password) {
         this.id = id;
         this.teacherId = teacherId;
         this.name = name;
@@ -61,7 +58,6 @@ public class ExamSession implements Serializable {
         this.createDate = createDate;
         this.code = code;
         this.password = password;
-        this.type = type;
     }
 
     public String getStatus() {
@@ -144,12 +140,5 @@ public class ExamSession implements Serializable {
         this.password = password;
     }
 
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
 }
 

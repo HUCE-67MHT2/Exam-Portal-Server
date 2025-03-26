@@ -10,7 +10,6 @@ public class ExamSessionDTO {
     private Long createDate; // Timestamp (milliseconds)
     private String code;
     private String password;
-    private String type;
     private String status;
 
     public ExamSessionDTO() {
@@ -26,7 +25,6 @@ public class ExamSessionDTO {
         this.createDate = createDate;
         this.code = code;
         this.password = password;
-        this.type = type;
         this.status = status;
     }
 
@@ -100,14 +98,6 @@ public class ExamSessionDTO {
 
     public void setPassword(String password) {
         this.password = password;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
     }
 
     public String getStatus() {
