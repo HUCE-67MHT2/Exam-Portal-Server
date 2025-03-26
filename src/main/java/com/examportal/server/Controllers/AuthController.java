@@ -161,7 +161,7 @@ public class AuthController {
             }
             Map<String, Object> responseBody = new HashMap<>();
             user.setPassword("");
-            responseBody.put("user",user);
+            responseBody.put("user", user);
 
             return ResponseEntity.status(200).body(user);
 
