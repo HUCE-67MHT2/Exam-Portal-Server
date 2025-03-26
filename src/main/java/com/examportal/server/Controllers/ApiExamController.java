@@ -1,12 +1,22 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
+import com.examportal.server.DTO.ResponseDTO;
+import com.examportal.server.Entity.Exam;
 import com.examportal.server.Service.ExamService;
 import com.examportal.server.Service.GoogleDriveService;
 import com.examportal.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exam")
@@ -22,9 +32,6 @@ public class ApiExamController {
 
     @Autowired
     private ExamService examService;
-
-//    @Autowired
-//    private AnswerExamForFileService answerExamForFileService;
 
 //    @PostMapping("/add/exam/with/file")
 //    public ResponseEntity<?> addExamWithFile(HttpServletRequest request,
@@ -105,65 +112,20 @@ public class ApiExamController {
 //            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("error"));
 //        }
 //    }
-//
-//    @GetMapping("/get/list/exams")
-//    public ResponseEntity<?> getListExams(HttpServletRequest request) {
-//        try {
-//            String jwt = request.getHeader("Authorization");
-//            if (jwt == null || !jwt.startsWith("Bearer ")) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid or missing token"));
-//            }
-//            jwt = jwt.substring(7);
-//            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
-//            if (claims.getExpiration().before(new java.util.Date())) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Token expired"));
-//            }
-//            String username = claims.getSubject();
-//            if (username == null) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
-//            }
-//            User user = userService.getUserByUsername(username);
-//            if (user == null) {
-//                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("User not found"));
-//            }
-//
-//            List<ExamRequest> examData = new ArrayList<>();
-//            List<Exam> exams = examService.getExamByTeacherId(user.getId());
-//            for (Exam exam : exams) {
-//                ExamRequest examRequest = new ExamRequest();
-//                examRequest.setExamId(exam.getId().toString());
-//                examRequest.setExamName(exam.getTitle());
-//                examRequest.setExamType(exam.getExamType());
-//                examRequest.setExamPassword(exam.getPassword());
-//                examRequest.setExamCreatedDate(exam.getCreated_at());
-//
-//                LocalDate thoiGianBatDau = exam.getStartTime();
-//                LocalDate thoiGianKetThuc = exam.getEndTime();
-//
-//                LocalDate now = LocalDate.now();
-//                String status;
-//                if (now.isBefore(thoiGianBatDau)) {
-//                    status = "chưa mở";
-//                } else if (now.isAfter(thoiGianKetThuc)) {
-//                    status = "đã đóng";
-//                } else {
-//                    status = "đang mở";
-//                }
-//                examRequest.setExamStatus(status);
-//
-//                examRequest.setExamDuration(exam.getDuration());
-//
-//                String sourceType = (exam.getFileUrl() != null && !exam.getFileUrl().isEmpty()) ? "File" : "Sinh tự động";
-//                examRequest.setExamSourceType(sourceType);
-//
-//                examData.add(examRequest);
-//            }
-//            return ResponseEntity.ok(examData);
-//        } catch (JwtException e) {
-//            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(new ResponseDTO("Invalid token"));
-//        } catch (Exception e) {
-//            e.printStackTrace();
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
-//        }
-//    }
+
+    @GetMapping("/get/list/exams/by/sessionId/{examSessionId}")
+    public ResponseEntity<?> getListExams(@PathVariable("examSessionId") Long examSessionId) {
+        try {
+            List<Exam> exams = examService.getExamBySessionId(examSessionId);
+            if (exams.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("No exams found for the given session ID"));
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("exams", exams);
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
+        }
+    }
 }

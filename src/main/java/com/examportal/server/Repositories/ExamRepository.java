@@ -13,5 +13,5 @@ public interface ExamRepository {
 
     void delete(Long id);
 
-    List<Exam> getExamByTeacherId(Long id);
+    List<Exam> getExamBySessionId(Long id);
 }

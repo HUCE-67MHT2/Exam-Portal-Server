@@ -37,7 +37,7 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public List<Exam> getExamByTeacherId(Long id) {
-        return examRepository.getExamByTeacherId(id);
+    public List<Exam> getExamBySessionId(Long id) {
+        return examRepository.getExamBySessionId(id);
     }
 }

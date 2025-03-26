@@ -45,8 +45,8 @@ public class ExamRepositoryImpl implements ExamRepository {
         entityManager.remove(entityManager.find(Exam.class, id));
     }
 
-    public List<Exam> getExamByTeacherId(Long id) {
-        String hql = "FROM Exam e WHERE e.teacher_id = :id";
+    public List<Exam> getExamBySessionId(Long id) {
+        String hql = "FROM Exam e WHERE e.examSessionId = :id";
         return entityManager.createQuery(hql).setParameter("id", id).getResultList();
     }
 }
