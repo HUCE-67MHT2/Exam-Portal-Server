@@ -45,7 +45,7 @@ public class ApiExamSession {
         return code.toString();
     }
 
-    @GetMapping("/get/all/exam-period")
+    @GetMapping("/get/all/exam-session")
     public ResponseEntity<?> getAllExamSession(HttpServletRequest request) {
         try {
 
@@ -76,7 +76,7 @@ public class ApiExamSession {
         }
     }
 
-    @PostMapping("/add/exam-period")
+    @PostMapping("/add/exam-session")
     public ResponseEntity<?> addExamSession(@RequestBody AddNewExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
