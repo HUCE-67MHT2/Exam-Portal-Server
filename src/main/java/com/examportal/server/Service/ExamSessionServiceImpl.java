@@ -2,6 +2,7 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Repositories.ExamSessionRepository;
+import com.examportal.server.Request.ExamSessionRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -41,5 +42,10 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     @Override
     public ExamSession getExamSessionInfo(Long id) {
         return examPeriodRepository.getExamSessionInfo(id);
+    }
+
+    @Override
+    public ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession) {
+        return examPeriodRepository.updateExamSessionById(id, examSession);
     }
 }

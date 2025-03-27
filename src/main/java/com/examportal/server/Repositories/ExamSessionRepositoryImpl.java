@@ -1,6 +1,7 @@
 package com.examportal.server.Repositories;
 
 import com.examportal.server.Entity.ExamSession;
+import com.examportal.server.Request.ExamSessionRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -57,5 +58,24 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
         return entityManager.createQuery(hql, ExamSession.class)
                 .setParameter("sessionId", id)
                 .getSingleResult();
+    }
+    public ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession) {
+        ExamSession existingExamSession = entityManager.find(ExamSession.class, id);
+        if (existingExamSession != null && existingExamSession.getCreateDate() != null) {
+            existingExamSession.setName(examSession.getExam_sessions_name());
+            existingExamSession.setDescription(examSession.getExam_sessions_description());
+            existingExamSession.setPassword(examSession.getExam_sessions_password());
+            existingExamSession.setStartDate(examSession.getExam_sessions_start_date());
+            existingExamSession.setEndDate(examSession.getExam_sessions_end_date());
+
+            entityManager.merge(existingExamSession); // Cập nhật vào DB
+            return existingExamSession;
+        }
+        else{
+            System.out.println("End date nhu lon");
+            return null;
+        }
+
+        // Trả về null nếu không tìm thấy kỳ thi
     }
 }

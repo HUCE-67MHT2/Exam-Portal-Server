@@ -51,6 +51,7 @@ public class ApiExamController {
             // Upload file and save exam
             Exam savedExam = examService.createExamByFile(exam, file);
 
+            System.out.println(savedExam.getId());
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam created successfully");
             response.put("exam", savedExam);

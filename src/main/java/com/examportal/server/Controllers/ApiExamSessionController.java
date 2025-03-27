@@ -122,5 +122,13 @@ public class ApiExamSessionController {
         }
     }
 
-
+    @PostMapping("/update/exam-session-info/{id}")
+    public ResponseEntity<?> updateExamSession(@PathVariable Long id, @RequestBody ExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
+        ExamSession updatedExamSession = examSessionService.updateExamSessionById(id, newExamSessionRequest);
+        if (updatedExamSession != null) {
+            return ResponseEntity.ok(updatedExamSession);
+        } else {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exam session not found.");
+        }
+    }
 }
