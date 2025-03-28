@@ -2,6 +2,7 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Entity.ExamSessionEnrollment;
 import com.examportal.server.Repositories.ExamSessionEnrollmentRepository;
+import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -30,5 +31,10 @@ public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentSe
     @Override
     public void delete(Long id) {
         ExamSessionEnrollmentRepository.delete(id);
+    }
+
+    @Override
+    public List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId) {
+        return ExamSessionEnrollmentRepository.getInfoStudentInExamSessionEnrollment(examSessionId);
     }
 }

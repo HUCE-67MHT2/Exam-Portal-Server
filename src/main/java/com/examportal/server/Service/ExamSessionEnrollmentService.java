@@ -1,6 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.Entity.ExamSessionEnrollment;
+import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 
 import java.util.List;
 
@@ -12,4 +13,6 @@ public interface ExamSessionEnrollmentService {
     void save(ExamSessionEnrollment examSessionEnrollment);
 
     void delete(Long id);
+
+    List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId);
 }

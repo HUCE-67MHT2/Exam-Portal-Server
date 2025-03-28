@@ -1,13 +1,17 @@
 package com.examportal.server.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.sql.Timestamp;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "exam_session_enrollments")
-
 public class ExamSessionEnrollment implements Serializable {
 
     private static final long serialVersionUID = 1L;
@@ -20,51 +24,21 @@ public class ExamSessionEnrollment implements Serializable {
     @Column(name = "exam_session_id", nullable = false)
     private Long examSessionId;
 
-    @Column(name = "student_id", nullable = false)
-    private Long studentId;
-
     @Column(name = "enroll_date", nullable = false)
     private Timestamp enrollDate;
+
+    @ManyToOne
+    @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
+    private User user;  // Liên kết tới bảng users
 
     public ExamSessionEnrollment() {
     }
 
-    public ExamSessionEnrollment(Long id, Long examSessionId, Long studentId, Timestamp enrollDate) {
+    public ExamSessionEnrollment(Long id, Long examSessionId, User user, Timestamp enrollDate) {
         this.id = id;
         this.examSessionId = examSessionId;
-        this.studentId = studentId;
-        this.enrollDate = enrollDate;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public Long getExamSessionId() {
-        return examSessionId;
-    }
-
-    public void setExamSessionId(Long examSessionId) {
-        this.examSessionId = examSessionId;
-    }
-
-    public Long getStudentId() {
-        return studentId;
-    }
-
-    public void setStudentId(Long studentId) {
-        this.studentId = studentId;
-    }
-
-    public Timestamp getEnrollDate() {
-        return enrollDate;
-    }
-
-    public void setEnrollDate(Timestamp enrollDate) {
+        this.user = user;
         this.enrollDate = enrollDate;
     }
 }
