@@ -1,11 +1,14 @@
 package com.examportal.server.Repositories;
 
 import com.examportal.server.Entity.ExamSessionEnrollment;
+import com.examportal.server.Entity.User;
+import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Repository
@@ -45,4 +48,27 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
 
         entityManager.remove(entityManager.find(ExamSessionEnrollment.class, id));
     }
+
+   @Override
+    public List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId) {
+        String sql = "FROM User u " +
+                     "JOIN ExamSessionEnrollment e ON u.id = e.user.id " +
+                     "WHERE e.examSessionId = :examSessionId";
+
+        List<User> results = entityManager.createQuery(sql, User.class)
+                                              .setParameter("examSessionId", examSessionId)
+                                              .getResultList();
+
+        List<StudentInExamSessionEnrollmentRequest> studentInfoList = new ArrayList<>();
+        for (User result : results) {
+            StudentInExamSessionEnrollmentRequest studentInfo = new StudentInExamSessionEnrollmentRequest();
+            studentInfo.setStudent_id(result.getId());
+            studentInfo.setClass_name(result.getClassName());
+            studentInfo.setStudent_name(result.getFullName());
+            studentInfoList.add(studentInfo);
+        }
+
+        return studentInfoList;
+    }
+
 }

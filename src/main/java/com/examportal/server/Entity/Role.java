@@ -2,9 +2,13 @@ package com.examportal.server.Entity;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "roles")
 public class Role {
@@ -29,30 +33,6 @@ public class Role {
     public Role() {
         super();
         // TODO Auto-generated constructor stub
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Set<UserRole> getRoleUsers() {
-        return roleUsers;
-    }
-
-    public void setRoleUsers(Set<UserRole> roleUsers) {
-        this.roleUsers = roleUsers;
     }
 
 }

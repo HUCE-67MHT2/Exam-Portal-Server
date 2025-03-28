@@ -59,6 +59,8 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
                 .setParameter("sessionId", id)
                 .getSingleResult();
     }
+
+    @Override
     public ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession) {
         ExamSession existingExamSession = entityManager.find(ExamSession.class, id);
         if (existingExamSession != null && existingExamSession.getCreateDate() != null) {
