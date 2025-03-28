@@ -1,12 +1,9 @@
 package com.examportal.server.Controllers;
 
-import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Request.ExamUploadRequest;
 import com.examportal.server.Service.ExamService;
-import com.examportal.server.Service.GoogleDriveService;
-import com.examportal.server.Service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,15 +18,6 @@ import java.util.Map;
 @RestController
 @RequestMapping("/api/exam")
 public class ApiExamController {
-    @Autowired
-    private GoogleDriveService googleDriveService;
-
-    @Autowired
-    private JwtTokenUtil jwtTokenUtil;
-
-    @Autowired
-    private UserService userService;
-
     @Autowired
     private ExamService examService;
 
@@ -51,9 +39,9 @@ public class ApiExamController {
             // Upload file and save exam
             Exam savedExam = examService.createExamByFile(exam, file);
 
-            System.out.println(savedExam.getId());
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam created successfully");
+            response.put("examId", savedExam.getId());
             response.put("exam", savedExam);
 
             return ResponseEntity.ok(response);

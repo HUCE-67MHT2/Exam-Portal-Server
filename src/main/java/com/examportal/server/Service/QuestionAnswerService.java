@@ -11,5 +11,7 @@ public interface QuestionAnswerService {
 
     void save(QuestionAnswer answer);
 
+    void saveAll(List<QuestionAnswer> answers);
+
     void delete(Long id);
 }
