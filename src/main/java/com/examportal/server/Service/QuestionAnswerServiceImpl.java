@@ -32,4 +32,11 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
     public void delete(Long id) {
         answerRepository.delete(id);
     }
+
+    @Override
+    public void saveAll(List<QuestionAnswer> answers) {
+        for (QuestionAnswer answer : answers) {
+            answerRepository.save(answer);
+        }
+    }
 }
