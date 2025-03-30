@@ -31,10 +31,13 @@ public class User {
     @Column(name = "fullname")
     private String fullName;
 
+    @Column(name = "student_number")
+    private Long studentNumber;
+
     @Column(name = "gender")
     private Boolean gender;
 
-    @Column(name = "dob")  // Sửa lại tên cho phù hợp với bảng (dob)
+    @Column(name = "dob")
     private Date birthday;
 
     @Column(name = "address")
@@ -64,7 +67,7 @@ public class User {
     @Column(name = "updated_at")
     private Timestamp updatedAt;
 
-    @OneToMany(mappedBy = "user", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY)
     @JsonManagedReference
     private Set<UserRole> userRoles;
 
@@ -72,10 +75,14 @@ public class User {
     @JsonManagedReference
     private Set<ExamSessionEnrollment> examEnrollments;
 
+    @OneToMany(mappedBy = "user", fetch = FetchType.LAZY, cascade = CascadeType.ALL)
+    @JsonManagedReference
+    private Set<ExamResult> examResults;
+
     public User() {
     }
 
-    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatarUrl, String school, String className, Integer status, Timestamp createdAt, Timestamp updatedAt, Set<UserRole> userRoles) {
+    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatarUrl, String school, String className, Integer status, Timestamp createdAt, Timestamp updatedAt, Set<UserRole> userRoles ,Long studentNumber) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -93,6 +100,7 @@ public class User {
         this.createdAt = createdAt;
         this.updatedAt = updatedAt;
         this.userRoles = userRoles;
+        this.studentNumber = studentNumber;
     }
 
 }

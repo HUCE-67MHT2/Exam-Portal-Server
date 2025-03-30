@@ -1,6 +1,7 @@
 package com.examportal.server.Repositories;
 
 import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.Request.StudentResultInExamSession;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
@@ -42,5 +43,19 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     @Override
     public void delete(Long id) {
         entityManager.remove(entityManager.find(ExamResult.class, id));
+    }
+
+    @Override
+    public List<StudentResultInExamSession> getListStudentResultInExamSession(Long examSessionId) {
+        String jpql = "SELECT new com.examportal.server.Request.StudentResultInExamSession( " +
+                "u.fullName, u.studentNumber, u.className, e.name, er.totalScore, er.submitTime) " +
+                "FROM ExamResult er " +
+                "JOIN er.user u " +
+                "JOIN er.exam e " +
+                "WHERE e.examSessionId = :examSessionId";
+
+        return entityManager.createQuery(jpql, StudentResultInExamSession.class)
+                .setParameter("examSessionId", examSessionId)
+                .getResultList();
     }
 }

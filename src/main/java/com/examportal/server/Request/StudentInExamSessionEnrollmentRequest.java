@@ -7,7 +7,7 @@ import lombok.Setter;
 @Getter
 @Setter
 public class StudentInExamSessionEnrollmentRequest {
-    private Long student_id;
+    private Long student_number;
     private String class_name;
     private String student_name;
 }

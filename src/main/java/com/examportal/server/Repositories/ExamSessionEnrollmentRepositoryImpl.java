@@ -62,7 +62,7 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
         List<StudentInExamSessionEnrollmentRequest> studentInfoList = new ArrayList<>();
         for (User result : results) {
             StudentInExamSessionEnrollmentRequest studentInfo = new StudentInExamSessionEnrollmentRequest();
-            studentInfo.setStudent_id(result.getId());
+            studentInfo.setStudent_number(result.getStudentNumber());
             studentInfo.setClass_name(result.getClassName());
             studentInfo.setStudent_name(result.getFullName());
             studentInfoList.add(studentInfo);
