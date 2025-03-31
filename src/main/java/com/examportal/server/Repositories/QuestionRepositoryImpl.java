@@ -23,11 +23,6 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     }
 
     @Override
-    public Question getQuestionById(Long id) {
-        return entityManager.find(Question.class, id);
-    }
-
-    @Override
     public void save(Question question) {
         try {
             if (question.getId() == null) {
@@ -43,5 +38,13 @@ public class QuestionRepositoryImpl implements QuestionRepository {
     @Override
     public void delete(Long id) {
         entityManager.remove(entityManager.find(Question.class, id));
+    }
+
+    @Override
+    public List<Question> getQuestionsByExamSessionId(Long id) {
+        String hql = "FROM Question q WHERE q.examSessionId = :id";
+        return entityManager.createQuery(hql)
+                .setParameter("id", id)
+                .getResultList();
     }
 }

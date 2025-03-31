@@ -39,7 +39,7 @@ public class ApiQuestionController {
     @GetMapping("/get/question/by/exam/session/id/{id}")
     public ResponseEntity<?> getQuestionBySessionId(@PathVariable("id") Long id) {
         try {
-            List<Question> questions = questionService.getList();
+            List<Question> questions = questionService.getQuestionsByExamSessionId(id);
             if (questions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND)
                         .body(new ResponseDTO("No questions found for the given exam session ID"));

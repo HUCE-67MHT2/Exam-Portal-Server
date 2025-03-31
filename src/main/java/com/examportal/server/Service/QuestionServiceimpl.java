@@ -19,11 +19,6 @@ public class QuestionServiceimpl implements QuestionService {
     }
 
     @Override
-    public Question getQuestionById(Long id) {
-        return questionRepository.getQuestionById(id);
-    }
-
-    @Override
     public void save(Question question) {
         questionRepository.save(question);
     }
@@ -31,5 +26,10 @@ public class QuestionServiceimpl implements QuestionService {
     @Override
     public void delete(Long id) {
         questionRepository.delete(id);
+    }
+
+    @Override
+    public List<Question> getQuestionsByExamSessionId(Long id) {
+        return questionRepository.getQuestionsByExamSessionId(id);
     }
 }
