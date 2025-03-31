@@ -42,7 +42,6 @@ public class ApiExamController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam created successfully");
             response.put("examId", savedExam.getId());
-            response.put("exam", savedExam);
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
@@ -89,6 +88,20 @@ public class ApiExamController {
             Map<String, Object> response = new HashMap<>();
             response.put("exams", exams);
             return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+
+    @GetMapping("/get/exam/{id}")
+    public ResponseEntity<?> getExamById(@PathVariable Long id) {
+        try {
+            Exam exam = examService.getExamById(id);
+            if (exam == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("Exam not found"));
+            }
+            return ResponseEntity.ok(exam);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
