@@ -49,15 +49,15 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
         entityManager.remove(entityManager.find(ExamSessionEnrollment.class, id));
     }
 
-   @Override
+    @Override
     public List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId) {
         String sql = "FROM User u " +
-                     "JOIN ExamSessionEnrollment e ON u.id = e.user.id " +
-                     "WHERE e.examSessionId = :examSessionId";
+                "JOIN ExamSessionEnrollment e ON u.id = e.user.id " +
+                "WHERE e.examSessionId = :examSessionId";
 
         List<User> results = entityManager.createQuery(sql, User.class)
-                                              .setParameter("examSessionId", examSessionId)
-                                              .getResultList();
+                .setParameter("examSessionId", examSessionId)
+                .getResultList();
 
         List<StudentInExamSessionEnrollmentRequest> studentInfoList = new ArrayList<>();
         for (User result : results) {

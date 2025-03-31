@@ -72,8 +72,7 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
 
             entityManager.merge(existingExamSession); // Cập nhật vào DB
             return existingExamSession;
-        }
-        else{
+        } else {
             System.out.println("End date nhu lon");
             return null;
         }

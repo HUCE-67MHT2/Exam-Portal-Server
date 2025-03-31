@@ -7,7 +7,7 @@ import java.sql.Timestamp;
 
 @Setter
 @Getter
-public class ExamUploadRequest {
+public class ExamRequest {
     private Long examSessionId;
     private String name;
     private String description;

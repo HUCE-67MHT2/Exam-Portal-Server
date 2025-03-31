@@ -2,7 +2,7 @@ package com.examportal.server.Controllers;
 
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
-import com.examportal.server.Request.ExamUploadRequest;
+import com.examportal.server.Request.ExamRequest;
 import com.examportal.server.Service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -22,18 +22,18 @@ public class ApiExamController {
     private ExamService examService;
 
     @PostMapping(value = "/add/exam/with/file", consumes = "multipart/form-data")
-    public ResponseEntity<?> addExamWithFile(@ModelAttribute ExamUploadRequest request,
+    public ResponseEntity<?> addExamWithFile(@ModelAttribute ExamRequest examRequest,
                                              @RequestParam("file") MultipartFile file) {
         try {
-            // Create a new Exam entity from the request data
+            // Create a new Exam entity from the examRequest data
             Exam exam = new Exam();
-            exam.setExamSessionId(request.getExamSessionId());
-            exam.setName(request.getName());
-            exam.setDescription(request.getDescription());
-            exam.setDuration(request.getDuration());
-            exam.setSubject(request.getSubject());
-            exam.setStartDate(request.getStartDate());
-            exam.setEndDate(request.getEndDate());
+            exam.setExamSessionId(examRequest.getExamSessionId());
+            exam.setName(examRequest.getName());
+            exam.setDescription(examRequest.getDescription());
+            exam.setDuration(examRequest.getDuration());
+            exam.setSubject(examRequest.getSubject());
+            exam.setStartDate(examRequest.getStartDate());
+            exam.setEndDate(examRequest.getEndDate());
             exam.setCreateDate(new Timestamp(System.currentTimeMillis()));
 
             // Upload file and save exam
@@ -42,6 +42,33 @@ public class ApiExamController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam created successfully");
             response.put("examId", savedExam.getId());
+            response.put("exam", savedExam);
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("Failed to create exam: " + e.getMessage()));
+        }
+    }
+
+    @PostMapping("/add/exam/manually")
+    public ResponseEntity<?> addExamManually(@ModelAttribute ExamRequest examRequest) {
+        try {
+            Exam exam = new Exam();
+            exam.setExamSessionId(examRequest.getExamSessionId());
+            exam.setName(examRequest.getName());
+            exam.setDescription(examRequest.getDescription());
+            exam.setDuration(examRequest.getDuration());
+            exam.setSubject(examRequest.getSubject());
+            exam.setStartDate(examRequest.getStartDate());
+            exam.setEndDate(examRequest.getEndDate());
+            exam.setCreateDate(new Timestamp(System.currentTimeMillis()));
+
+            // Save the exam manually
+            Exam savedExam = examService.createExamManually(exam);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Exam created successfully");
             response.put("exam", savedExam);
 
             return ResponseEntity.ok(response);

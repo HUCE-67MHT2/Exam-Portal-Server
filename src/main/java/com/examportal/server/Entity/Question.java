@@ -1,13 +1,19 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "questions")
 public class Question implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -15,12 +21,14 @@ public class Question implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
+    @Column(name = "exam_session_id", nullable = false)
+    private Long examSessionId;
+
     @Column(name = "content", columnDefinition = "TEXT", nullable = false)
     private String content;
 
     @Column(name = "difficulty", length = 50, nullable = false)
     private String difficulty;
-
 
     public Question() {
     }
@@ -31,28 +39,5 @@ public class Question implements Serializable {
         this.difficulty = difficulty;
     }
 
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getContent() {
-        return content;
-    }
-
-    public void setContent(String content) {
-        this.content = content;
-    }
-
-    public String getDifficulty() {
-        return difficulty;
-    }
-
-    public void setDifficulty(String difficulty) {
-        this.difficulty = difficulty;
-    }
 }
 

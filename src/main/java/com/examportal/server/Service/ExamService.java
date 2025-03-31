@@ -18,4 +18,6 @@ public interface ExamService {
 
     // Phương thức mới: nhận Exam và MultipartFile để upload file và lưu URL
     Exam createExamByFile(Exam exam, MultipartFile file) throws Exception;
+
+    Exam createExamManually(Exam exam) throws Exception;
 }

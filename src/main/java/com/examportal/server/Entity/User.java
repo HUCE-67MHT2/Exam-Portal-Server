@@ -82,7 +82,7 @@ public class User {
     public User() {
     }
 
-    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatarUrl, String school, String className, Integer status, Timestamp createdAt, Timestamp updatedAt, Set<UserRole> userRoles ,Long studentNumber) {
+    public User(Long id, String username, String password, Boolean enabled, String fullName, Boolean gender, Date birthday, String address, String email, String telephone, String avatarUrl, String school, String className, Integer status, Timestamp createdAt, Timestamp updatedAt, Set<UserRole> userRoles, Long studentNumber) {
         this.id = id;
         this.username = username;
         this.password = password;

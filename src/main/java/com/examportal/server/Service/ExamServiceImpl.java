@@ -63,4 +63,11 @@ public class ExamServiceImpl implements ExamService {
         }
     }
 
+    @Override
+    public Exam createExamManually(Exam exam) throws Exception {
+        // Gán type "manual" vào đối tượng exam
+        exam.setType("manual");
+        examRepository.save(exam);
+        return exam;
+    }
 }
