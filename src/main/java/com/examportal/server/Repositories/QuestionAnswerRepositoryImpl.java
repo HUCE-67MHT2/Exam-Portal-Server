@@ -45,4 +45,11 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
         QuestionAnswer answer = entityManager.find(QuestionAnswer.class, id);
         entityManager.remove(answer);
     }
+
+    @Override
+    public void deleteByExamId(Long examId) {
+        entityManager.createQuery("DELETE FROM QuestionAnswer qa WHERE qa.exam_id = :examId")
+                .setParameter("examId", examId)
+                .executeUpdate();
+    }
 }

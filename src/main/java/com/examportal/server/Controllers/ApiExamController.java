@@ -51,6 +51,33 @@ public class ApiExamController {
         }
     }
 
+    @PostMapping(value = "/update/exam", consumes = "multipart/form-data")
+    public ResponseEntity<?> updateExam(@ModelAttribute ExamRequest examRequest,
+                                        @RequestParam(value = "file", required = false) MultipartFile file) {
+        try {
+            // Create a new Exam entity from the examRequest data
+            Exam exam = new Exam();
+            exam.setExamSessionId(examRequest.getExamSessionId());
+            exam.setId(examRequest.getId());
+            exam.setName(examRequest.getName());
+            exam.setDescription(examRequest.getDescription());
+            exam.setDuration(examRequest.getDuration());
+            exam.setSubject(examRequest.getSubject());
+            exam.setStartDate(examRequest.getStartDate());
+            exam.setEndDate(examRequest.getEndDate());
+
+            Exam updatedExam = examService.updateExamByFile(exam, file);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Exam updated successfully");
+            response.put("examId", updatedExam.getId());
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("Failed to update exam: " + e.getMessage()));
+        }
+    }
     @PostMapping("/add/exam/manually")
     public ResponseEntity<?> addExamManually(@ModelAttribute ExamRequest examRequest) {
         try {

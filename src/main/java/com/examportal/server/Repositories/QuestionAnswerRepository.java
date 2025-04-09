@@ -12,4 +12,6 @@ public interface QuestionAnswerRepository {
     void save(QuestionAnswer answer);
 
     void delete(Long id);
+
+    void deleteByExamId(Long examId);
 }

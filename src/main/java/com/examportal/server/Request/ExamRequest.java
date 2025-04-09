@@ -9,6 +9,7 @@ import java.sql.Timestamp;
 @Getter
 public class ExamRequest {
     private Long examSessionId;
+    private Long id;
     private String name;
     private String description;
     private int duration;

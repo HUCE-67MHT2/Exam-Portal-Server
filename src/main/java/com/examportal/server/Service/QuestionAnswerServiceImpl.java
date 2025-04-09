@@ -39,4 +39,12 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
             answerRepository.save(answer);
         }
     }
+    @Override
+    public void update(Long examId, List<QuestionAnswer> answers) {
+        // Xoá toàn bộ câu hỏi cũ theo examId
+        answerRepository.deleteByExamId(examId);
+        for (QuestionAnswer answer : answers) {
+            answerRepository.save(answer);
+        }
+    }
 }

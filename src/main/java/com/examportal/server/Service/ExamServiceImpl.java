@@ -62,6 +62,49 @@ public class ExamServiceImpl implements ExamService {
             throw new Exception("Upload file lên Google Drive thất bại");
         }
     }
+    // Hàm cập nhập thông tin exam (không bao gồm file mới để tránh tải lên gg drive)
+    @Override
+    public Exam updateExamByFile(Exam newExamData, MultipartFile file) throws Exception {
+        try {
+            // Lấy exam cũ từ DB
+            Exam existingExam = examRepository.getExamById(newExamData.getId());
+            if (existingExam == null) {
+                throw new Exception("Exam not found with id: " + newExamData.getId());
+            }
+
+            // Cập nhật thông tin từ dữ liệu mới
+            existingExam.setName(newExamData.getName());
+            existingExam.setDescription(newExamData.getDescription());
+            existingExam.setDuration(newExamData.getDuration());
+            existingExam.setSubject(newExamData.getSubject());
+            existingExam.setStartDate(newExamData.getStartDate());
+            existingExam.setEndDate(newExamData.getEndDate());
+            existingExam.setExamSessionId(newExamData.getExamSessionId());
+
+            // Nếu có file thì upload lên Google Drive
+            if (file != null && !file.isEmpty()) {
+                ResponseEntity<String> response = googleDriveController.uploadFile(file);
+                if (response.getStatusCode().is2xxSuccessful()) {
+                    String fileUrl = response.getBody();
+                    existingExam.setFileUrl(fileUrl);
+                } else {
+                    throw new Exception("Upload file lên Google Drive thất bại");
+                }
+            }
+
+            // Lưu lại vào DB
+            examRepository.save(existingExam);
+            return existingExam;
+
+        } catch (Exception e) {
+            // Ghi log lỗi ra console
+            System.err.println("❌ Lỗi khi cập nhật Exam:");
+            e.printStackTrace();
+
+            // Ném lại lỗi để controller xử lý response cho client
+            throw new Exception("Có lỗi xảy ra khi cập nhật Exam: " + e.getMessage());
+        }
+    }
 
     @Override
     public Exam createExamManually(Exam exam) throws Exception {

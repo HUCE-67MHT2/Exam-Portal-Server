@@ -81,7 +81,7 @@ public class ApiQuestionAnswerController {
             }
             questionAnswerService.saveAll(answersToSave);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Upload question answers saved successfully");
+            response.put("message", "Update question answers saved successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -111,6 +111,61 @@ public class ApiQuestionAnswerController {
         }
     }
 
+    @PostMapping(value = "/update", consumes = {"application/json;charset=UTF-8"})
+    public ResponseEntity<?> updateUploadQuestionAnswers(@RequestBody Map<String, Object> answerData) {
+        try {
+            ObjectMapper objectMapper = new ObjectMapper();
+
+            // Lấy examId từ payload
+            Object examIdObj = answerData.get("examId");
+            if (examIdObj == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseDTO("Missing 'examId' in request answerData."));
+            }
+            Long examId = objectMapper.convertValue(examIdObj, Long.class);
+
+            // Lấy answers
+            Object answersObj = answerData.get("answers");
+            if (answersObj == null) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseDTO("Missing 'answers' in request answerData."));
+            }
+            Map<String, String> answerMap = objectMapper.convertValue(answersObj, new TypeReference<>() {
+            });
+            List<QuestionAnswer> updateAnswers = new ArrayList<>();
+            String[] defaultLetters = {"A", "B", "C", "D"};
+
+            for (Map.Entry<String, String> entry : answerMap.entrySet()) {
+                String key = entry.getKey().trim();
+                String correctLetter = entry.getValue().trim();
+                try {
+                    int questionNo = Integer.parseInt(key);
+                    for (int i = 0; i < defaultLetters.length; i++) {
+                        QuestionAnswer questionAnswer = new QuestionAnswer();
+                        questionAnswer.setId(null); // entity mới
+                        questionAnswer.setExam_id(examId);
+                        questionAnswer.setQuestionNo(questionNo);
+                        questionAnswer.setOrdering(i + 1);
+                        questionAnswer.setAnswerText(defaultLetters[i]);
+                        questionAnswer.setSource("upload");
+                        questionAnswer.setCorrect(defaultLetters[i].equalsIgnoreCase(correctLetter));
+                        updateAnswers.add(questionAnswer);
+                    }
+                } catch (NumberFormatException nfe) {
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
+                }
+            }
+            questionAnswerService.update(examId,updateAnswers);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Upload question answers saved successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("Lỗi khi cập nhật câu trả lời: " + e.getMessage()));
+        }
+    }
     // ----------------------- Mode MANUAL -----------------------
 
     /**

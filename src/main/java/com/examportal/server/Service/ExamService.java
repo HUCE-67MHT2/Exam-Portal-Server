@@ -20,4 +20,6 @@ public interface ExamService {
     Exam createExamByFile(Exam exam, MultipartFile file) throws Exception;
 
     Exam createExamManually(Exam exam) throws Exception;
+
+    Exam updateExamByFile(Exam exam, MultipartFile file) throws Exception;
 }
