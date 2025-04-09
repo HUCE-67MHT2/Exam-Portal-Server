@@ -75,6 +75,7 @@ public class ExamServiceImpl implements ExamService {
             // Cập nhật thông tin từ dữ liệu mới
             existingExam.setName(newExamData.getName());
             existingExam.setDescription(newExamData.getDescription());
+            existingExam.setTotalQuestions(newExamData.getTotalQuestions());
             existingExam.setDuration(newExamData.getDuration());
             existingExam.setSubject(newExamData.getSubject());
             existingExam.setStartDate(newExamData.getStartDate());

@@ -12,6 +12,7 @@ public class ExamRequest {
     private Long id;
     private String name;
     private String description;
+    private int totalQuestions;
     private int duration;
     private String subject;
     private Timestamp startDate;

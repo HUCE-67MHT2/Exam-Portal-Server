@@ -36,6 +36,9 @@ public class Exam implements Serializable {
     @Column(name = "type", nullable = false, length = 50)
     private String type;
 
+    @Column(name = "total_questions", nullable = false)
+    private int totalQuestions;
+
     @Column(name = "duration", nullable = false)
     private int duration;
 
@@ -62,12 +65,13 @@ public class Exam implements Serializable {
     public Exam() {
     }
 
-    public Exam(Long id, Long examSessionId, String name, String description, String type, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate) {
+    public Exam(Long id, Long examSessionId, String name, String description, String type, int duration, String subject, String fileUrl, Timestamp createDate, Timestamp startDate, Timestamp endDate, int totalQuestions) {
         this.id = id;
         this.examSessionId = examSessionId;
         this.name = name;
         this.description = description;
         this.type = type;
+        this.totalQuestions = totalQuestions;
         this.duration = duration;
         this.subject = subject;
         this.fileUrl = fileUrl;
