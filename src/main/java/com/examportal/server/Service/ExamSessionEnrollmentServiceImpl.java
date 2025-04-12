@@ -5,6 +5,7 @@ import com.examportal.server.Repositories.ExamSessionEnrollmentRepository;
 import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
@@ -12,6 +13,9 @@ import java.util.List;
 public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentService {
     @Autowired
     private ExamSessionEnrollmentRepository ExamSessionEnrollmentRepository;
+
+    @Autowired
+    private ExamSessionService examSessionService;
 
     @Override
     public List<ExamSessionEnrollment> getList() {
@@ -36,5 +40,18 @@ public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentSe
     @Override
     public List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId) {
         return ExamSessionEnrollmentRepository.getInfoStudentInExamSessionEnrollment(examSessionId);
+    }
+
+    @Override
+    @Transactional
+    public void joinExamSessionEnrollment(String examCode, Long userId) {
+        Long examSessionId = examSessionService.getIdByCode(examCode);
+
+        boolean hasJoined = ExamSessionEnrollmentRepository.checkJoinExamSessionEnrollment(examSessionId, userId);
+        if (hasJoined) {
+            throw new IllegalStateException("Học sinh đã tham gia kỳ thi này rồi");
+        }
+
+        ExamSessionEnrollmentRepository.joinExamSessionEnrollment(examSessionId, userId);
     }
 }

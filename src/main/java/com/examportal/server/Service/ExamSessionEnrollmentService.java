@@ -15,4 +15,6 @@ public interface ExamSessionEnrollmentService {
     void delete(Long id);
 
     List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId);
+
+    void joinExamSessionEnrollment(String examCode, Long userId);
 }

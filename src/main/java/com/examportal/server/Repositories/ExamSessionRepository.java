@@ -12,6 +12,8 @@ public interface ExamSessionRepository {
 
     void delete(Long id);
 
+    Long getIdByCode(String code);
+
     ExamSession getExamSessionById(Long id);
 
     List<ExamSession> getExamSessionByTeacherId(Long id);

@@ -42,6 +42,14 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     }
 
     @Override
+    public Long getIdByCode(String code) {
+        String hql = "SELECT e.id FROM ExamSession e WHERE e.code = :code";
+        return entityManager.createQuery(hql, Long.class)
+                .setParameter("code", code)
+                .getSingleResult();
+    }
+
+    @Override
     public ExamSession getExamSessionById(Long id) {
         return entityManager.find(ExamSession.class, id);
     }

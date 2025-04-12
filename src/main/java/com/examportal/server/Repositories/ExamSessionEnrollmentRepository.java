@@ -16,4 +16,8 @@ public interface ExamSessionEnrollmentRepository {
     void delete(Long id);
 
     List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId);
+
+    void joinExamSessionEnrollment(Long examSessionId, Long userId);
+
+    boolean checkJoinExamSessionEnrollment(Long examSessionId, Long userId);
 }

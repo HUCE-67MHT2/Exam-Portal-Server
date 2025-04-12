@@ -30,6 +30,11 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     }
 
     @Override
+    public Long getIdByCode(String code) {
+        return examPeriodRepository.getIdByCode(code);
+    }
+
+    @Override
     public ExamSession getExamSessionById(Long id) {
         return examPeriodRepository.getExamSessionById(id);
     }

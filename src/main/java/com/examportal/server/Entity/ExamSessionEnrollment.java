@@ -23,8 +23,10 @@ public class ExamSessionEnrollment implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "exam_session_id", nullable = false)
-    private Long examSessionId;
+    @ManyToOne
+    @JoinColumn(name = "exam_session_id", referencedColumnName = "id", nullable = false)
+    @JsonBackReference
+    private ExamSession examSession;  // Liên kết tới bảng exam_sessions
 
     @Column(name = "enroll_date", nullable = false)
     private Timestamp enrollDate;
@@ -37,9 +39,9 @@ public class ExamSessionEnrollment implements Serializable {
     public ExamSessionEnrollment() {
     }
 
-    public ExamSessionEnrollment(Long id, Long examSessionId, User user, Timestamp enrollDate) {
+    public ExamSessionEnrollment(Long id, ExamSession examSession, User user, Timestamp enrollDate) {
         this.id = id;
-        this.examSessionId = examSessionId;
+        this.examSession = examSession;
         this.user = user;
         this.enrollDate = enrollDate;
     }
