@@ -45,8 +45,10 @@ public class ExamRepositoryImpl implements ExamRepository {
         entityManager.remove(entityManager.find(Exam.class, id));
     }
 
+    @Override
     public List<Exam> getExamBySessionId(Long id) {
         String hql = "FROM Exam e WHERE e.examSessionId = :id";
         return entityManager.createQuery(hql).setParameter("id", id).getResultList();
     }
+
 }

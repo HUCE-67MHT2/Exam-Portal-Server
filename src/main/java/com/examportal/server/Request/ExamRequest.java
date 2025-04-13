@@ -17,5 +17,4 @@ public class ExamRequest {
     private String subject;
     private Timestamp startDate;
     private Timestamp endDate;
-
 }
