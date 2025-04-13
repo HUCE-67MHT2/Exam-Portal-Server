@@ -1,5 +1,6 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.ExamSessionEnrollment;
 import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 
@@ -17,4 +18,6 @@ public interface ExamSessionEnrollmentService {
     List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId);
 
     void joinExamSessionEnrollment(String examCode, Long userId);
+
+    List<ExamSession> getExamSessionByStudentId(Long studentId);
 }

@@ -1,6 +1,6 @@
 package com.examportal.server.Entity;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -58,7 +58,7 @@ public class Exam implements Serializable {
     private Timestamp endDate;
 
     @OneToMany(mappedBy = "exam", fetch = FetchType.LAZY)
-    @JsonBackReference
+    @JsonManagedReference
     private Set<ExamResult> examResults;
 
     // Constructor mặc định (bắt buộc cho JPA)

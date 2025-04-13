@@ -1,6 +1,7 @@
 package com.examportal.server.Repositories;
 
 
+import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.ExamSessionEnrollment;
 import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
 
@@ -16,6 +17,8 @@ public interface ExamSessionEnrollmentRepository {
     void delete(Long id);
 
     List<StudentInExamSessionEnrollmentRequest> getInfoStudentInExamSessionEnrollment(Long examSessionId);
+
+    List<ExamSession> getExamSessionByStudentId(Long studentId);
 
     void joinExamSessionEnrollment(Long examSessionId, Long userId);
 

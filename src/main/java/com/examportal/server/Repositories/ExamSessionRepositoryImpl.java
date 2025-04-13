@@ -3,6 +3,7 @@ package com.examportal.server.Repositories;
 import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Request.ExamSessionRequest;
 import jakarta.persistence.EntityManager;
+import jakarta.persistence.NoResultException;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
@@ -43,10 +44,14 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
 
     @Override
     public Long getIdByCode(String code) {
-        String hql = "SELECT e.id FROM ExamSession e WHERE e.code = :code";
-        return entityManager.createQuery(hql, Long.class)
-                .setParameter("code", code)
-                .getSingleResult();
+        try {
+            String hql = "SELECT e.id FROM ExamSession e WHERE e.code = :code";
+            return entityManager.createQuery(hql, Long.class)
+                    .setParameter("code", code)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // hoặc bạn có thể throw một custom exception nếu thích
+        }
     }
 
     @Override

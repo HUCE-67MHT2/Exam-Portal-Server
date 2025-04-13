@@ -84,7 +84,7 @@ public class AuthController {
             if (!roles.contains("student")) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
             }
-            String token = jwtTokenUtil.generateToken(username, roles);
+            String token = jwtTokenUtil.generateToken(user.getId(), username, roles);
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
             e.printStackTrace();
@@ -125,7 +125,7 @@ public class AuthController {
             if (!roles.contains("teacher")) {
                 return ResponseEntity.status(HttpStatus.FORBIDDEN).body(new ResponseDTO("Bạn không có quyền truy cập với tài khoản này!"));
             }
-            String token = jwtTokenUtil.generateToken(username, roles);
+            String token = jwtTokenUtil.generateToken(user.getId(), username, roles);
             return ResponseEntity.ok(new JwtResponse(token));
         } catch (Exception e) {
             e.printStackTrace();

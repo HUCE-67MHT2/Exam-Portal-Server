@@ -99,5 +99,11 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
         return count > 0;
     }
 
-
+    @Override
+    public List<ExamSession> getExamSessionByStudentId(Long studentId) {
+        String hql = "SELECT e.examSession FROM ExamSessionEnrollment e WHERE e.user.id = :studentId";
+        return entityManager.createQuery(hql, ExamSession.class)
+                .setParameter("studentId", studentId)
+                .getResultList();
+    }
 }

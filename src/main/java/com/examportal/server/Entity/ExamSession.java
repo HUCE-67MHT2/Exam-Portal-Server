@@ -1,6 +1,7 @@
 package com.examportal.server.Entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,6 +9,7 @@ import lombok.Setter;
 import java.io.Serial;
 import java.io.Serializable;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Setter
 @Getter
@@ -52,6 +54,11 @@ public class ExamSession implements Serializable {
 
     @Column(name = "status", length = 30)
     private String status;
+
+    @OneToMany
+    @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
+    @JsonManagedReference
+    private Set<ExamSessionEnrollment> examSessionEnrollments;  // Liên kết tới bảng exam_session_enrollments
 
     public ExamSession() {
     }

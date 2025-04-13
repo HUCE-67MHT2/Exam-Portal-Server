@@ -1,5 +1,6 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.ExamSessionEnrollment;
 import com.examportal.server.Repositories.ExamSessionEnrollmentRepository;
 import com.examportal.server.Request.StudentInExamSessionEnrollmentRequest;
@@ -47,11 +48,20 @@ public class ExamSessionEnrollmentServiceImpl implements ExamSessionEnrollmentSe
     public void joinExamSessionEnrollment(String examCode, Long userId) {
         Long examSessionId = examSessionService.getIdByCode(examCode);
 
+        if (examSessionId == null) {
+            throw new IllegalStateException("Không tìm thấy kỳ thi với mã này");
+        }
+
         boolean hasJoined = ExamSessionEnrollmentRepository.checkJoinExamSessionEnrollment(examSessionId, userId);
         if (hasJoined) {
             throw new IllegalStateException("Học sinh đã tham gia kỳ thi này rồi");
         }
 
         ExamSessionEnrollmentRepository.joinExamSessionEnrollment(examSessionId, userId);
+    }
+
+    @Override
+    public List<ExamSession> getExamSessionByStudentId(Long studentId) {
+        return ExamSessionEnrollmentRepository.getExamSessionByStudentId(studentId);
     }
 }

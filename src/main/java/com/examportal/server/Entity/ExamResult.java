@@ -1,5 +1,6 @@
 package com.examportal.server.Entity;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.Getter;
@@ -34,12 +35,12 @@ public class ExamResult implements Serializable {
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private User user;  // Liên kết tới bảng users
 
     @ManyToOne
     @JoinColumn(name = "exam_id", referencedColumnName = "id", nullable = false)
-    @JsonManagedReference
+    @JsonBackReference
     private Exam exam;  // Liên kết tới bảng exams
 
     // Constructor mặc định (bắt buộc cho JPA)

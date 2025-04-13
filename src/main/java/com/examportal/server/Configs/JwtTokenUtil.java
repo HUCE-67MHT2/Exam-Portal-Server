@@ -33,8 +33,9 @@ public class JwtTokenUtil {
         this.expiration = expiration;
     }
 
-    public String generateToken(String username, List<String> roles) {
+    public String generateToken(Long id, String username, List<String> roles) {
         Claims claims = Jwts.claims().setSubject(username);
+        claims.put("id", id);
         claims.put("roles", roles);
 
         return Jwts.builder()
@@ -44,6 +45,7 @@ public class JwtTokenUtil {
                 .compact();
     }
 
+
     public String getUsernameFromToken(String token) {
         return getClaimsFromToken(token).getSubject();
     }
@@ -51,6 +53,10 @@ public class JwtTokenUtil {
     public List<String> getRolesFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
         return claims.get("roles", List.class);
+    }
+
+    public Long getIdFromToken(String token) {
+        return getClaimsFromToken(token).get("id", Long.class);
     }
 
     public boolean validateToken(String token) {
@@ -83,7 +89,6 @@ public class JwtTokenUtil {
     public Authentication getAuthentication(String token) {
         String username = getUsernameFromToken(token);
         List<String> roles = getRolesFromToken(token);
-
         UserDetails userDetails = User.builder()
                 .username(username)
                 .password("") // Not needed for JWT
