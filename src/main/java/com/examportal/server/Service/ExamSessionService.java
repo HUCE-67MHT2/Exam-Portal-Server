@@ -22,5 +22,5 @@ public interface ExamSessionService {
 
     ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession);
 
-    public void updateExamSessionConfiguration(Long id, int examNumber, int questionPerExam);
+    void updateExamSessionConfiguration(Long id, int examNumber, int questionPerExam);
 }
