@@ -45,7 +45,7 @@ public class ApiExamSessionController {
         return code.toString();
     }
 
-    @GetMapping("/get/all/exam-session")
+    @GetMapping("/get/all/exam-session/by-teacherId")
     public ResponseEntity<?> getAllExamSession(HttpServletRequest request) {
         try {
 
@@ -123,7 +123,7 @@ public class ApiExamSessionController {
     }
 
     @PostMapping("/update/exam-session-info/{id}")
-    public ResponseEntity<?> updateExamSession(@PathVariable Long id, @RequestBody ExamSessionRequest newExamSessionRequest, HttpServletRequest request) {
+    public ResponseEntity<?> updateExamSession(@PathVariable Long id, @RequestBody ExamSessionRequest newExamSessionRequest) {
         ExamSession updatedExamSession = examSessionService.updateExamSessionById(id, newExamSessionRequest);
         if (updatedExamSession != null) {
             return ResponseEntity.ok(updatedExamSession);
