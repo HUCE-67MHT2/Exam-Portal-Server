@@ -103,4 +103,19 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
             return null;
         }
     }
+
+    @Override
+    public boolean checkPassword(String password, Long id) {
+        try {
+            ExamSession examSession = this.getExamSessionById(id);
+            if (examSession != null && examSession.getPassword().equals(password)) {
+                return true;
+            }
+        } catch (Exception e) {
+            // Có thể log lỗi nếu cần
+            e.printStackTrace();
+        }
+        return false; // <-- đảm bảo luôn có return
+    }
+
 }
