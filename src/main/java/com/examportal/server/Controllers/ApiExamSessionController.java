@@ -145,8 +145,12 @@ public class ApiExamSessionController {
     @PutMapping("/update/exam-session-configuration/{id}")
     public ResponseEntity<?> updateExamSessionConfiguration(@PathVariable Long id, @RequestParam int examNumber, @RequestParam int questionPerExam) {
         try {
-            examSessionService.updateExamSessionConfiguration(id, examNumber, questionPerExam);
-            return ResponseEntity.ok(new ResponseDTO("Cập nhật cấu hình kỳ thi thành công"));
+            ExamSession updatedExamSession = examSessionService.updateExamSessionConfiguration(id, examNumber, questionPerExam);
+            if (updatedExamSession != null) {
+                return ResponseEntity.ok(updatedExamSession);
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exam session not found.");
+            }
         } catch (Exception e) {
             return ResponseEntity.status(500).body(e.getMessage());
         }
