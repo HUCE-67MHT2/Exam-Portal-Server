@@ -62,6 +62,7 @@ public class ExamServiceImpl implements ExamService {
             throw new Exception("Upload file lên Google Drive thất bại");
         }
     }
+
     // Hàm cập nhập thông tin exam (không bao gồm file mới để tránh tải lên gg drive)
     @Override
     public Exam updateExamByFile(Exam newExamData, MultipartFile file) throws Exception {
@@ -109,8 +110,7 @@ public class ExamServiceImpl implements ExamService {
 
     @Override
     public Exam createExamManually(Exam exam) throws Exception {
-        // Gán type "manual" vào đối tượng exam
-        exam.setType("manual");
+        exam.setType("auto-generate");
         examRepository.save(exam);
         return exam;
     }

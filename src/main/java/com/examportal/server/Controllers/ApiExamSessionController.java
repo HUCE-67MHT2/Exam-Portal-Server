@@ -131,4 +131,24 @@ public class ApiExamSessionController {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exam session not found.");
         }
     }
+
+    @DeleteMapping("/delete/exam-session/{id}")
+    public ResponseEntity<?> deleteExamSession(@PathVariable Long id) {
+        try {
+            examSessionService.delete(id);
+            return ResponseEntity.ok(new ResponseDTO("Xóa kỳ thi thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
+    @PutMapping("/update/exam-session-configuration/{id}")
+    public ResponseEntity<?> updateExamSessionConfiguration(@PathVariable Long id, @RequestParam int examNumber, @RequestParam int questionPerExam) {
+        try {
+            examSessionService.updateExamSessionConfiguration(id, examNumber, questionPerExam);
+            return ResponseEntity.ok(new ResponseDTO("Cập nhật cấu hình kỳ thi thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
 }

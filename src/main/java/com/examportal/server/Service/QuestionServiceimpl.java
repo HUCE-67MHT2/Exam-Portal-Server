@@ -24,12 +24,24 @@ public class QuestionServiceimpl implements QuestionService {
     }
 
     @Override
-    public void delete(Long id) {
+    public boolean delete(Long id) {
         questionRepository.delete(id);
+        return true;
     }
 
     @Override
     public List<Question> getQuestionsByExamSessionId(Long id) {
         return questionRepository.getQuestionsByExamSessionId(id);
+    }
+
+    @Override
+    public Question update(Question question) {
+        questionRepository.update(question);
+        return question;
+    }
+
+    @Override
+    public Question getQuestionById(Long id) {
+        return questionRepository.getQuestionById(id);
     }
 }

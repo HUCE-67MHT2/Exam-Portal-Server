@@ -89,7 +89,18 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
             System.out.println("End date nhu lon");
             return null;
         }
+    }
 
-        // Trả về null nếu không tìm thấy kỳ thi
+    @Override
+    public ExamSession updateExamSessionConfig(Long id, int defaultExamNumber, int defaultQuestionPerExam) {
+        ExamSession existingExamSession = entityManager.find(ExamSession.class, id);
+        if (existingExamSession != null) {
+            existingExamSession.setExamNumber(defaultExamNumber);
+            existingExamSession.setQuestionPerExam(defaultQuestionPerExam);
+            entityManager.merge(existingExamSession); // Cập nhật vào DB
+            return existingExamSession;
+        } else {
+            return null;
+        }
     }
 }

@@ -28,7 +28,7 @@ public class ExamSession implements Serializable {
     @Column(name = "teacher_id", nullable = false)
     private Long teacherId;
 
-    @Column(name = "name", nullable = false, length = 255)
+    @Column(name = "name", nullable = false)
     private String name;
 
     @Column(name = "description", columnDefinition = "TEXT")
@@ -42,19 +42,23 @@ public class ExamSession implements Serializable {
     @Column(name = "end_date", nullable = false)
     private Timestamp endDate;
 
-
     @Column(name = "create_date", nullable = false, updatable = false)
     private Timestamp createDate;
 
-    @Column(name = "code", nullable = false, length = 255)
+    @Column(name = "code", nullable = false)
     private String code;
 
-    @Column(name = "password", nullable = false, length = 255)
+    @Column(name = "password", nullable = false)
     private String password;
 
     @Column(name = "status", length = 30)
     private String status;
 
+    @Column(name = "exam_number", length = 30, nullable = false)
+    private int examNumber = 0;
+
+    @Column(name = "question_per_exam", length = 30, nullable = false)
+    private int questionPerExam = 0;
     @OneToMany
     @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
     @JsonManagedReference
@@ -62,19 +66,5 @@ public class ExamSession implements Serializable {
 
     public ExamSession() {
     }
-
-    public ExamSession(Long id, Long teacherId, String name, String description, Timestamp startDate, Timestamp endDate, Timestamp createDate, String code, String password, String status) {
-        this.id = id;
-        this.teacherId = teacherId;
-        this.name = name;
-        this.description = description;
-        this.startDate = startDate;
-        this.endDate = endDate;
-        this.createDate = createDate;
-        this.code = code;
-        this.password = password;
-        this.status = status;
-    }
-
 }
 

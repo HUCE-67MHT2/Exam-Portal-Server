@@ -81,9 +81,17 @@ public class ApiExamController {
                     .body(new ResponseDTO("Failed to update exam: " + e.getMessage()));
         }
     }
+
     @PostMapping("/add/exam/manually")
     public ResponseEntity<?> addExamManually(@ModelAttribute ExamRequest examRequest) {
         try {
+            // Xóa tất cả các exam cũ của session này có type là "auto-generate"
+            List<Exam> oldExams = examService.getExamBySessionId(examRequest.getExamSessionId());
+            for (Exam oldExam : oldExams) {
+                if ("auto-generate".equals(oldExam.getType())) {
+                    examService.delete(oldExam.getId());
+                }
+            }
             Exam exam = new Exam();
             exam.setExamSessionId(examRequest.getExamSessionId());
             exam.setName(examRequest.getName());

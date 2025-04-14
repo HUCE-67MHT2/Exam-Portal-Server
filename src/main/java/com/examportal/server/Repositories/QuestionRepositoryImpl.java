@@ -47,4 +47,18 @@ public class QuestionRepositoryImpl implements QuestionRepository {
                 .setParameter("id", id)
                 .getResultList();
     }
+
+    @Override
+    public void update(Question question) {
+        try {
+            entityManager.merge(question);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public Question getQuestionById(Long id) {
+        return entityManager.find(Question.class, id);
+    }
 }

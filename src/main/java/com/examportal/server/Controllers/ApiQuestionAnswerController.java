@@ -156,7 +156,7 @@ public class ApiQuestionAnswerController {
                             .body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
                 }
             }
-            questionAnswerService.update(examId,updateAnswers);
+            questionAnswerService.update(examId, updateAnswers);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Upload question answers saved successfully");
             return ResponseEntity.ok(response);

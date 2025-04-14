@@ -38,6 +38,7 @@ public class ApiExamSessionEnrollmentController {
                     .body("Có lỗi xảy ra: " + e.getMessage());
         }
     }
+
     @PostMapping("/join/exam-session/{examCode}")
     public ResponseEntity<?> joinExamSessionEnrollment(@PathVariable String examCode) {
         try {

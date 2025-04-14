@@ -12,4 +12,8 @@ public interface QuestionRepository {
     void delete(Long id);
 
     List<Question> getQuestionsByExamSessionId(Long id);
+
+    void update(Question question);
+
+    Question getQuestionById(Long id);
 }

@@ -1,13 +1,19 @@
 package com.examportal.server.Entity;
 
 import jakarta.persistence.*;
+import lombok.Getter;
+import lombok.Setter;
 
+import java.io.Serial;
 import java.io.Serializable;
 
+@Setter
+@Getter
 @Entity
 @Table(name = "exam_questions")
 public class ExamQuestion implements Serializable {
 
+    @Serial
     private static final long serialVersionUID = 1L;
 
     @Id
@@ -29,53 +35,5 @@ public class ExamQuestion implements Serializable {
 
     // Constructor mặc định (bắt buộc cho JPA)
     public ExamQuestion() {
-    }
-
-    public ExamQuestion(Long id, Long examId, Long questionId, int ordering, float score) {
-        this.id = id;
-        this.examId = examId;
-        this.questionId = questionId;
-        this.ordering = ordering;
-        this.score = score;
-    }
-
-    public float getScore() {
-        return score;
-    }
-
-    public void setScore(float score) {
-        this.score = score;
-    }
-
-    public int getOrdering() {
-        return ordering;
-    }
-
-    public void setOrdering(int ordering) {
-        this.ordering = ordering;
-    }
-
-    public Long getQuestionId() {
-        return questionId;
-    }
-
-    public void setQuestionId(Long questionId) {
-        this.questionId = questionId;
-    }
-
-    public Long getExamId() {
-        return examId;
-    }
-
-    public void setExamId(Long examId) {
-        this.examId = examId;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
     }
 }

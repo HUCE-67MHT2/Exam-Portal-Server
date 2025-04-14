@@ -9,7 +9,11 @@ public interface QuestionService {
 
     void save(Question question);
 
-    void delete(Long id);
+    boolean delete(Long id);
+
+    Question update(Question question);
 
     List<Question> getQuestionsByExamSessionId(Long id);
+
+    Question getQuestionById(Long id);
 }

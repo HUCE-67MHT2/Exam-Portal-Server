@@ -21,4 +21,6 @@ public interface ExamSessionRepository {
     ExamSession getExamSessionInfo(Long id);
 
     ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession);
+
+    ExamSession updateExamSessionConfig(Long id, int defaultExamNumber, int defaultQuestionPerExam);
 }

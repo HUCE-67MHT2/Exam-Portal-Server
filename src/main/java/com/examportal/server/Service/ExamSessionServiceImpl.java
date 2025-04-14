@@ -12,45 +12,55 @@ import java.util.List;
 public class ExamSessionServiceImpl implements ExamSessionService {
 
     @Autowired
-    private ExamSessionRepository examPeriodRepository;
+    private ExamSessionRepository examSessionRepository;
 
     @Override
     public List<ExamSession> getList() {
-        return examPeriodRepository.getList();
+        return examSessionRepository.getList();
     }
 
     @Override
     public void save(ExamSession examSession) {
-        examPeriodRepository.save(examSession);
+        examSessionRepository.save(examSession);
     }
 
     @Override
     public void delete(Long id) {
-        examPeriodRepository.delete(id);
+        examSessionRepository.delete(id);
     }
 
     @Override
     public Long getIdByCode(String code) {
-        return examPeriodRepository.getIdByCode(code);
+        return examSessionRepository.getIdByCode(code);
     }
 
     @Override
     public ExamSession getExamSessionById(Long id) {
-        return examPeriodRepository.getExamSessionById(id);
+        return examSessionRepository.getExamSessionById(id);
     }
 
     @Override
     public List<ExamSession> getExamSessionByTeacherId(Long id) {
-        return examPeriodRepository.getExamSessionByTeacherId(id);
+        return examSessionRepository.getExamSessionByTeacherId(id);
     }
 
     @Override
     public ExamSession getExamSessionInfo(Long id) {
-        return examPeriodRepository.getExamSessionInfo(id);
+        return examSessionRepository.getExamSessionInfo(id);
     }
 
     @Override
     public ExamSession updateExamSessionById(Long id, ExamSessionRequest examSession) {
-        return examPeriodRepository.updateExamSessionById(id, examSession);
+        return examSessionRepository.updateExamSessionById(id, examSession);
+    }
+
+    @Override
+    public void updateExamSessionConfiguration(Long id, int examNumber, int questionPerExam) {
+        ExamSession examSession = examSessionRepository.getExamSessionById(id);
+        if (examSession != null) {
+            examSession.setExamNumber(examNumber);
+            examSession.setQuestionPerExam(questionPerExam);
+            examSessionRepository.save(examSession);
+        }
     }
 }

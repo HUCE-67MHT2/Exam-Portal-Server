@@ -5,11 +5,11 @@ import com.examportal.server.Entity.ExamQuestion;
 import java.util.List;
 
 public interface ExamQuestionRepository {
-    List<ExamQuestion> getList();
-
-    ExamQuestion getExamQuestionById(Long id);
+    ExamQuestion findById(Long id);
 
     void save(ExamQuestion examQuestion);
 
-    void delete(ExamQuestion examQuestion);
+    List<ExamQuestion> findByExamId(String examId);
+
+    void deleteByExamId(String examId);
 }

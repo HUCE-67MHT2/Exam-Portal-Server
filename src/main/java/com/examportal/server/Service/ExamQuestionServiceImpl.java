@@ -1,7 +1,12 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.ExamQuestion;
+import com.examportal.server.Entity.ExamSession;
+import com.examportal.server.Entity.Question;
 import com.examportal.server.Repositories.ExamQuestionRepository;
+import jakarta.persistence.EntityManager;
+import jakarta.persistence.PersistenceContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -13,23 +18,89 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
     @Autowired
     private ExamQuestionRepository examQuestionRepository;
 
+    @Autowired
+    private ExamSessionService examSessionService;
+
+    @PersistenceContext
+    private EntityManager entityManager;
+
+    @Override
+    public void generateExamQuestions(String examId, int questionsPerSet) {
+        // Lấy exam để truy ra examSessionId
+        Exam exam = entityManager.find(Exam.class, examId);
+        if (exam == null) {
+            throw new IllegalArgumentException("Exam not found");
+        }
+
+        String examSessionId = String.valueOf(exam.getExamSessionId());
+
+        examQuestionRepository.deleteByExamId(examId);
+
+        // Lấy câu hỏi theo examSessionId
+        List<Question> questions = entityManager.createQuery("SELECT q FROM Question q WHERE q.examSessionId = :examSessionId ORDER BY RAND() LIMIT :limit", Question.class)
+                .setParameter("examSessionId", examSessionId)
+                .setParameter("limit", questionsPerSet)
+                .getResultList();
+
+        for (int order = 0; order < questions.size(); order++) {
+            Question question = questions.get(order);
+            ExamQuestion examQuestion = new ExamQuestion();
+            examQuestion.setExamId(Long.valueOf(examId));
+            examQuestion.setQuestionId(question.getId());
+            examQuestion.setOrdering(order + 1);
+            examQuestionRepository.save(examQuestion);
+        }
+    }
+
     @Override
     public List<ExamQuestion> getList() {
-        return examQuestionRepository.getList();
+        return List.of();
     }
 
     @Override
     public ExamQuestion getExamQuestionById(Long id) {
-        return examQuestionRepository.getExamQuestionById(id);
+        return null;
     }
 
     @Override
     public void save(ExamQuestion examQuestion) {
-        examQuestionRepository.save(examQuestion);
+
     }
 
     @Override
     public void delete(ExamQuestion examQuestion) {
-        examQuestionRepository.delete(examQuestion);
+
+    }
+
+    @Override
+    public void regenerateExamQuestions(Long Id) {
+        try {
+            ExamSession examSession = examSessionService.getExamSessionById(Id);
+            if (examSession == null) {
+                throw new IllegalArgumentException("Exam session not found");
+            }
+            int questionsPerExam = examSession.getQuestionPerExam();
+
+            List<Exam> exams = entityManager.createQuery("SELECT e FROM Exam e WHERE e.examSessionId = :examSessionId AND e.type = 'auto-generate'", Exam.class)
+                    .setParameter("examSessionId", examSession.getId())
+                    .getResultList();
+
+            if (exams.isEmpty()) {
+                throw new IllegalStateException("No auto-generate exams found for session ID: " + Id);
+            }
+
+            for (Exam exam : exams) {
+                // Xóa các câu hỏi cũ
+                examQuestionRepository.deleteByExamId(String.valueOf(exam.getId()));
+                // Tạo mới các câu hỏi cho mỗi exam
+                generateExamQuestions(String.valueOf(exam.getId()), questionsPerExam);
+            }
+        } catch (Exception e) {
+            // Log the exception
+            System.err.println("Error regenerating exam questions: " + e.getMessage());
+            e.printStackTrace();
+            // Rethrow to notify caller
+            throw new RuntimeException("Failed to regenerate exam questions: " + e.getMessage(), e);
+        }
     }
 }

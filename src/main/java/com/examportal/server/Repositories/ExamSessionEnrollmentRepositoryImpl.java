@@ -71,6 +71,7 @@ public class ExamSessionEnrollmentRepositoryImpl implements ExamSessionEnrollmen
 
         return studentInfoList;
     }
+
     @Override
     public void joinExamSessionEnrollment(Long examSessionId, Long userId) {
         ExamSession examSession = entityManager.find(ExamSession.class, examSessionId);
