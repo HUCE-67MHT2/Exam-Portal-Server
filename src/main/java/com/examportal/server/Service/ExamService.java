@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.DTO.ExamStateResponseDTO;
 import com.examportal.server.Entity.Exam;
-import com.examportal.server.Entity.StudentAnswer;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -26,6 +26,6 @@ public interface ExamService {
 
     void newStudentTesting(Long examId, Long userId) throws Exception;
 
-    List<StudentAnswer> getStateExam(Long examId, Long userId) throws Exception;
+    ExamStateResponseDTO getStateExam(Long examId, Long userId) throws Exception;
 
 }

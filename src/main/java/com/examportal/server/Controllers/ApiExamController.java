@@ -1,9 +1,9 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
+import com.examportal.server.DTO.ExamStateResponseDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
-import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Request.ExamRequest;
 import com.examportal.server.Service.ExamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -156,45 +156,30 @@ public class ApiExamController {
         }
     }
 
-    @PostMapping("/start-test/{examId}")
-    public ResponseEntity<?> startTest(@PathVariable("examId") Long examId) {
-        try {
-            String token = jwtTokenUtil.resolveToken(request);
-            if (token == null || !jwtTokenUtil.validateToken(token)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ hoặc thiếu");
-            }
-            Long userId = jwtTokenUtil.getIdFromToken(token);
 
-            examService.newStudentTesting(examId, userId);
-
-            return ResponseEntity.ok(Collections.singletonMap("message", "Bắt đầu làm bài"));
-        } catch (Exception e) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonMap("message", "Có lỗi xảy ra: " + e.getMessage()));
-        }
-    }
     @PostMapping("/get/test/state/{examId}")
-    public ResponseEntity<?> getTestState(@PathVariable("examId") Long examId) {
+    public ResponseEntity<?> getTestState(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {
             String token = jwtTokenUtil.resolveToken(request);
             if (token == null || !jwtTokenUtil.validateToken(token)) {
-                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ hoặc thiếu");
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Collections.singletonMap("message", "Token không hợp lệ hoặc thiếu"));
             }
             Long userId = jwtTokenUtil.getIdFromToken(token);
+
 
             // Gọi service để kiểm tra trạng thái làm bài và tạo mới nếu cần
-            List<StudentAnswer> answers = examService.getStateExam(examId, userId);
+            ExamStateResponseDTO state = examService.getStateExam(examId, userId);
 
-            Map<String, Object> response = new HashMap<>();
-            response.put("message", "Lấy trạng thái thành công");
-            response.put("answers", answers);
-
-            return ResponseEntity.ok(response);
+            return ResponseEntity.ok(state);
 
         } catch (Exception e) {
+            String message = e.getMessage();
+            if (message != null && message.contains(":")) {
+                message = message.substring(message.lastIndexOf(":") + 1).trim(); // lấy phần sau dấu ":"
+            }
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(Collections.singletonMap("message", "Có lỗi xảy ra: " + e.getMessage()));
+                    .body(Collections.singletonMap("message", message));
         }
     }
-
 }
