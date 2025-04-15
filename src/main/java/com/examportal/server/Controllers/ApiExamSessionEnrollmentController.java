@@ -28,7 +28,7 @@ public class ApiExamSessionEnrollmentController {
     private HttpServletRequest request;
 
     @GetMapping("/get/list/student/in/sessionId/{examSessionId}")
-    public ResponseEntity<?> getListStudentsInSession(@PathVariable Long examSessionId) {
+    public ResponseEntity<?> getListStudentsInSession(@PathVariable("examSessionId") Long examSessionId) {
         try {
             List<StudentInExamSessionEnrollmentRequest> studentList = examSessionEnrollmentService.getInfoStudentInExamSessionEnrollment(examSessionId);
             return ResponseEntity.ok(studentList);
@@ -40,7 +40,7 @@ public class ApiExamSessionEnrollmentController {
     }
 
     @PostMapping("/join/exam-session/{examCode}")
-    public ResponseEntity<?> joinExamSessionEnrollment(@PathVariable String examCode) {
+    public ResponseEntity<?> joinExamSessionEnrollment(@PathVariable("examCode") String examCode) {
         try {
             String token = jwtTokenUtil.resolveToken(request);
             if (token == null || !jwtTokenUtil.validateToken(token)) {
