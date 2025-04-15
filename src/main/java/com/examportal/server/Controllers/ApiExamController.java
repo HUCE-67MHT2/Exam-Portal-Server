@@ -1,9 +1,12 @@
 package com.examportal.server.Controllers;
 
+import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Request.ExamRequest;
 import com.examportal.server.Service.ExamService;
+import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -20,6 +24,12 @@ import java.util.Map;
 public class ApiExamController {
     @Autowired
     private ExamService examService;
+
+    @Autowired
+    private JwtTokenUtil jwtTokenUtil;
+
+    @Autowired
+    private HttpServletRequest request;
 
     @PostMapping(value = "/add/exam/with/file", consumes = "multipart/form-data")
     public ResponseEntity<?> addExamWithFile(@ModelAttribute ExamRequest examRequest,
@@ -133,7 +143,7 @@ public class ApiExamController {
     }
 
     @GetMapping("/get/exam/{id}")
-    public ResponseEntity<?> getExamById(@PathVariable Long id) {
+    public ResponseEntity<?> getExamById(@PathVariable("id") Long id) {
         try {
             Exam exam = examService.getExamById(id);
             if (exam == null) {
@@ -145,4 +155,46 @@ public class ApiExamController {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("An error occurred: " + e.getMessage()));
         }
     }
+
+    @PostMapping("/start-test/{examId}")
+    public ResponseEntity<?> startTest(@PathVariable("examId") Long examId) {
+        try {
+            String token = jwtTokenUtil.resolveToken(request);
+            if (token == null || !jwtTokenUtil.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ hoặc thiếu");
+            }
+            Long userId = jwtTokenUtil.getIdFromToken(token);
+
+            examService.newStudentTesting(examId, userId);
+
+            return ResponseEntity.ok(Collections.singletonMap("message", "Bắt đầu làm bài"));
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", "Có lỗi xảy ra: " + e.getMessage()));
+        }
+    }
+    @PostMapping("/get/test/state/{examId}")
+    public ResponseEntity<?> getTestState(@PathVariable("examId") Long examId) {
+        try {
+            String token = jwtTokenUtil.resolveToken(request);
+            if (token == null || !jwtTokenUtil.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token không hợp lệ hoặc thiếu");
+            }
+            Long userId = jwtTokenUtil.getIdFromToken(token);
+
+            // Gọi service để kiểm tra trạng thái làm bài và tạo mới nếu cần
+            List<StudentAnswer> answers = examService.getStateExam(examId, userId);
+
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Lấy trạng thái thành công");
+            response.put("answers", answers);
+
+            return ResponseEntity.ok(response);
+
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(Collections.singletonMap("message", "Có lỗi xảy ra: " + e.getMessage()));
+        }
+    }
+
 }

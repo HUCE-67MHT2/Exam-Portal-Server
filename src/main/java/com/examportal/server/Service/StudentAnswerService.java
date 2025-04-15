@@ -1,5 +1,6 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.DTO.UploadStudentAnswerRequest;
 import com.examportal.server.Entity.StudentAnswer;
 
 import java.util.List;
@@ -12,4 +13,6 @@ public interface StudentAnswerService {
     void save(StudentAnswer student_answer);
 
     void delete(Long id);
+
+    void saveUploadStudentAnswers (UploadStudentAnswerRequest request , Long userId);
 }

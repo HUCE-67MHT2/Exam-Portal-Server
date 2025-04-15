@@ -2,7 +2,11 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Controllers.GoogleDriveController;
 import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Repositories.ExamRepository;
+import com.examportal.server.Repositories.ExamResultRepository;
+import com.examportal.server.Repositories.StudentAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
@@ -17,6 +21,12 @@ public class ExamServiceImpl implements ExamService {
 
     @Autowired
     private ExamRepository examRepository;
+
+    @Autowired
+    private ExamResultRepository examResultRepository;
+
+    @Autowired
+    private StudentAnswerRepository studentAnswerRepository;
 
     @Autowired
     private GoogleDriveController googleDriveController;
@@ -63,7 +73,6 @@ public class ExamServiceImpl implements ExamService {
         }
     }
 
-    // Hàm cập nhập thông tin exam (không bao gồm file mới để tránh tải lên gg drive)
     @Override
     public Exam updateExamByFile(Exam newExamData, MultipartFile file) throws Exception {
         try {
@@ -99,11 +108,6 @@ public class ExamServiceImpl implements ExamService {
             return existingExam;
 
         } catch (Exception e) {
-            // Ghi log lỗi ra console
-            System.err.println("❌ Lỗi khi cập nhật Exam:");
-            e.printStackTrace();
-
-            // Ném lại lỗi để controller xử lý response cho client
             throw new Exception("Có lỗi xảy ra khi cập nhật Exam: " + e.getMessage());
         }
     }
@@ -113,5 +117,32 @@ public class ExamServiceImpl implements ExamService {
         exam.setType("auto-generate");
         examRepository.save(exam);
         return exam;
+    }
+
+    @Override
+    public void newStudentTesting(Long examId, Long userId) throws Exception {
+        examResultRepository.newExamResult(examId, userId);
+    }
+
+    @Override
+    public List<StudentAnswer> getStateExam(Long examId, Long userId) throws Exception {
+        try{
+            ExamResult examResult = examResultRepository.getExamResultByExamIdAndUserId(examId, userId);
+
+            if (examResult == null) {
+                // Nếu chưa có kết quả thi thì khởi tạo mới
+                newStudentTesting(examId, userId);
+            } else if (examResult.is_submit()) {
+                throw new Exception("Bạn đã nộp bài.");
+            } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
+                throw new Exception("Thời gian làm bài đã kết thúc.");
+                // thêm hàm xử lý lưu kết quả bài thi
+            }
+
+            // Lấy danh sách câu trả lời đã lưu
+            return studentAnswerRepository.getUploadStudentAnswer(examId, userId);
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
     }
 }
