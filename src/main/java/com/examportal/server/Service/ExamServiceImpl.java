@@ -133,7 +133,8 @@ public class ExamServiceImpl implements ExamService {
 
             if (examResult == null) {
                 newStudentTesting(examId, userId);
-                return new ExamStateResponseDTO("Bắt đầu làm bài", new ArrayList<>());
+                String endTime = examResultRepository.getEndTimeExamResultByExamIdAndUserId(examId, userId);
+                return new ExamStateResponseDTO("Bắt đầu làm bài", endTime, new ArrayList<>());
             } else if (examResult.is_submit()) {
                 throw new Exception("Bạn đã nộp bài.");
             } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
@@ -147,7 +148,7 @@ public class ExamServiceImpl implements ExamService {
                 dtoList.add(new ExamStateResponseDTO.AnswerItem(sa.getQuestionNo(), sa.getAnswerText()));
             }
 
-            return new ExamStateResponseDTO("Tiếp tục làm bài", dtoList);
+            return new ExamStateResponseDTO("Tiếp tục làm bài", examResult.getEndTime().toString(), dtoList);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

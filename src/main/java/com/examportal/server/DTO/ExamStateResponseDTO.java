@@ -9,10 +9,12 @@ import java.util.List;
 @Setter
 public class ExamStateResponseDTO {
     private String message;
+    private String endTime;
     private List<AnswerItem> answers;
 
-    public ExamStateResponseDTO(String message, List<AnswerItem> answers) {
+    public ExamStateResponseDTO(String message,String endTime, List<AnswerItem> answers) {
         this.message = message;
+        this.endTime = endTime;
         this.answers = answers;
     }
 

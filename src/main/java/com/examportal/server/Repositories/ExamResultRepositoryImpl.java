@@ -38,7 +38,7 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
                 .setParameter("userId", userId)
                 .getResultList();
 
-        return results.isEmpty() ? null : results.get(0);
+        return results.isEmpty() ? null : results.getFirst();
     }
 
 
@@ -107,6 +107,17 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
 
         entityManager.persist(examResult);
 
+    }
+
+    @Override
+    public String getEndTimeExamResultByExamIdAndUserId(Long examId, Long userId) {
+        String hql = "SELECT er.endTime FROM ExamResult er WHERE er.exam.id = :examId AND er.user.id = :userId";
+        List<Timestamp> results = entityManager.createQuery(hql, Timestamp.class)
+                .setParameter("examId", examId)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        return results.isEmpty() ? "" : results.getFirst().toString();
     }
 
 }
