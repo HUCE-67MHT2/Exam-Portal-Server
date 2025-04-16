@@ -14,4 +14,6 @@ public interface QuestionAnswerRepository {
     void delete(Long id);
 
     void deleteByExamId(Long examId);
+
+    List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId);
 }

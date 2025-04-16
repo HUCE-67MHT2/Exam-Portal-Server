@@ -52,4 +52,12 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
                 .setParameter("examId", examId)
                 .executeUpdate();
     }
+
+    @Override
+    public List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId) {
+        String hql = "FROM QuestionAnswer WHERE question_id = :questionId ORDER BY RAND()";
+        return entityManager.createQuery(hql, QuestionAnswer.class)
+                .setParameter("questionId", questionId)
+                .getResultList();
+    }
 }

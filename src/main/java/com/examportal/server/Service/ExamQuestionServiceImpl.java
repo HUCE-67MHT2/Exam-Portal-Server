@@ -73,6 +73,17 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
     }
 
     @Override
+    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId) {
+        // Implementation to retrieve exam questions by exam ID in random order
+        List<ExamQuestion> examQuestions = examQuestionRepository.getExamQuestionsByExamIdRandOrder(examId);
+        if (examQuestions.isEmpty()) {
+            throw new IllegalArgumentException("No questions found for the given exam ID");
+        }
+        // Process the retrieved questions as needed
+        return examQuestions;
+    }
+
+    @Override
     public void regenerateExamQuestions(Long Id) {
         try {
             ExamSession examSession = examSessionService.getExamSessionById(Id);

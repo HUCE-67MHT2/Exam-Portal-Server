@@ -276,4 +276,17 @@ public class ApiQuestionAnswerController {
                     .body(new ResponseDTO("Failed to retrieve manual question answers: " + e.getMessage()));
         }
     }
+
+    @GetMapping("manual/random/by/quesionId/{questionId}")
+    public ResponseEntity<?> getAnswersByQuestionIdRand(@PathVariable Long questionId) {
+        try {
+            List<QuestionAnswer> answers = questionAnswerService.getAnswersByQuestionIdRand(questionId);
+            return ResponseEntity.ok(answers);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("Failed to retrieve answers: " + e.getMessage()));
+        }
+    }
+
 }

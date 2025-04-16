@@ -48,4 +48,9 @@ public class QuestionAnswerServiceImpl implements QuestionAnswerService {
             answerRepository.save(answer);
         }
     }
+
+    @Override
+    public List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId) {
+        return answerRepository.getAnswersByQuestionIdRand(questionId);
+    }
 }
