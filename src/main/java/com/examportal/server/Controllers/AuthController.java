@@ -2,6 +2,7 @@ package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ChangeInfo;
+import com.examportal.server.DTO.ChangeInfoUser;
 import com.examportal.server.DTO.ChangePasswordDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Role;
@@ -323,4 +324,81 @@ public class AuthController {
             throw e;
         }
     }
+
+    @GetMapping("/get/info/user")
+    public ResponseEntity<?> getInfoUser(HttpServletRequest request) {
+        try {
+            String jwt = request.getHeader("Authorization");
+            if (jwt == null || !jwt.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+
+            jwt = jwt.substring(7);
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            java.util.Date expiration = claims.getExpiration();
+            if (expiration.before(new java.util.Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired");
+            }
+
+            String username = claims.getSubject();
+            if (username == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+            // Kiểm tra User
+            User user = userService.getUserByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            }
+            user.setPassword("");
+            Map<String, Object> responseBody = new HashMap<>();
+            responseBody.put("user", user);
+            return ResponseEntity.status(200).body(responseBody);
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+    @PostMapping("/update/info/user")
+    public ResponseEntity<?> updateInfor(HttpServletRequest request, @RequestBody ChangeInfoUser changeInfo) {
+        try {
+
+            String jwt = request.getHeader("Authorization");
+            if (jwt == null || !jwt.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+
+            jwt = jwt.substring(7);
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            java.util.Date expiration = claims.getExpiration();
+            if (expiration.before(new java.util.Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired");
+            }
+
+            String username = claims.getSubject();
+            if (username == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+            // Kiểm tra User
+            User user = userService.getUserByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            }
+            user.setFullName(changeInfo.getFullname());
+            user.setClassName(changeInfo.getClassName());
+            user.setAddress(changeInfo.getAddress());
+            user.setBirthday(changeInfo.getBirthday());
+            user.setSchool(changeInfo.getSchool());
+            userService.AddOrUpdate(user);
+
+            return ResponseEntity.ok("ok");
+
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw e;
+        }
+    }
+
+
 }
