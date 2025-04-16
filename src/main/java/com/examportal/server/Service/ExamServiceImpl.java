@@ -2,11 +2,13 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Controllers.GoogleDriveController;
 import com.examportal.server.DTO.ExamStateResponseDTO;
+import com.examportal.server.DTO.UploadAnswerDTO;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Repositories.ExamRepository;
 import com.examportal.server.Repositories.ExamResultRepository;
+import com.examportal.server.Repositories.QuestionAnswerRepository;
 import com.examportal.server.Repositories.StudentAnswerRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -16,6 +18,8 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional
@@ -32,6 +36,9 @@ public class ExamServiceImpl implements ExamService {
 
     @Autowired
     private GoogleDriveController googleDriveController;
+
+    @Autowired
+    private QuestionAnswerRepository questionAnswerRepository;
 
     @Override
     public List<Exam> getList() {
@@ -135,13 +142,15 @@ public class ExamServiceImpl implements ExamService {
                 newStudentTesting(examId, userId);
                 String endTime = examResultRepository.getEndTimeExamResultByExamIdAndUserId(examId, userId);
                 return new ExamStateResponseDTO("Bắt đầu làm bài", endTime, new ArrayList<>());
-            } else if (examResult.is_submit()) {
+            } else if (examResult.isSubmit()) {
                 throw new Exception("Bạn đã nộp bài.");
             } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
                 throw new Exception("Thời gian làm bài đã kết thúc.");
+                // viết thêm hàm sub mit ở đây luôn
             }
 
-            List<StudentAnswer> studentAnswers = studentAnswerRepository.getUploadStudentAnswer(examId, userId);
+
+            List<StudentAnswer> studentAnswers = studentAnswerRepository.getStudentAnswers(examId, userId);
 
             List<ExamStateResponseDTO.AnswerItem> dtoList = new ArrayList<>();
             for (StudentAnswer sa : studentAnswers) {
@@ -153,5 +162,42 @@ public class ExamServiceImpl implements ExamService {
             throw new RuntimeException(e);
         }
     }
+    @Override
+    public void submitUploadExam(Long examId, Long userId) {
+        try {
+            List<UploadAnswerDTO> examUploadAnswer = questionAnswerRepository.getUploadExamAnswer(examId);
+            List<StudentAnswer> studentAnswers = studentAnswerRepository.getStudentAnswers(examId, userId);
 
+            int numberCorrect = 0;
+
+            // Map để tìm đáp án đúng theo questionNo
+            Map<Integer, String> correctAnswerMap = examUploadAnswer.stream()
+                    .collect(Collectors.toMap(UploadAnswerDTO::getQuestionNo, UploadAnswerDTO::getAnswerText));
+
+            for (StudentAnswer studentAnswer : studentAnswers) {
+                String correctAnswer = correctAnswerMap.get(studentAnswer.getQuestionNo());
+
+                if (correctAnswer != null && correctAnswer.trim().equalsIgnoreCase(studentAnswer.getAnswerText().trim())) {
+                    studentAnswer.setCorrect(true);
+                    numberCorrect++;
+                } else {
+                    studentAnswer.setCorrect(false);
+                }
+            }
+
+            int totalQuestion = examUploadAnswer.size(); // tổng số câu hỏi
+            float totalScore = totalQuestion > 0 ? (float) numberCorrect / totalQuestion : 0.0f;
+
+            // Lưu kết quả bài thi
+            examResultRepository.submitUploadExam(examId, userId, totalScore);
+
+            // Lưu danh sách câu trả lời sau khi update đúng/sai
+            studentAnswerRepository.saveAll(studentAnswers); // saveAll để lưu nhiều bản ghi
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+
+
+    }
 }

@@ -36,7 +36,7 @@ public class ExamResult implements Serializable {
     private Timestamp endTime;
 
     @Column(name = "is_submit", columnDefinition = "TINYINT(1)")
-    private boolean is_submit;
+    private boolean isSubmit;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)

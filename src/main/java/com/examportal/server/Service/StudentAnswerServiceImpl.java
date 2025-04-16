@@ -52,7 +52,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
         }
 
         // 2. Kiểm tra đã nộp bài chưa
-        if (examResult.is_submit()) {
+        if (examResult.isSubmit()) {
             throw new RuntimeException("You have already submitted the exam.");
         }
 

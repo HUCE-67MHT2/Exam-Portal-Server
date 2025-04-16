@@ -28,4 +28,6 @@ public interface ExamService {
 
     ExamStateResponseDTO getStateExam(Long examId, Long userId) throws Exception;
 
+    void submitUploadExam(Long examId, Long userId);
+
 }

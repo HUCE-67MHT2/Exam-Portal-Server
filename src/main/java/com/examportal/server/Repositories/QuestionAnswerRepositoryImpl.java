@@ -1,5 +1,6 @@
 package com.examportal.server.Repositories;
 
+import com.examportal.server.DTO.UploadAnswerDTO;
 import com.examportal.server.Entity.QuestionAnswer;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -26,6 +27,7 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
     public QuestionAnswer getAnswerById(Long id) {
         return entityManager.find(QuestionAnswer.class, id);
     }
+
 
     @Override
     public void save(QuestionAnswer answer) {
@@ -59,5 +61,19 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
         return entityManager.createQuery(hql, QuestionAnswer.class)
                 .setParameter("questionId", questionId)
                 .getResultList();
+    }
+
+    @Override
+    public List<UploadAnswerDTO> getUploadExamAnswer(Long examId) {
+        try {
+            return entityManager.createQuery(
+                            "SELECT new com.examportal.server.DTO.UploadAnswerDTO(q.questionNo, q.answerText) " +
+                                    "FROM QuestionAnswer q " +
+                                    "WHERE q.exam_id = :examId AND q.isCorrect = true", UploadAnswerDTO.class)
+                    .setParameter("examId", examId)
+                    .getResultList();
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi truy vấn câu trả lời đúng của bài thi: " + e.getMessage(), e);
+        }
     }
 }
