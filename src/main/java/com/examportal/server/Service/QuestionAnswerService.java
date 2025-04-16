@@ -15,5 +15,7 @@ public interface QuestionAnswerService {
 
     void delete(Long id);
 
+    List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId);
+
     void update(Long id, List<QuestionAnswer> answers);
 }

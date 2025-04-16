@@ -1,5 +1,6 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.DTO.ExamStateResponseDTO;
 import com.examportal.server.Entity.Exam;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -22,4 +23,11 @@ public interface ExamService {
     Exam createExamManually(Exam exam) throws Exception;
 
     Exam updateExamByFile(Exam exam, MultipartFile file) throws Exception;
+
+    void newStudentTesting(Long examId, Long userId) throws Exception;
+
+    ExamStateResponseDTO getStateExam(Long examId, Long userId) throws Exception;
+
+    void submitUploadExam(Long examId, Long userId);
+
 }

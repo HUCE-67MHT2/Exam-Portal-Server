@@ -12,4 +12,10 @@ public interface StudentAnswerRepository {
     void save(StudentAnswer student_answer);
 
     void delete(Long id);
+
+    StudentAnswer findExitingUploadAnswer(Long studentId, Long examId, int questionNo);
+
+    List<StudentAnswer> getStudentAnswers(Long examId, Long studentId);
+
+    void saveAll(List<StudentAnswer> studentAnswers);
 }

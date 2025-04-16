@@ -1,12 +1,15 @@
 package com.examportal.server.Repositories;
 
+import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.Entity.User;
 import com.examportal.server.Request.StudentResultInExamSession;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @Repository
@@ -28,6 +31,18 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     }
 
     @Override
+    public ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId) {
+        String hql = "FROM ExamResult er WHERE er.exam.id = :examId AND er.user.id = :userId";
+        List<ExamResult> results = entityManager.createQuery(hql, ExamResult.class)
+                .setParameter("examId", examId)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        return results.isEmpty() ? null : results.getFirst();
+    }
+
+
+    @Override
     public void save(ExamResult examResult) {
         try {
             if (examResult.getId() == null) {
@@ -39,6 +54,7 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
             throw new RuntimeException(e);
         }
     }
+
 
     @Override
     public void delete(Long id) {
@@ -58,4 +74,69 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
                 .setParameter("examSessionId", examSessionId)
                 .getResultList();
     }
+
+    @Override
+    @Transactional
+    public void newExamResult(Long examId, Long userId) {
+        String jpql = "SELECT er FROM ExamResult er WHERE er.exam.id = :examId AND er.user.id = :userId";
+        List<ExamResult> results = entityManager.createQuery(jpql, ExamResult.class)
+                .setParameter("examId", examId)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        if (!results.isEmpty()) {
+            return;
+        }
+
+        // Lấy thông tin exam và user từ database
+        Exam exam = entityManager.find(Exam.class, examId);
+        User user = entityManager.find(User.class, userId);
+
+        if (exam == null || user == null) {
+            throw new IllegalArgumentException("Exam hoặc User không tồn tại.");
+        }
+
+        Timestamp startTime = new Timestamp(System.currentTimeMillis());
+        long endTimeMillis = startTime.getTime() + (exam.getDuration() * 60 * 1000L); // duration là phút
+        Timestamp endTime = new Timestamp(endTimeMillis);
+
+        ExamResult examResult = new ExamResult();
+        examResult.setExam(exam);
+        examResult.setUser(user);
+        examResult.setStartTime(startTime);
+        examResult.setEndTime(endTime);
+
+        entityManager.persist(examResult);
+
+    }
+
+    @Override
+    public String getEndTimeExamResultByExamIdAndUserId(Long examId, Long userId) {
+        String hql = "SELECT er.endTime FROM ExamResult er WHERE er.exam.id = :examId AND er.user.id = :userId";
+        List<Timestamp> results = entityManager.createQuery(hql, Timestamp.class)
+                .setParameter("examId", examId)
+                .setParameter("userId", userId)
+                .getResultList();
+
+        return results.isEmpty() ? "" : results.getFirst().toString();
+    }
+
+    @Override
+    public void submitUploadExam(Long examId, Long userId, float score) {
+        try {
+            ExamResult result = getExamResultByExamIdAndUserId(examId, userId);
+            if (result != null) {
+                result.setSubmitTime(new Timestamp(System.currentTimeMillis()));
+                result.setSubmit(true);
+                result.setTotalScore(score);
+                save(result);
+            } else {
+                throw new RuntimeException("Không tìm thấy bài thi của sinh viên.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi cập nhật kết quả bài thi: " + e.getMessage(), e);
+        }
+    }
+
+
 }

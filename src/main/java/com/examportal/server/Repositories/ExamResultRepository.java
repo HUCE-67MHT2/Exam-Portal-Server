@@ -15,4 +15,13 @@ public interface ExamResultRepository {
     void delete(Long id);
 
     List<StudentResultInExamSession> getListStudentResultInExamSession(Long examSessionId);
+
+    void newExamResult(Long examId, Long userId);
+
+    ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId); // Thêm phương thức này để lấy ExamResult theo examId và userId
+
+    String getEndTimeExamResultByExamIdAndUserId(Long examId, Long userId);
+
+    void submitUploadExam(Long examId, Long userId , float score);
+
 }

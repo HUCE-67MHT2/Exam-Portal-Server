@@ -23,14 +23,20 @@ public class ExamResult implements Serializable {
     @Column(name = "id", nullable = false)
     private Long id;
 
-    @Column(name = "total_score", nullable = false)
+    @Column(name = "total_score")
     private float totalScore;
 
-    @Column(name = "start_time", nullable = false)
+    @Column(name = "start_time")
     private Timestamp startTime;
 
-    @Column(name = "submit_time", nullable = false)
+    @Column(name = "submit_time")
     private Timestamp submitTime;
+
+    @Column(name = "end_time")
+    private Timestamp endTime;
+
+    @Column(name = "is_submit", columnDefinition = "TINYINT(1)")
+    private boolean isSubmit;
 
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
