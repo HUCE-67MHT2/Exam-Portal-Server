@@ -240,19 +240,19 @@ public class ApiQuestionAnswerController {
                     questionAnswer.setQuestion_id(questionId);
                     questionAnswer.setOrdering(ord);
                     questionAnswer.setAnswerText(ansText.trim());
-                    questionAnswer.setSource("manual");
+                    questionAnswer.setSource("auto-generate");
                     questionAnswer.setCorrect(ord.equals(orderings.getFirst())); // bản ghi có ordering nhỏ nhất là đáp án đúng
                     answersToSave.add(questionAnswer);
                 }
             }
             questionAnswerService.saveAll(answersToSave);
             Map<String, Object> response = new HashMap<>();
-            response.put("message", "Manual question answers saved successfully");
+            response.put("message", "Auto-generated question answers saved successfully");
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to save manual question answers: " + e.getMessage()));
+                    .body(new ResponseDTO("Failed to save auto-generated question answers: " + e.getMessage()));
         }
     }
 
@@ -265,7 +265,7 @@ public class ApiQuestionAnswerController {
         try {
             List<QuestionAnswer> allAnswers = questionAnswerService.getList();
             List<QuestionAnswer> filtered = allAnswers.stream()
-                    .filter(qa -> "manual".equalsIgnoreCase(qa.getSource()) &&
+                    .filter(qa -> "auto-generate".equalsIgnoreCase(qa.getSource()) &&
                             qa.getQuestion_id() != null &&
                             qa.getQuestion_id().equals(questionId))
                     .collect(Collectors.toList());

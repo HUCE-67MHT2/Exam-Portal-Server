@@ -54,6 +54,14 @@ public class ApiExamController {
             response.put("message", "Exam created successfully");
             response.put("examId", savedExam.getId());
 
+            /**
+             * Dạng respone mà client sẽ nhận được:
+             * {
+             *     "message": "Exam created successfully",
+             *     "examId": 123
+             * }
+             */
+
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -84,6 +92,14 @@ public class ApiExamController {
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam updated successfully");
             response.put("examId", updatedExam.getId());
+
+            /**
+             * Dạng respone mà client sẽ nhận được:
+             * {
+             *     "message": "Exam updated successfully",
+             *     "examId": 123
+             * }
+             */
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
@@ -116,7 +132,14 @@ public class ApiExamController {
             Exam savedExam = examService.createExamManually(exam);
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Exam created successfully");
-            response.put("exam", savedExam);
+            response.put("examId", savedExam.getId());
+            /**
+             * Dạng respone mà client sẽ nhận được:
+             * {
+             *     "message": "Exam created successfully",
+             *     "examId": 123
+             * }
+             */
 
             return ResponseEntity.ok(response);
         } catch (Exception e) {
