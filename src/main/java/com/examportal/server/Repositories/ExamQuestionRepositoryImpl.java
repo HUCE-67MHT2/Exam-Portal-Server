@@ -17,11 +17,6 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     private EntityManager entityManager;
 
     @Override
-    public ExamQuestion findById(Long id) {
-        return entityManager.find(ExamQuestion.class, id);
-    }
-
-    @Override
     public void save(ExamQuestion examQuestion) {
         if (examQuestion.getId() == null) {
             entityManager.persist(examQuestion);
@@ -31,8 +26,8 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     }
 
     @Override
-    public List<ExamQuestion> findByExamId(String examId) {
-        String hql = "FROM ExamQuestion eq WHERE eq.examId = :examId";
+    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId) {
+        String hql = "FROM ExamQuestion eq WHERE eq.examId = :examId ORDER BY RAND()";
         TypedQuery<ExamQuestion> query = entityManager.createQuery(hql, ExamQuestion.class);
         query.setParameter("examId", Long.valueOf(examId));
         return query.getResultList();

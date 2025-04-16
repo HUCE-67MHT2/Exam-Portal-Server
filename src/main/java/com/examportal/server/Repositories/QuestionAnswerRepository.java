@@ -16,5 +16,7 @@ public interface QuestionAnswerRepository {
 
     void deleteByExamId(Long examId);
 
+    List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId);
+
     List<UploadAnswerDTO> getUploadExamAnswer(Long examId);
 }

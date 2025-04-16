@@ -15,5 +15,7 @@ public interface ExamQuestionService {
 
     void delete(ExamQuestion examQuestion);
 
+    List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId);
+
     void regenerateExamQuestions(Long Id);
 }

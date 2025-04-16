@@ -56,6 +56,14 @@ public class QuestionAnswerRepositoryImpl implements QuestionAnswerRepository {
     }
 
     @Override
+    public List<QuestionAnswer> getAnswersByQuestionIdRand(Long questionId) {
+        String hql = "FROM QuestionAnswer WHERE question_id = :questionId ORDER BY RAND()";
+        return entityManager.createQuery(hql, QuestionAnswer.class)
+                .setParameter("questionId", questionId)
+                .getResultList();
+    }
+
+    @Override
     public List<UploadAnswerDTO> getUploadExamAnswer(Long examId) {
         try {
             return entityManager.createQuery(

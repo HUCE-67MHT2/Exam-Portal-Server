@@ -4,10 +4,10 @@ package com.examportal.server.Controllers;
 import com.examportal.server.Service.ExamQuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
+import java.util.Map;
 
 @RestController
 @RequestMapping("/api/exam/question")
@@ -22,4 +22,13 @@ public class ApiExamQuestionController {
         examQuestionService.generateExamQuestions(examId, questionsPerExam);
         return ResponseEntity.ok("Generated  questions for id " + examId + " successfully");
     }
+
+    @GetMapping("get/question/by/examId/{examId}")
+    public ResponseEntity<?> getExamQuestionsByExamIdRandOrder(@PathVariable String examId) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("examId", examId);
+        response.put("questions", examQuestionService.getExamQuestionsByExamIdRandOrder(examId));
+        return ResponseEntity.ok(response);
+    }
+
 }
