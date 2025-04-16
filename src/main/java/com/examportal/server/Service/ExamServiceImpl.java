@@ -146,7 +146,9 @@ public class ExamServiceImpl implements ExamService {
                 throw new Exception("Bạn đã nộp bài.");
             } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
                 throw new Exception("Thời gian làm bài đã kết thúc.");
+                // viết thêm hàm sub mit ở đây luôn
             }
+
 
             List<StudentAnswer> studentAnswers = studentAnswerRepository.getStudentAnswers(examId, userId);
 
