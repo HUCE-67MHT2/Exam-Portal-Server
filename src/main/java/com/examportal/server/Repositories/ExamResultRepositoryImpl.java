@@ -55,6 +55,7 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
         }
     }
 
+
     @Override
     public void delete(Long id) {
         entityManager.remove(entityManager.find(ExamResult.class, id));
@@ -119,5 +120,23 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
 
         return results.isEmpty() ? "" : results.getFirst().toString();
     }
+
+    @Override
+    public void submitUploadExam(Long examId, Long userId, float score) {
+        try {
+            ExamResult result = getExamResultByExamIdAndUserId(examId, userId);
+            if (result != null) {
+                result.setSubmitTime(new Timestamp(System.currentTimeMillis()));
+                result.setSubmit(true);
+                result.setTotalScore(score);
+                save(result);
+            } else {
+                throw new RuntimeException("Không tìm thấy bài thi của sinh viên.");
+            }
+        } catch (Exception e) {
+            throw new RuntimeException("Lỗi khi cập nhật kết quả bài thi: " + e.getMessage(), e);
+        }
+    }
+
 
 }

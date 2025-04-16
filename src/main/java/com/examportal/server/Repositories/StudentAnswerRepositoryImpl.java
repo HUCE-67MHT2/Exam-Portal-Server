@@ -39,7 +39,7 @@ public class StudentAnswerRepositoryImpl implements StudentAnswerRepository {
     }
 
     @Override
-    public List<StudentAnswer> getUploadStudentAnswer(Long examId, Long studentId) {
+    public List<StudentAnswer> getStudentAnswers(Long examId, Long studentId) {
         try{
             return entityManager.createQuery(
                             "SELECT a FROM StudentAnswer a WHERE a.examId = :examId AND a.studentId = :studentId",
@@ -64,6 +64,17 @@ public class StudentAnswerRepositoryImpl implements StudentAnswerRepository {
                 entityManager.persist(student_answer);
             } else {
                 entityManager.merge(student_answer);
+            }
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Override
+    public void saveAll(List<StudentAnswer> student_answers) {
+        try {
+            for (StudentAnswer student_answer : student_answers) {
+                save(student_answer);
             }
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -182,4 +182,23 @@ public class ApiExamController {
                     .body(Collections.singletonMap("message", message));
         }
     }
+
+    @PostMapping("upload/submit/{examId}")
+    public ResponseEntity<?> uploadSubmit(@PathVariable("examId") Long examId, HttpServletRequest request) {
+        try {
+            String token = jwtTokenUtil.resolveToken(request);
+            if (token == null || !jwtTokenUtil.validateToken(token)) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                        .body(Collections.singletonMap("message", "Token không hợp lệ hoặc thiếu"));
+            }
+            Long userId = jwtTokenUtil.getIdFromToken(token);
+
+            examService.submitUploadExam(examId, userId);
+
+            return ResponseEntity.ok(Collections.singletonMap("message", "Exam submitted successfully"));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
 }
