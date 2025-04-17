@@ -122,19 +122,19 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Exam createExamManually(Exam exam)  {
+    public Exam createExamManually(Exam exam) {
         exam.setType("auto-generate");
         examRepository.save(exam);
         return exam;
     }
 
     @Override
-    public void newStudentTesting(Long examId, Long userId)  {
+    public void newStudentTesting(Long examId, Long userId) {
         examResultRepository.newExamResult(examId, userId);
     }
 
     @Override
-    public ExamStateResponseDTO getStateExam(Long examId, Long userId)  {
+    public ExamStateResponseDTO getStateExam(Long examId, Long userId) {
         try {
             ExamResult examResult = examResultRepository.getExamResultByExamIdAndUserId(examId, userId);
 
@@ -162,6 +162,7 @@ public class ExamServiceImpl implements ExamService {
             throw new RuntimeException(e);
         }
     }
+
     @Override
     public void submitUploadExam(Long examId, Long userId) {
         try {

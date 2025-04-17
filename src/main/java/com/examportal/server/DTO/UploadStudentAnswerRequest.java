@@ -9,6 +9,8 @@ import java.util.Map;
 @Setter
 public class UploadStudentAnswerRequest {
     private Long examId;
-    private Map<Integer, String> answers;{
+    private Map<Integer, String> answers;
+
+    {
     }
 }

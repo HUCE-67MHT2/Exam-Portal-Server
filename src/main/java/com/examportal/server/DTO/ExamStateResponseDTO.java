@@ -12,7 +12,7 @@ public class ExamStateResponseDTO {
     private String endTime;
     private List<AnswerItem> answers;
 
-    public ExamStateResponseDTO(String message,String endTime, List<AnswerItem> answers) {
+    public ExamStateResponseDTO(String message, String endTime, List<AnswerItem> answers) {
         this.message = message;
         this.endTime = endTime;
         this.answers = answers;

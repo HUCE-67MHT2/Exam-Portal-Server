@@ -515,8 +515,8 @@
         <a class="navbar-brand" href="/">
             <i class="fas fa-book-open me-2"></i>Cổng Thi Trực Tuyến
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -550,9 +550,9 @@
         <div class="filter-section">
             <div class="row align-items-end">
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <label for="subjectFilter" class="form-label">Môn học</label>
+                    <label class="form-label" for="subjectFilter">Môn học</label>
                     <select class="form-select" id="subjectFilter">
-                        <option value="" selected>Tất cả môn học</option>
+                        <option selected value="">Tất cả môn học</option>
                         <option value="1">Toán học</option>
                         <option value="2">Vật lý</option>
                         <option value="3">Hoá học</option>
@@ -561,13 +561,13 @@
                     </select>
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <label for="dateFilter" class="form-label">Từ ngày</label>
-                    <input type="date" class="form-control" id="dateFilter">
+                    <label class="form-label" for="dateFilter">Từ ngày</label>
+                    <input class="form-control" id="dateFilter" type="date">
                 </div>
                 <div class="col-lg-3 col-md-6 mb-3">
-                    <label for="statusFilter" class="form-label">Trạng thái</label>
+                    <label class="form-label" for="statusFilter">Trạng thái</label>
                     <select class="form-select" id="statusFilter">
-                        <option value="" selected>Tất cả trạng thái</option>
+                        <option selected value="">Tất cả trạng thái</option>
                         <option value="upcoming">Sắp diễn ra</option>
                         <option value="ongoing">Đang diễn ra</option>
                         <option value="completed">Đã kết thúc</option>
@@ -635,7 +635,7 @@
                             <i class="fas fa-question-circle"></i> 30 câu hỏi
                         </div>
                     </div>
-                    <button class="btn btn-enroll" data-bs-toggle="modal" data-bs-target="#enrollModal"
+                    <button class="btn btn-enroll" data-bs-target="#enrollModal" data-bs-toggle="modal"
                             data-session-id="1">
                         <i class="fas fa-user-plus"></i> Đăng Ký Tham Gia
                     </button>
@@ -748,7 +748,7 @@
                             <i class="fas fa-question-circle"></i> 50 câu hỏi
                         </div>
                     </div>
-                    <button class="btn btn-enroll" data-bs-toggle="modal" data-bs-target="#startExamModal"
+                    <button class="btn btn-enroll" data-bs-target="#startExamModal" data-bs-toggle="modal"
                             data-session-id="3">
                         <i class="fas fa-play-circle"></i> Bắt Đầu Làm Bài
                     </button>
@@ -772,14 +772,14 @@
 </div>
 
 <!-- Modal Đăng ký tham gia -->
-<div class="modal fade" id="enrollModal" tabindex="-1" aria-labelledby="enrollModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="enrollModalLabel" class="modal fade" id="enrollModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="enrollModalLabel">
                     <i class="fas fa-user-plus me-2"></i>Xác nhận đăng ký
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <div class="confirmation-message">
@@ -790,29 +790,29 @@
                 </div>
                 <form id="enrollForm">
                     <div class="mb-3">
-                        <label for="fullName" class="form-label">Họ và tên</label>
-                        <input type="text" class="form-control" id="fullName" value="Nguyễn Văn A" readonly>
+                        <label class="form-label" for="fullName">Họ và tên</label>
+                        <input class="form-control" id="fullName" readonly type="text" value="Nguyễn Văn A">
                     </div>
                     <div class="mb-3">
-                        <label for="email" class="form-label">Email</label>
-                        <input type="email" class="form-control" id="email" value="nguyenvana@gmail.com" readonly>
+                        <label class="form-label" for="email">Email</label>
+                        <input class="form-control" id="email" readonly type="email" value="nguyenvana@gmail.com">
                     </div>
                     <div class="mb-3">
-                        <label for="phone" class="form-label">Số điện thoại</label>
-                        <input type="tel" class="form-control" id="phone" placeholder="Nhập số điện thoại">
+                        <label class="form-label" for="phone">Số điện thoại</label>
+                        <input class="form-control" id="phone" placeholder="Nhập số điện thoại" type="tel">
                     </div>
                     <div class="form-check mb-3">
-                        <input class="form-check-input" type="checkbox" id="agreeTerms">
+                        <input class="form-check-input" id="agreeTerms" type="checkbox">
                         <label class="form-check-label" for="agreeTerms">
-                            Tôi đồng ý với <a href="#" data-bs-toggle="modal" data-bs-target="#termsModal">điều khoản và
+                            Tôi đồng ý với <a data-bs-target="#termsModal" data-bs-toggle="modal" href="#">điều khoản và
                             quy định</a> của kỳ thi
                         </label>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="confirmEnrollBtn">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Hủy</button>
+                <button class="btn btn-primary" id="confirmEnrollBtn" type="button">
                     <i class="fas fa-check-circle me-2"></i>Xác nhận đăng ký
                 </button>
             </div>
@@ -821,14 +821,14 @@
 </div>
 
 <!-- Modal Bắt đầu làm bài -->
-<div class="modal fade" id="startExamModal" tabindex="-1" aria-labelledby="startExamModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="startExamModalLabel" class="modal fade" id="startExamModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="startExamModalLabel">
                     <i class="fas fa-play-circle me-2"></i>Bắt đầu bài thi
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <div class="alert alert-info">
@@ -862,15 +862,15 @@
                 </div>
 
                 <div class="form-check mb-3">
-                    <input class="form-check-input" type="checkbox" id="agreeExamRules">
+                    <input class="form-check-input" id="agreeExamRules" type="checkbox">
                     <label class="form-check-label" for="agreeExamRules">
                         Tôi đã đọc và đồng ý với các quy định trên
                     </label>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Quay lại</button>
-                <button type="button" class="btn btn-primary" id="startExamBtn" disabled>
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Quay lại</button>
+                <button class="btn btn-primary" disabled id="startExamBtn" type="button">
                     <i class="fas fa-play-circle me-2"></i>Bắt đầu làm bài
                 </button>
             </div>

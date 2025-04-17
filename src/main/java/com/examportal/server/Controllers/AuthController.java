@@ -359,6 +359,7 @@ public class AuthController {
             throw e;
         }
     }
+
     @PostMapping("/update/info/user")
     public ResponseEntity<?> updateInfor(HttpServletRequest request, @RequestBody ChangeInfoUser changeInfo) {
         try {

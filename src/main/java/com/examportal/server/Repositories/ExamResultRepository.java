@@ -22,6 +22,6 @@ public interface ExamResultRepository {
 
     String getEndTimeExamResultByExamIdAndUserId(Long examId, Long userId);
 
-    void submitUploadExam(Long examId, Long userId , float score);
+    void submitUploadExam(Long examId, Long userId, float score);
 
 }
