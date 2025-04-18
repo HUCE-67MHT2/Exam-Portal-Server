@@ -16,7 +16,6 @@ import java.util.Objects;
 @Component
 public class ExamTimeCheckScheduler {
 
-    private static final long FIVE_MINUTES = 5;
     private static final long ONE_MINUTE = 1; // Để tránh xử lý lại exam đã hết hạn quá lâu
 
     @Autowired
@@ -28,16 +27,15 @@ public class ExamTimeCheckScheduler {
     @Autowired
     private ExamService examService;
 
-    // Chạy mỗi 60 giây (60000ms)
-    @Scheduled(fixedRate = 10000)
+    @Scheduled(fixedRate = 30000)
     @Transactional // Đảm bảo các thao tác DB và gửi message là nhất quán
     public void checkExamTimes() {
+
         LocalDateTime now = LocalDateTime.now();
         System.out.println("Running scheduled check for exam times at " + now);
 
         // --- Xử lý gửi cảnh báo 5 phút ---
-        LocalDateTime fiveMinutesFromNow = now.plusMinutes(FIVE_MINUTES);
-        List<ExamResult> examsToWarn = examResultRepository.findExamsForWarning(now, fiveMinutesFromNow);
+        List<ExamResult> examsToWarn = examResultRepository.findExamsForWarning(now, now.plusMinutes(5));
 
         for (ExamResult examResult : examsToWarn) {
             try {
@@ -47,7 +45,6 @@ public class ExamTimeCheckScheduler {
 
                 // Tạo message (nên dùng JSON object thay vì String đơn giản)
                 String warningMessage = "{\"type\":\"WARNING\", \"message\":\"Còn dưới 5 phút làm bài!\"}";
-                // String warningMessage = "WARNING: 5 minutes left!"; //Cách cũ
 
                 messagingTemplate.convertAndSend(destination, warningMessage);
                 System.out.println("Sent 5-minute warning to user " + userId + " for examResult " + examResult.getId());
@@ -65,13 +62,13 @@ public class ExamTimeCheckScheduler {
         // --- Xử lý tự động nộp bài khi hết giờ ---
         LocalDateTime oneMinuteAgo = now.minusMinutes(ONE_MINUTE);
         List<ExamResult> expiredExams = examResultRepository.findExpiredExams(now, oneMinuteAgo);
-//        List<ExamResult> expiredExams = examResultRepository.findExpiredExamsSimple(now); // Dùng query đơn giản hơn
 
+        System.out.println("Đã gửi cảnh báo còn 5 phút cho " + examsToWarn.size() + " bài thi");
         System.out.println("Tìm thấy " + expiredExams.size() + " bài thi hết hạn cần xử lý");
 
         for (ExamResult examResult : expiredExams) {
             try {
-                if(Objects.equals(examResult.getExamType(), "upload")){
+                if(Objects.equals(examResult.getExamType(), "upload") && !examResult.isSubmit()){
                     examService.submitUploadExam(examResult.getExamId(), examResult.getUserId());
                 }
                 else{

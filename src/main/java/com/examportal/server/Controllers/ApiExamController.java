@@ -244,7 +244,13 @@ public class ApiExamController {
                 System.out.println("Expired ExamResult: " + result.getId() + " | User: " + result.getUserId());
             }
 
-            return ResponseEntity.ok(Collections.singletonMap("count", list.size()));
+            List<ExamResult> list2 = examResultRepository.findExamsForWarning(now, now.plusMinutes(5));
+
+            for (ExamResult result : list2) {
+                System.out.println("Warning ExamResult: " + result.getId() + " | User: " + result.getUserId());
+            }
+
+            return ResponseEntity.ok(Collections.singletonMap("count", list2.size()));
 
 
         } catch (Exception e) {

@@ -27,7 +27,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
     public void registerStompEndpoints(StompEndpointRegistry registry) {
         // 👉 SỬA LẠI ENDPOINT PATH Ở ĐÂY
         registry.addEndpoint("/ws") // <<< Chỉ dùng path "/ws"
-                .setAllowedOrigins("*"); // Giữ nguyên hoặc đổi thành origin cụ thể
+                .setAllowedOrigins("*");
     }
 
     @Override
