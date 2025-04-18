@@ -4,6 +4,8 @@ import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.Repositories.ExamResultRepository;
 import com.examportal.server.Request.ExamRequest;
 import com.examportal.server.Service.ExamService;
 import jakarta.servlet.http.HttpServletRequest;
@@ -14,6 +16,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
@@ -220,6 +223,29 @@ public class ApiExamController {
             examService.submitUploadExam(examId, userId);
 
             return ResponseEntity.ok(Collections.singletonMap("message", "Exam submitted successfully"));
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+
+    // test ham (cos ther xoa di)
+
+    @Autowired
+    private ExamResultRepository examResultRepository;
+    @PostMapping("/test")
+    public ResponseEntity<?> test(HttpServletRequest request) {
+        try {
+            LocalDateTime now = LocalDateTime.now();
+            List<ExamResult> list = examResultRepository.findExpiredExamsSimple(now);
+
+            for (ExamResult result : list) {
+                System.out.println("Expired ExamResult: " + result.getId() + " | User: " + result.getUserId());
+            }
+
+            return ResponseEntity.ok(Collections.singletonMap("count", list.size()));
+
 
         } catch (Exception e) {
             throw new RuntimeException(e);

@@ -44,6 +44,7 @@ public class WebSocketConfig implements WebSocketMessageBrokerConfigurer {
             public Message<?> preSend(Message<?> message, MessageChannel channel) {
                 StompHeaderAccessor accessor = MessageHeaderAccessor.getAccessor(message, StompHeaderAccessor.class);
 
+                assert accessor != null;
                 if (StompCommand.CONNECT.equals(accessor.getCommand())) {
                     String authorization = accessor.getFirstNativeHeader("Authorization");
                     if (authorization != null && authorization.startsWith("Bearer ")) {
