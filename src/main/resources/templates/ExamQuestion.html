@@ -422,8 +422,8 @@
         <a class="navbar-brand" href="/">
             <i class="fas fa-book-open me-2"></i>Cổng Thi Trực Tuyến
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -441,11 +441,11 @@
                     <a class="nav-link" href="/examResult"><i class="fas fa-poll me-1"></i> Kết Quả Thi</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="navbarDropdown" role="button">
                         <i class="fas fa-cog me-1"></i> Thêm
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <li><a class="dropdown-item" href="/examSessionEnrollment">Đăng Ký Phiên Thi</a></li>
                         <li><a class="dropdown-item" href="/question">Ngân Hàng Câu Hỏi</a></li>
                         <li><a class="dropdown-item" href="/questionAnswer">Đáp Án Câu Hỏi</a></li>
@@ -460,8 +460,8 @@
     <div class="main-container">
         <div class="header-section">
             <h2><i class="fas fa-tasks me-2"></i>Câu Hỏi Đề Thi</h2>
-            <button type="button" class="btn btn-add-question" data-bs-toggle="modal"
-                    data-bs-target="#addQuestionModal">
+            <button class="btn btn-add-question" data-bs-target="#addQuestionModal" data-bs-toggle="modal"
+                    type="button">
                 <i class="fas fa-plus"></i> Thêm Câu Hỏi
             </button>
         </div>
@@ -472,7 +472,7 @@
                     <div class="input-group">
                         <span class="input-group-text"><i class="fas fa-search"></i></span>
                         <label>
-                            <input type="text" class="form-control" placeholder="Tìm kiếm câu hỏi...">
+                            <input class="form-control" placeholder="Tìm kiếm câu hỏi..." type="text">
                         </label>
                     </div>
                 </div>
@@ -527,8 +527,8 @@
                     <td th:text="${question.points}"></td>
                     <td th:text="${question.orderNumber}"></td>
                     <td>
-                        <img th:if="${question.imageUrl}" th:src="${question.imageUrl}" alt="Hình câu hỏi"
-                             class="question-image">
+                        <img alt="Hình câu hỏi" class="question-image" th:if="${question.imageUrl}"
+                             th:src="${question.imageUrl}">
                         <span th:unless="${question.imageUrl}">Không có</span>
                     </td>
                     <td>
@@ -553,7 +553,7 @@
             <nav aria-label="Phân trang">
                 <ul class="pagination justify-content-center">
                     <li class="page-item disabled">
-                        <a class="page-link" href="#" tabindex="-1" aria-disabled="true">
+                        <a aria-disabled="true" class="page-link" href="#" tabindex="-1">
                             <i class="fas fa-chevron-left"></i>
                         </a>
                     </li>
@@ -572,24 +572,24 @@
 </div>
 
 <!-- Modal Thêm Câu Hỏi -->
-<div class="modal fade" id="addQuestionModal" tabindex="-1" aria-labelledby="addQuestionModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="addQuestionModalLabel" class="modal fade" id="addQuestionModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered modal-lg">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addQuestionModalLabel"><i class="fas fa-plus-circle"></i> Thêm Câu Hỏi Đề
                     Thi</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
-                <form action="#" method="post" th:action="@{/addOrUpdateExamQuestion}" enctype="multipart/form-data">
+                <form action="#" enctype="multipart/form-data" method="post" th:action="@{/addOrUpdateExamQuestion}">
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="exam_id">Bài Thi</label>
                                 <select class="form-select" id="exam_id" name="exam_id" required>
                                     <option value="">-- Chọn bài thi --</option>
-                                    <option th:each="exam : ${exams}" th:value="${exam.id}"
-                                            th:text="${exam.title}"></option>
+                                    <option th:each="exam : ${exams}" th:text="${exam.title}"
+                                            th:value="${exam.id}"></option>
                                 </select>
                             </div>
                         </div>
@@ -608,34 +608,34 @@
 
                     <div class="form-group mb-3">
                         <label for="content">Nội Dung Câu Hỏi</label>
-                        <textarea class="form-control" id="content" name="content" rows="4" required></textarea>
+                        <textarea class="form-control" id="content" name="content" required rows="4"></textarea>
                     </div>
 
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="points">Điểm Số</label>
-                                <input type="number" step="0.5" class="form-control" id="points" name="points" required>
+                                <input class="form-control" id="points" name="points" required step="0.5" type="number">
                             </div>
                         </div>
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label for="orderNumber">Thứ Tự</label>
-                                <input type="number" class="form-control" id="orderNumber" name="orderNumber" required>
+                                <input class="form-control" id="orderNumber" name="orderNumber" required type="number">
                             </div>
                         </div>
                     </div>
 
                     <div class="form-group mb-3">
                         <label for="imageUpload">Hình Ảnh (nếu có)</label>
-                        <input type="file" class="form-control" id="imageUpload" name="imageUpload">
+                        <input class="form-control" id="imageUpload" name="imageUpload" type="file">
                         <div class="form-text text-muted">Cho phép định dạng: JPG, PNG, GIF. Kích thước tối đa: 5MB
                         </div>
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm Câu Hỏi</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="submit">Thêm Câu Hỏi</button>
                     </div>
                 </form>
             </div>

@@ -585,8 +585,8 @@
         <a class="navbar-brand" href="/">
             <i class="fas fa-book-open me-2"></i>Cổng Thi Trực Tuyến
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -619,7 +619,7 @@
                 <button class="btn btn-outline-primary btn-return me-2" onclick="window.history.back()">
                     <i class="fas fa-arrow-left me-2"></i>Quay lại
                 </button>
-                <button class="btn btn-add-answer" data-bs-toggle="modal" data-bs-target="#addAnswerModal">
+                <button class="btn btn-add-answer" data-bs-target="#addAnswerModal" data-bs-toggle="modal">
                     <i class="fas fa-plus me-2"></i>Thêm câu trả lời
                 </button>
             </div>
@@ -635,7 +635,7 @@
                     </div>
                     <h5 class="card-title">Tìm giá trị của x trong phương trình: 2x + 5 = 15</h5>
                     <div class="question-image-container mt-3 mb-3">
-                        <img src="/images/question-img1.jpg" alt="Question image" class="img-fluid rounded">
+                        <img alt="Question image" class="img-fluid rounded" src="/images/question-img1.jpg">
                     </div>
                     <div class="meta-info">
                         <span><i class="fas fa-tag me-1"></i>đại số, phương trình, cơ bản</span>
@@ -657,12 +657,12 @@
                             <i class="fas fa-check-circle me-2"></i>Đáp án đúng
                         </div>
                         <div class="answer-actions">
-                            <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
-                                    data-bs-target="#editAnswerModal">
+                            <button class="btn btn-sm btn-edit" data-bs-target="#editAnswerModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmModal">
+                            <button class="btn btn-sm btn-delete" data-bs-target="#deleteConfirmModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -688,12 +688,12 @@
                             <i class="fas fa-times-circle me-2"></i>Đáp án sai
                         </div>
                         <div class="answer-actions">
-                            <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
-                                    data-bs-target="#editAnswerModal">
+                            <button class="btn btn-sm btn-edit" data-bs-target="#editAnswerModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmModal">
+                            <button class="btn btn-sm btn-delete" data-bs-target="#deleteConfirmModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -712,12 +712,12 @@
                             <i class="fas fa-times-circle me-2"></i>Đáp án sai
                         </div>
                         <div class="answer-actions">
-                            <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
-                                    data-bs-target="#editAnswerModal">
+                            <button class="btn btn-sm btn-edit" data-bs-target="#editAnswerModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmModal">
+                            <button class="btn btn-sm btn-delete" data-bs-target="#deleteConfirmModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -736,12 +736,12 @@
                             <i class="fas fa-times-circle me-2"></i>Đáp án sai
                         </div>
                         <div class="answer-actions">
-                            <button class="btn btn-sm btn-edit" data-bs-toggle="modal"
-                                    data-bs-target="#editAnswerModal">
+                            <button class="btn btn-sm btn-edit" data-bs-target="#editAnswerModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-edit"></i>
                             </button>
-                            <button class="btn btn-sm btn-delete" data-bs-toggle="modal"
-                                    data-bs-target="#deleteConfirmModal">
+                            <button class="btn btn-sm btn-delete" data-bs-target="#deleteConfirmModal"
+                                    data-bs-toggle="modal">
                                 <i class="fas fa-trash"></i>
                             </button>
                         </div>
@@ -758,41 +758,41 @@
 </div>
 
 <!-- Modal Thêm Câu Trả Lời -->
-<div class="modal fade" id="addAnswerModal" tabindex="-1" aria-labelledby="addAnswerModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="addAnswerModalLabel" class="modal fade" id="addAnswerModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addAnswerModalLabel">
                     <i class="fas fa-plus-circle me-2"></i>Thêm câu trả lời mới
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <form id="answerForm">
                     <div class="mb-3">
-                        <label for="answerContent" class="form-label">Nội dung câu trả lời</label>
-                        <textarea class="form-control" id="answerContent" rows="3" required></textarea>
+                        <label class="form-label" for="answerContent">Nội dung câu trả lời</label>
+                        <textarea class="form-control" id="answerContent" required rows="3"></textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="answerImage" class="form-label">Hình ảnh (nếu có)</label>
-                        <input type="file" class="form-control" id="answerImage">
+                        <label class="form-label" for="answerImage">Hình ảnh (nếu có)</label>
+                        <input class="form-control" id="answerImage" type="file">
                     </div>
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="isCorrect">
+                        <input class="form-check-input" id="isCorrect" type="checkbox">
                         <label class="form-check-label" for="isCorrect">Đây là đáp án đúng</label>
                     </div>
 
                     <div class="mb-3">
-                        <label for="explanation" class="form-label">Giải thích (chỉ điền nếu là đáp án đúng)</label>
+                        <label class="form-label" for="explanation">Giải thích (chỉ điền nếu là đáp án đúng)</label>
                         <textarea class="form-control" id="explanation" rows="3"></textarea>
                     </div>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="saveAnswerBtn">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Hủy</button>
+                <button class="btn btn-primary" id="saveAnswerBtn" type="button">
                     <i class="fas fa-save me-2"></i>Lưu câu trả lời
                 </button>
             </div>
@@ -801,37 +801,37 @@
 </div>
 
 <!-- Modal Chỉnh Sửa Câu Trả Lời -->
-<div class="modal fade" id="editAnswerModal" tabindex="-1" aria-labelledby="editAnswerModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="editAnswerModalLabel" class="modal fade" id="editAnswerModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="editAnswerModalLabel">
                     <i class="fas fa-edit me-2"></i>Chỉnh sửa câu trả lời
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <form id="editAnswerForm">
                     <div class="mb-3">
-                        <label for="editAnswerContent" class="form-label">Nội dung câu trả lời</label>
-                        <textarea class="form-control" id="editAnswerContent" rows="3" required>x = 5</textarea>
+                        <label class="form-label" for="editAnswerContent">Nội dung câu trả lời</label>
+                        <textarea class="form-control" id="editAnswerContent" required rows="3">x = 5</textarea>
                     </div>
 
                     <div class="mb-3">
-                        <label for="editAnswerImage" class="form-label">Hình ảnh (nếu có)</label>
-                        <input type="file" class="form-control" id="editAnswerImage">
+                        <label class="form-label" for="editAnswerImage">Hình ảnh (nếu có)</label>
+                        <input class="form-control" id="editAnswerImage" type="file">
                         <div class="current-image mt-2">
                             <small>Hình ảnh hiện tại: <a href="#">answer-img1.jpg</a></small>
                         </div>
                     </div>
 
                     <div class="mb-3 form-check">
-                        <input type="checkbox" class="form-check-input" id="editIsCorrect" checked>
+                        <input checked class="form-check-input" id="editIsCorrect" type="checkbox">
                         <label class="form-check-label" for="editIsCorrect">Đây là đáp án đúng</label>
                     </div>
 
                     <div class="mb-3">
-                        <label for="editExplanation" class="form-label">Giải thích (chỉ điền nếu là đáp án đúng)</label>
+                        <label class="form-label" for="editExplanation">Giải thích (chỉ điền nếu là đáp án đúng)</label>
                         <textarea class="form-control" id="editExplanation" rows="3">2x + 5 = 15
 2x = 15 - 5
 2x = 10
@@ -840,8 +840,8 @@ x = 5</textarea>
                 </form>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-primary" id="updateAnswerBtn">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Hủy</button>
+                <button class="btn btn-primary" id="updateAnswerBtn" type="button">
                     <i class="fas fa-save me-2"></i>Cập nhật
                 </button>
             </div>
@@ -850,23 +850,23 @@ x = 5</textarea>
 </div>
 
 <!-- Modal Xác nhận xóa -->
-<div class="modal fade" id="deleteConfirmModal" tabindex="-1" aria-labelledby="deleteConfirmModalLabel"
-     aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="deleteConfirmModalLabel" class="modal fade" id="deleteConfirmModal"
+     tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="deleteConfirmModalLabel">
                     <i class="fas fa-exclamation-triangle text-danger me-2"></i>Xác nhận xóa
                 </h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <p>Bạn có chắc chắn muốn xóa câu trả lời này không? Hành động này không thể hoàn tác.</p>
                 <p class="mb-0"><strong>Câu trả lời:</strong> <span id="deleteAnswerContent">x = 5</span></p>
             </div>
             <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Hủy</button>
-                <button type="button" class="btn btn-danger" id="confirmDeleteBtn">
+                <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Hủy</button>
+                <button class="btn btn-danger" id="confirmDeleteBtn" type="button">
                     <i class="fas fa-trash-alt me-2"></i>Xác nhận xóa
                 </button>
             </div>

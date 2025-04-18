@@ -40,7 +40,7 @@ public class StudentAnswerRepositoryImpl implements StudentAnswerRepository {
 
     @Override
     public List<StudentAnswer> getStudentAnswers(Long examId, Long studentId) {
-        try{
+        try {
             return entityManager.createQuery(
                             "SELECT a FROM StudentAnswer a WHERE a.examId = :examId AND a.studentId = :studentId",
                             StudentAnswer.class)

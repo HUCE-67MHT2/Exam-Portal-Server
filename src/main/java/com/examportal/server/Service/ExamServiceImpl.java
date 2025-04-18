@@ -122,14 +122,14 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public Exam createExamManually(Exam exam)  {
+    public Exam createExamManually(Exam exam) {
         exam.setType("auto-generate");
         examRepository.save(exam);
         return exam;
     }
 
     @Override
-    public void newStudentTesting(Long examId, Long userId)  {
+    public void newStudentTesting(Long examId, Long userId) {
         examResultRepository.newExamResult(examId, userId);
     }
 

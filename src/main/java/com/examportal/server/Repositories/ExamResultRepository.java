@@ -23,7 +23,7 @@ public interface ExamResultRepository {
 
     String getEndTimeExamResultByExamIdAndUserId(Long examId, Long userId);
 
-    void submitUploadExam(Long examId, Long userId , float score);
+    void submitUploadExam(Long examId, Long userId, float score);
 
     // các hàm phục vụ cho check bài thi realtime
 

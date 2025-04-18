@@ -1,8 +1,6 @@
 package com.examportal.server.DTO;
 
 
-
-
 import java.sql.Date;
 
 

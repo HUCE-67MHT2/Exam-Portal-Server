@@ -142,7 +142,7 @@
             letter-spacing: 0.5px;
             position: relative;
         }
-        
+
         .exam-table td {
             padding: 16px 15px;
             text-align: center;
@@ -373,8 +373,8 @@
         <a class="navbar-brand" href="/">
             <i class="fas fa-book-open me-2"></i>Cổng Thi Trực Tuyến
         </a>
-        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
-                aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+        <button aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation" class="navbar-toggler"
+                data-bs-target="#navbarNav" data-bs-toggle="collapse" type="button">
             <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
@@ -392,11 +392,11 @@
                     <a class="nav-link" href="/examResult"><i class="fas fa-poll me-1"></i> Kết Quả Thi</a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button"
-                       data-bs-toggle="dropdown" aria-expanded="false">
+                    <a aria-expanded="false" class="nav-link dropdown-toggle" data-bs-toggle="dropdown" href="#"
+                       id="navbarDropdown" role="button">
                         <i class="fas fa-cog me-1"></i> Thêm
                     </a>
-                    <ul class="dropdown-menu" aria-labelledby="navbarDropdown">
+                    <ul aria-labelledby="navbarDropdown" class="dropdown-menu">
                         <li><a class="dropdown-item" href="/examSessionEnrollment">Đăng Ký Phiên Thi</a></li>
                         <li><a class="dropdown-item" href="/question">Ngân Hàng Câu Hỏi</a></li>
                         <li><a class="dropdown-item" href="/questionAnswer">Đáp Án Câu Hỏi</a></li>
@@ -411,7 +411,7 @@
     <div class="main-container">
         <div class="header-section">
             <h2><i class="fas fa-file-alt me-2"></i>Danh Sách Bài Thi</h2>
-            <button type="button" class="btn btn-add-exam" data-bs-toggle="modal" data-bs-target="#addExamModal">
+            <button class="btn btn-add-exam" data-bs-target="#addExamModal" data-bs-toggle="modal" type="button">
                 <i class="fas fa-plus"></i> Thêm Bài Thi Mới
             </button>
         </div>
@@ -463,34 +463,34 @@
 </div>
 
 <!-- Modal Thêm Bài Thi -->
-<div class="modal fade" id="addExamModal" tabindex="-1" aria-labelledby="addExamModalLabel" aria-hidden="true">
+<div aria-hidden="true" aria-labelledby="addExamModalLabel" class="modal fade" id="addExamModal" tabindex="-1">
     <div class="modal-dialog modal-dialog-centered">
         <div class="modal-content">
             <div class="modal-header">
                 <h5 class="modal-title" id="addExamModalLabel"><i class="fas fa-plus-circle"></i> Thêm Bài Thi Mới</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <button aria-label="Close" class="btn-close" data-bs-dismiss="modal" type="button"></button>
             </div>
             <div class="modal-body">
                 <form action="#" method="post" th:action="@{/addOrUpdateExam}">
                     <div class="form-group mb-3">
                         <label for="title">Tiêu Đề</label>
-                        <input type="text" class="form-control" id="title" name="title" required>
+                        <input class="form-control" id="title" name="title" required type="text">
                     </div>
                     <div class="form-group mb-3">
                         <label for="subject_id">Mã Môn Học</label>
-                        <input type="text" class="form-control" id="subject_id" name="subject_id" required>
+                        <input class="form-control" id="subject_id" name="subject_id" required type="text">
                     </div>
                     <div class="form-group mb-3">
                         <label for="teacher_id">Mã Giáo Viên</label>
-                        <input type="text" class="form-control" id="teacher_id" name="teacher_id" required>
+                        <input class="form-control" id="teacher_id" name="teacher_id" required type="text">
                     </div>
                     <div class="form-group mb-3">
                         <label for="startTime">Thời Gian Bắt Đầu</label>
-                        <input type="datetime-local" class="form-control" id="startTime" name="startTime" required>
+                        <input class="form-control" id="startTime" name="startTime" required type="datetime-local">
                     </div>
                     <div class="form-group mb-3">
                         <label for="duration">Thời Lượng (phút)</label>
-                        <input type="number" class="form-control" id="duration" name="duration" required>
+                        <input class="form-control" id="duration" name="duration" required type="number">
                     </div>
                     <div class="form-group mb-3">
                         <label for="examType">Loại Bài Thi</label>
@@ -503,16 +503,16 @@
                     </div>
                     <div class="form-group mb-3">
                         <label for="fileUrl">Đường Dẫn File</label>
-                        <input type="text" class="form-control" id="fileUrl" name="fileUrl">
+                        <input class="form-control" id="fileUrl" name="fileUrl" type="text">
                     </div>
                     <div class="form-group mb-3">
                         <label for="password">Mật Khẩu</label>
-                        <input type="text" class="form-control" id="password" name="password">
+                        <input class="form-control" id="password" name="password" type="text">
                     </div>
 
                     <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
-                        <button type="submit" class="btn btn-primary">Thêm Bài Thi</button>
+                        <button class="btn btn-secondary" data-bs-dismiss="modal" type="button">Đóng</button>
+                        <button class="btn btn-primary" type="submit">Thêm Bài Thi</button>
                     </div>
                 </form>
             </div>
