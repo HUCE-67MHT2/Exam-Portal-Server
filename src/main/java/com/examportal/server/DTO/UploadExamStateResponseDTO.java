@@ -7,12 +7,12 @@ import java.util.List;
 
 @Getter
 @Setter
-public class ExamStateResponseDTO {
+public class UploadExamStateResponseDTO {
     private String message;
     private String endTime;
     private List<AnswerItem> answers;
 
-    public ExamStateResponseDTO(String message,String endTime, List<AnswerItem> answers) {
+    public UploadExamStateResponseDTO(String message, String endTime, List<AnswerItem> answers) {
         this.message = message;
         this.endTime = endTime;
         this.answers = answers;

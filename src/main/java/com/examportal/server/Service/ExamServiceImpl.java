@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.Controllers.GoogleDriveController;
-import com.examportal.server.DTO.ExamStateResponseDTO;
+import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.DTO.UploadAnswerDTO;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.ExamResult;
@@ -134,30 +134,28 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public ExamStateResponseDTO getStateExam(Long examId, Long userId)  {
+    public UploadExamStateResponseDTO getStateUploadExam(Long examId, Long userId)  {
         try {
             ExamResult examResult = examResultRepository.getExamResultByExamIdAndUserId(examId, userId);
 
             if (examResult == null) {
                 newStudentTesting(examId, userId);
                 String endTime = examResultRepository.getEndTimeExamResultByExamIdAndUserId(examId, userId);
-                return new ExamStateResponseDTO("Bắt đầu làm bài", endTime, new ArrayList<>());
+                return new UploadExamStateResponseDTO("Bắt đầu làm bài", endTime, new ArrayList<>());
             } else if (examResult.isSubmit()) {
                 throw new Exception("Bạn đã nộp bài.");
             } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
                 throw new Exception("Thời gian làm bài đã kết thúc.");
-                // viết thêm hàm sub mit ở đây luôn
             }
-
 
             List<StudentAnswer> studentAnswers = studentAnswerRepository.getStudentAnswers(examId, userId);
 
-            List<ExamStateResponseDTO.AnswerItem> dtoList = new ArrayList<>();
+            List<UploadExamStateResponseDTO.AnswerItem> dtoList = new ArrayList<>();
             for (StudentAnswer sa : studentAnswers) {
-                dtoList.add(new ExamStateResponseDTO.AnswerItem(sa.getQuestionNo(), sa.getAnswerText()));
+                dtoList.add(new UploadExamStateResponseDTO.AnswerItem(sa.getQuestionNo(), sa.getAnswerText()));
             }
+            return new UploadExamStateResponseDTO("Tiếp tục làm bài", examResult.getEndTime().toString(), dtoList);
 
-            return new ExamStateResponseDTO("Tiếp tục làm bài", examResult.getEndTime().toString(), dtoList);
         } catch (Exception e) {
             throw new RuntimeException(e);
         }

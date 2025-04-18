@@ -38,6 +38,9 @@ public class ExamResult implements Serializable {
     @Column(name = "is_submit", columnDefinition = "TINYINT(1)")
     private boolean isSubmit;
 
+    @Column(name = "warning_sent", columnDefinition = "TINYINT(1)", nullable = false)
+    private boolean warningSent;
+
     @ManyToOne
     @JoinColumn(name = "student_id", referencedColumnName = "id", nullable = false)
     @JsonBackReference
@@ -59,5 +62,17 @@ public class ExamResult implements Serializable {
         this.totalScore = totalScore;
         this.startTime = startTime;
         this.submitTime = submitTime;
+    }
+
+    public Long getUserId() {
+        return user != null ? user.getId() : null;
+    }
+
+    public Long getExamId() {
+        return exam != null ? exam.getId() : null;
+    }
+
+    public String getExamType() {
+        return exam != null ? exam.getType() : null;
     }
 }

@@ -1,7 +1,7 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
-import com.examportal.server.DTO.ExamStateResponseDTO;
+import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Request.ExamRequest;
@@ -157,7 +157,7 @@ public class ApiExamController {
     }
 
 
-    @PostMapping("/get/test/state/{examId}")
+    @PostMapping("/get/test/state/upload/exam/{examId}")
     public ResponseEntity<?> getTestState(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {
             String token = jwtTokenUtil.resolveToken(request);
@@ -169,7 +169,7 @@ public class ApiExamController {
 
 
             // Gọi service để kiểm tra trạng thái làm bài và tạo mới nếu cần
-            ExamStateResponseDTO state = examService.getStateExam(examId, userId);
+            UploadExamStateResponseDTO state = examService.getStateUploadExam(examId, userId);
 
             return ResponseEntity.ok(state);
 
@@ -182,6 +182,7 @@ public class ApiExamController {
                     .body(Collections.singletonMap("message", message));
         }
     }
+
 
     @PostMapping("upload/submit/{examId}")
     public ResponseEntity<?> uploadSubmit(@PathVariable("examId") Long examId, HttpServletRequest request) {

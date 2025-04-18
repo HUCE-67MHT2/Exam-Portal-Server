@@ -6,10 +6,12 @@ import com.examportal.server.Entity.User;
 import com.examportal.server.Request.StudentResultInExamSession;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
+import jakarta.persistence.TypedQuery;
 import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Repository;
 
 import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Repository
@@ -138,5 +140,29 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
         }
     }
 
+    @Override
+    public List<ExamResult> findExamsForWarning(LocalDateTime now, LocalDateTime fiveMinutesFromNow) {
+        String jpql = "SELECT er FROM ExamResult er WHERE er.isSubmit = false AND er.warningSent = false AND er.endTime BETWEEN :now AND :fiveMinutesFromNow";
+        TypedQuery<ExamResult> query = entityManager.createQuery(jpql, ExamResult.class);
+        query.setParameter("now", now);
+        query.setParameter("fiveMinutesFromNow", fiveMinutesFromNow);
+        return query.getResultList();
+    }
 
+    @Override
+    public List<ExamResult> findExpiredExams(LocalDateTime now, LocalDateTime oneMinuteAgo) {
+        String jpql = "SELECT er FROM ExamResult er WHERE er.isSubmit = false AND er.endTime <= :now AND er.endTime > :oneMinuteAgo";
+        TypedQuery<ExamResult> query = entityManager.createQuery(jpql, ExamResult.class);
+        query.setParameter("now", now);
+        query.setParameter("oneMinuteAgo", oneMinuteAgo);
+        return query.getResultList();
+    }
+
+    @Override
+    public List<ExamResult> findExpiredExamsSimple(LocalDateTime now) {
+        String jpql = "SELECT er FROM ExamResult er WHERE er.isSubmit = false AND er.endTime <= :now";
+        TypedQuery<ExamResult> query = entityManager.createQuery(jpql, ExamResult.class);
+        query.setParameter("now", now);
+        return query.getResultList();
+    }
 }
