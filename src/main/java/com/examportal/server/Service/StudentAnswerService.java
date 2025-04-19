@@ -15,4 +15,8 @@ public interface StudentAnswerService {
     void delete(Long id);
 
     void saveUploadStudentAnswers(UploadStudentAnswerRequest request, Long userId);
+
+    List<StudentAnswer> getStudentAnswers(Long examId, Long studentId);
+
+    StudentAnswer findStudentAnswerAutogen(Long studentId, Long examId, long questionId);
 }

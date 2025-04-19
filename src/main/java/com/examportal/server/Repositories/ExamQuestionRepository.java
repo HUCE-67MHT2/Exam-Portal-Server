@@ -9,6 +9,6 @@ public interface ExamQuestionRepository {
     void save(ExamQuestion examQuestion);
 
     List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId);
-
+    List<ExamQuestion> getExamQuestionsByExamId(Long examId);
     void deleteByExamId(String examId);
 }

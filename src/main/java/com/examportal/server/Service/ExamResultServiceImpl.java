@@ -38,4 +38,9 @@ public class ExamResultServiceImpl implements ExamResultService {
     public List<StudentResultInExamSession> getListStudentResultInExamSession(Long examSessionId) {
         return examResultRepository.getListStudentResultInExamSession(examSessionId);
     }
+
+    @Override
+    public ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId) {
+        return examResultRepository.getExamResultByExamIdAndUserId(examId, userId);
+    }
 }

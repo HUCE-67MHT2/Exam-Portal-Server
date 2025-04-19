@@ -15,6 +15,8 @@ public interface StudentAnswerRepository {
 
     StudentAnswer findExitingUploadAnswer(Long studentId, Long examId, int questionNo);
 
+    StudentAnswer findStudentAnswerAutogen(Long studentId, Long examId, long questionId);
+
     List<StudentAnswer> getStudentAnswers(Long examId, Long studentId);
 
     void saveAll(List<StudentAnswer> studentAnswers);

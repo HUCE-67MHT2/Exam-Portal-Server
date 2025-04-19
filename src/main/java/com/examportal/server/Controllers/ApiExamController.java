@@ -1,13 +1,12 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
-import com.examportal.server.DTO.UploadExamStateResponseDTO;
-import com.examportal.server.DTO.ResponseDTO;
-import com.examportal.server.Entity.Exam;
-import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.DTO.*;
+import com.examportal.server.Entity.*;
 import com.examportal.server.Repositories.ExamResultRepository;
 import com.examportal.server.Request.ExamRequest;
-import com.examportal.server.Service.ExamService;
+import com.examportal.server.Service.*;
+import io.jsonwebtoken.Claims;
 import jakarta.servlet.http.HttpServletRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.sql.Timestamp;
 import java.time.LocalDateTime;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/exam")
@@ -33,6 +29,24 @@ public class ApiExamController {
 
     @Autowired
     private HttpServletRequest request;
+
+    @Autowired
+    private ExamQuestionService examQuestionService;
+
+    @Autowired
+    private QuestionAnswerService questionAnswerService;
+
+    @Autowired
+    private QuestionService questionService;
+
+    @Autowired
+    private UserService userService;
+
+    @Autowired
+    private ExamResultService examResultService;
+
+    @Autowired
+    private StudentAnswerService studentAnswerService;
 
     @PostMapping(value = "/add/exam/with/file", consumes = "multipart/form-data")
     public ResponseEntity<?> addExamWithFile(@ModelAttribute ExamRequest examRequest,
@@ -252,6 +266,99 @@ public class ApiExamController {
 
             return ResponseEntity.ok(Collections.singletonMap("count", list2.size()));
 
+
+        } catch (Exception e) {
+            throw new RuntimeException(e);
+        }
+    }
+    @GetMapping("/get/all/questions/and/answers/{examId}")
+    public ResponseEntity<?> getAllQuestionsAndAnswers(@PathVariable("examId") Long examId) {
+        try {
+            Map<String, Object> response = new HashMap<>();
+            ExamAutoGenDataDTO examAutoGenDataDTO = new ExamAutoGenDataDTO();
+            examAutoGenDataDTO.setExam_id(examId);
+            Exam exam = examService.getExamById(examId);
+            if (exam == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("Exam not found"));
+            }
+            List<ExamQuestion> examQuestions =  examQuestionService.getExamQuestionsByExamId(examId);
+            if (examQuestions.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("No questions found for the given exam ID"));
+            }
+            List<QuestionAutoGenDTO> questionAutoGenDTOList = new ArrayList<>();
+            for (ExamQuestion examQuestion : examQuestions) {
+                Question question = questionService.getQuestionById(examQuestion.getQuestionId());
+                List<QuestionAnswer> questionAnswers = questionAnswerService.getAnswersByQuestionIdRand(question.getId());
+                if (questionAnswers.isEmpty()) {
+                    return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("No answers found for the given question ID"));
+                }
+                QuestionAutoGenDTO questionAutoGenDTO = new QuestionAutoGenDTO();
+                questionAutoGenDTO.setQuestion_id(question.getId());
+                questionAutoGenDTO.setQuestion_text(question.getContent());
+                List<AnswerAutoGenDTO> answerAutoGenDTOList = new ArrayList<>();
+                for (QuestionAnswer questionAnswer : questionAnswers) {
+                    AnswerAutoGenDTO answerAutoGenDTO = new AnswerAutoGenDTO();
+                    answerAutoGenDTO.setAnswer_id(questionAnswer.getId());
+                    answerAutoGenDTO.setAnswer_text(questionAnswer.getAnswerText());
+                    answerAutoGenDTOList.add(answerAutoGenDTO);
+                }
+                questionAutoGenDTO.setQuestion_answers(answerAutoGenDTOList);
+                questionAutoGenDTOList.add(questionAutoGenDTO);
+            }
+            examAutoGenDataDTO.setQuestions(questionAutoGenDTOList);
+            return ResponseEntity.ok(examAutoGenDataDTO);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("An error occurred: " + e.getMessage()));
+        }
+    }
+    @PostMapping("/submit/exam/type/auto-generate")
+    public ResponseEntity<?> submitExamAutoGenerate(@RequestBody long examId, HttpServletRequest request) {
+        try {
+            String jwt = request.getHeader("Authorization");
+
+            if (jwt == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+            if (jwt.startsWith("Bearer ")) {
+                jwt = jwt.substring(7);
+            }
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            java.util.Date expiration = claims.getExpiration();
+            if (expiration.before(new java.util.Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired");
+            }
+            String username = claims.getSubject();
+
+            if (username == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+            User user = userService.getUserByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            }
+            ExamResult examResult = examResultService.getExamResultByExamIdAndUserId(examId, user.getId());
+            examResult.setSubmit(true);
+            examResult.setSubmitTime(new Timestamp(System.currentTimeMillis()));
+            List<StudentAnswer> studentAnswers = studentAnswerService.getStudentAnswers(examId, user.getId());
+            int count = 0;
+            for (StudentAnswer studentAnswer : studentAnswers) {
+                if(studentAnswer.getAnswerId() != null) {
+                    QuestionAnswer questionAnswer = questionAnswerService.getAnswerById(studentAnswer.getAnswerId());
+                    if(questionAnswer != null) {
+                        if (questionAnswer.isCorrect()) {
+                            count++;
+                        }
+                    }
+                }
+
+            }
+            float percentage = (float) count / (float) examResult.getExam().getTotalQuestions();
+            examResult.setTotalScore( percentage * 10);
+            examResultService.save(examResult);
+            return ResponseEntity.ok(examResult);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
