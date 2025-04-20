@@ -33,7 +33,7 @@ public class ExamTimeCheckScheduler {
     @Autowired
     private UserRepositoryImpl userRepository;
 
-    @Scheduled(fixedRate = 30000)
+    @Scheduled(fixedRate = 20000)
     @Transactional
     public void checkExamTimes() {
 
@@ -79,17 +79,19 @@ public class ExamTimeCheckScheduler {
 
         for (ExamResult examResult : expiredExams) {
             try {
-                // Phần xử lý submit bài thi giữ nguyên
+                int userId = examResult.getUserId().intValue();
+                User user = userRepository.getUserById(userId);
+
+
                 if(Objects.equals(examResult.getExamType(), "upload") && !examResult.isSubmit()){
                     examService.submitUploadExam(examResult.getExamId(), examResult.getUserId());
                 }
                 else{
                     // xử lý nộp bài cho exam với type là autogen
-                    //
+
                 }
 
                 // Gửi thông báo Force Submit cho client
-                String username = String.valueOf(examResult.getUserId());
                 String destination = "/queue/notifications";
                 Map<String, String> forceSubmitPayload = Map.of(
                         "type", "FORCE_SUBMIT",
@@ -97,8 +99,8 @@ public class ExamTimeCheckScheduler {
                 );
 
                 // SỬ DỤNG convertAndSendToUser
-                messagingTemplate.convertAndSendToUser(username, destination, forceSubmitPayload);
-                System.out.println("Sent force submit notification to user " + username + " for examResult " + examResult.getId());
+                messagingTemplate.convertAndSendToUser(user.getEmail(), destination, forceSubmitPayload);
+                System.out.println("Sent force submit notification to user " + user.getEmail() + " for examResult " + examResult.getId());
 
             } catch (Exception e) {
                 System.out.println("Error auto-submitting or notifying for examResult " + examResult.getId() + ": " + e.getMessage());
