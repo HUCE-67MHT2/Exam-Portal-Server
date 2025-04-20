@@ -24,6 +24,13 @@ public class ExamController {
         return "Exam";
     }
 
+    @GetMapping("/exam/{id}")
+    public String examDetails(@PathVariable("id") Long id, Model model) {
+        Exam exam = examService.getExamById(id);
+        model.addAttribute("exam", exam);
+        return "Exam";
+    }
+
     @PostMapping("/addOrUpdateExam")
     public String addOrUpdateExam(Exam exam) {
         exam.setCreateDate(new Timestamp(System.currentTimeMillis()));
@@ -35,7 +42,7 @@ public class ExamController {
     public String editExam(@PathVariable("id") Long id, Model model) {
         Exam exam = examService.getExamById(id);
         model.addAttribute("exam", exam);
-        return "UpdateExam";
+        return "Exam";
     }
 
     @PostMapping("/delete/exam/{id}")
