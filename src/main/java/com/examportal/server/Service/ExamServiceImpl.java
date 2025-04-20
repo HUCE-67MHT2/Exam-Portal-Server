@@ -1,10 +1,10 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.Controllers.GoogleDriveController;
+import com.examportal.server.DTO.ExamResultStatusInfo;
 import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.DTO.UploadAnswerDTO;
 import com.examportal.server.Entity.Exam;
-import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Repositories.ExamRepository;
 import com.examportal.server.Repositories.ExamResultRepository;
@@ -30,6 +30,9 @@ public class ExamServiceImpl implements ExamService {
 
     @Autowired
     private ExamResultRepository examResultRepository;
+
+    @Autowired
+    private ExamResultService examResultService;
 
     @Autowired
     private StudentAnswerRepository studentAnswerRepository;
@@ -134,32 +137,46 @@ public class ExamServiceImpl implements ExamService {
     }
 
     @Override
-    public UploadExamStateResponseDTO getStateUploadExam(Long examId, Long userId)  {
+    public UploadExamStateResponseDTO getStateUploadExam(Long examId, Long userId) {
         try {
-            ExamResult examResult = examResultRepository.getExamResultByExamIdAndUserId(examId, userId);
+            // Sử dụng phương thức checkExamResultStatus để lấy thông tin trạng thái
+            ExamResultStatusInfo statusInfo = examResultService.checkExamResultStatus(examId, userId);
 
-            if (examResult == null) {
+            // Trường hợp chưa tồn tại bài thi: tạo mới
+            if (!statusInfo.isExists()) {
                 newStudentTesting(examId, userId);
                 String endTime = examResultRepository.getEndTimeExamResultByExamIdAndUserId(examId, userId);
                 return new UploadExamStateResponseDTO("Bắt đầu làm bài", endTime, new ArrayList<>());
-            } else if (examResult.isSubmit()) {
+            }
+
+            // Trường hợp đã nộp bài
+            if (statusInfo.isSubmitted()) {
                 throw new Exception("Bạn đã nộp bài.");
-            } else if (examResult.getEndTime().getTime() < System.currentTimeMillis()) {
+            }
+
+            // Trường hợp đã hết hạn
+            if (statusInfo.isExpired()) {
                 throw new Exception("Thời gian làm bài đã kết thúc.");
             }
 
+            // Lấy danh sách câu trả lời của học sinh
             List<StudentAnswer> studentAnswers = studentAnswerRepository.getStudentAnswers(examId, userId);
-
             List<UploadExamStateResponseDTO.AnswerItem> dtoList = new ArrayList<>();
+
             for (StudentAnswer sa : studentAnswers) {
                 dtoList.add(new UploadExamStateResponseDTO.AnswerItem(sa.getQuestionNo(), sa.getAnswerText()));
             }
-            return new UploadExamStateResponseDTO("Tiếp tục làm bài", examResult.getEndTime().toString(), dtoList);
+
+            return new UploadExamStateResponseDTO("Tiếp tục làm bài",
+                statusInfo.getEndTime().toString(), dtoList);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
+
+
+
     @Override
     public void submitUploadExam(Long examId, Long userId) {
         try {

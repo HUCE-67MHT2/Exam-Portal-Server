@@ -1,5 +1,6 @@
 package com.examportal.server.Service;
 
+import com.examportal.server.DTO.ExamResultStatusInfo;
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Request.StudentResultInExamSession;
 
@@ -15,4 +16,7 @@ public interface ExamResultService {
     void delete(Long id);
 
     List<StudentResultInExamSession> getListStudentResultInExamSession(Long examSessionId);
+    ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId);
+
+    ExamResultStatusInfo checkExamResultStatus(Long examId, Long userId);
 }

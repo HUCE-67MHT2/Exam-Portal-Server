@@ -86,4 +86,14 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
         }
     }
 
+    @Override
+    public List<StudentAnswer> getStudentAnswers(Long examId, Long studentId) {
+        return studentAnswerRepository.getStudentAnswers(examId, studentId);
+    }
+
+    @Override
+    public StudentAnswer findStudentAnswerAutogen(Long studentId, Long examId, long questionId) {
+        return studentAnswerRepository.findStudentAnswerAutogen(studentId,examId,questionId);
+    }
+
 }

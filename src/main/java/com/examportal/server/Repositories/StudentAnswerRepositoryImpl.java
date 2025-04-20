@@ -39,6 +39,21 @@ public class StudentAnswerRepositoryImpl implements StudentAnswerRepository {
     }
 
     @Override
+    public StudentAnswer findStudentAnswerAutogen(Long studentId, Long examId, long questionId) {
+        try {
+            return entityManager.createQuery(
+                            "FROM StudentAnswer sa WHERE sa.studentId = :studentId AND sa.examId = :examId AND sa.questionId = :questionId",
+                            StudentAnswer.class)
+                    .setParameter("studentId", studentId)
+                    .setParameter("examId", examId)
+                    .setParameter("questionId", questionId)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+            return null; // không tìm thấy bản ghi nào
+        }
+    }
+
+    @Override
     public List<StudentAnswer> getStudentAnswers(Long examId, Long studentId) {
         try {
             return entityManager.createQuery(

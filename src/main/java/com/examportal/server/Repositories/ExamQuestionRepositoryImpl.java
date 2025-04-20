@@ -34,6 +34,14 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     }
 
     @Override
+    public List<ExamQuestion> getExamQuestionsByExamId(Long examId) {
+        String hql = "FROM ExamQuestion eq WHERE eq.examId = :examId ";
+        TypedQuery<ExamQuestion> query = entityManager.createQuery(hql, ExamQuestion.class);
+        query.setParameter("examId", examId);
+        return query.getResultList();
+    }
+
+    @Override
     public void deleteByExamId(String examId) {
         String hql = "DELETE FROM ExamQuestion eq WHERE eq.examId = :examId";
         entityManager.createQuery(hql)

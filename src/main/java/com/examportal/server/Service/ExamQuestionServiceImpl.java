@@ -114,4 +114,9 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
             throw new RuntimeException("Failed to regenerate exam questions: " + e.getMessage(), e);
         }
     }
+
+    @Override
+    public List<ExamQuestion> getExamQuestionsByExamId(Long examId) {
+        return examQuestionRepository.getExamQuestionsByExamId(examId);
+    }
 }
