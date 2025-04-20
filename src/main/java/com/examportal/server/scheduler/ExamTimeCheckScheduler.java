@@ -1,7 +1,9 @@
 package com.examportal.server.scheduler;
 
 import com.examportal.server.Entity.ExamResult;
+import com.examportal.server.Entity.User;
 import com.examportal.server.Repositories.ExamResultRepository;
+import com.examportal.server.Repositories.UserRepositoryImpl;
 import com.examportal.server.Service.ExamService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
@@ -11,15 +13,16 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
+import java.util.Map; // Import Map
 import java.util.Objects;
 
 @Component
 public class ExamTimeCheckScheduler {
 
-    private static final long ONE_MINUTE = 1; // Để tránh xử lý lại exam đã hết hạn quá lâu
+    private static final long ONE_MINUTE = 1;
 
     @Autowired
-    private SimpMessagingTemplate messagingTemplate; // Để gửi WebSocket messages
+    private SimpMessagingTemplate messagingTemplate;
 
     @Autowired
     private ExamResultRepository examResultRepository;
@@ -27,8 +30,11 @@ public class ExamTimeCheckScheduler {
     @Autowired
     private ExamService examService;
 
+    @Autowired
+    private UserRepositoryImpl userRepository;
+
     @Scheduled(fixedRate = 30000)
-    @Transactional // Đảm bảo các thao tác DB và gửi message là nhất quán
+    @Transactional
     public void checkExamTimes() {
 
         LocalDateTime now = LocalDateTime.now();
@@ -39,19 +45,24 @@ public class ExamTimeCheckScheduler {
 
         for (ExamResult examResult : examsToWarn) {
             try {
-                //Lấy userId thực tế từ examResult
-                String userId = String.valueOf(examResult.getUserId()); // Chuyển Long thành String
-                String destination = "/user/" + userId + "/queue/notifications"; // Đích đến user-specific
+                int userId = examResult.getUserId().intValue();
+                User user = userRepository.getUserById(userId);
 
-                // Tạo message (nên dùng JSON object thay vì String đơn giản)
-                String warningMessage = "{\"type\":\"WARNING\", \"message\":\"Còn dưới 5 phút làm bài!\"}";
+                // Đích đến logic mà client đã đăng ký (phần sau '/user/')
+                String destination = "/queue/notifications";
 
-                messagingTemplate.convertAndSend(destination, warningMessage);
-                System.out.println("Sent 5-minute warning to user " + userId + " for examResult " + examResult.getId());
+                // Tạo payload (Nên dùng Map hoặc DTO thay vì String JSON thủ công)
+                Map<String, String> warningPayload = Map.of(
+                        "type", "WARNING",
+                        "message", "Còn dưới 5 phút làm bài!"
+                );
 
-                // Đánh dấu đã gửi cảnh báo
+                // SỬ DỤNG convertAndSendToUser
+                messagingTemplate.convertAndSendToUser(user.getEmail(), destination, warningPayload);
+                System.out.println("Sent 5-minute warning to user " + user.getEmail() + " for examResult " + examResult.getId());
+
                 examResult.setWarningSent(true);
-                examResultRepository.save(examResult); // Lưu lại trạng thái
+                examResultRepository.save(examResult);
 
             } catch (Exception e) {
                 System.out.println("Error sending warning for examResult " + examResult.getId() + ": " + e.getMessage());
@@ -63,26 +74,31 @@ public class ExamTimeCheckScheduler {
         LocalDateTime oneMinuteAgo = now.minusMinutes(ONE_MINUTE);
         List<ExamResult> expiredExams = examResultRepository.findExpiredExams(now, oneMinuteAgo);
 
-        System.out.println("Đã gửi cảnh báo còn 5 phút cho " + examsToWarn.size() + " bài thi");
+        System.out.println("Đã gửi cảnh báo còn 5 phút cho " + examsToWarn.size() + " bài thi");
         System.out.println("Tìm thấy " + expiredExams.size() + " bài thi hết hạn cần xử lý");
 
         for (ExamResult examResult : expiredExams) {
             try {
+                // Phần xử lý submit bài thi giữ nguyên
                 if(Objects.equals(examResult.getExamType(), "upload") && !examResult.isSubmit()){
                     examService.submitUploadExam(examResult.getExamId(), examResult.getUserId());
                 }
                 else{
                     // xử lý nộp bài cho exam với type là autogen
+                    //
                 }
 
                 // Gửi thông báo Force Submit cho client
-                String userId = String.valueOf(examResult.getUserId());
-                String destination = "/user/" + userId + "/queue/notifications";
-                // String forceSubmitMessage = "FORCE_SUBMIT: Time's up!"; // Cách cũ
-                String forceSubmitMessage = "{\"type\":\"FORCE_SUBMIT\", \"message\":\"Đã hết giờ làm bài. Hệ thống tự động nộp bài.\"}";
+                String username = String.valueOf(examResult.getUserId());
+                String destination = "/queue/notifications";
+                Map<String, String> forceSubmitPayload = Map.of(
+                        "type", "FORCE_SUBMIT",
+                        "message", "Đã hết giờ làm bài. Hệ thống tự động nộp bài."
+                );
 
-                messagingTemplate.convertAndSend(destination, forceSubmitMessage);
-                System.out.println("Sent force submit notification to user " + userId + " for examResult " + examResult.getId());
+                // SỬ DỤNG convertAndSendToUser
+                messagingTemplate.convertAndSendToUser(username, destination, forceSubmitPayload);
+                System.out.println("Sent force submit notification to user " + username + " for examResult " + examResult.getId());
 
             } catch (Exception e) {
                 System.out.println("Error auto-submitting or notifying for examResult " + examResult.getId() + ": " + e.getMessage());
