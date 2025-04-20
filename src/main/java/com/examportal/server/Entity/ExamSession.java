@@ -51,9 +51,6 @@ public class ExamSession implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "status", length = 30)
-    private String status;
-
     @Column(name = "exam_number", length = 30, nullable = false)
     private int examNumber = 0;
 

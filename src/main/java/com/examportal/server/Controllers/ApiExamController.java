@@ -48,6 +48,16 @@ public class ApiExamController {
     @Autowired
     private StudentAnswerService studentAnswerService;
 
+    @DeleteMapping("/delete/exam/{id}")
+    public ResponseEntity<?> deleteExamSession(@PathVariable Long id) {
+        try {
+            examService.delete(id);
+            return ResponseEntity.ok(new ResponseDTO("Xóa kỳ thi thành công"));
+        } catch (Exception e) {
+            return ResponseEntity.status(500).body(e.getMessage());
+        }
+    }
+
     @PostMapping(value = "/add/exam/with/file", consumes = "multipart/form-data")
     public ResponseEntity<?> addExamWithFile(@ModelAttribute ExamRequest examRequest,
                                              @RequestParam("file") MultipartFile file) {

@@ -201,7 +201,7 @@ public class ExamServiceImpl implements ExamService {
             }
 
             int totalQuestion = examUploadAnswer.size(); // tổng số câu hỏi
-            float totalScore = totalQuestion > 0 ? (float) numberCorrect / totalQuestion : 0.0f;
+            float totalScore = totalQuestion > 0 ? ((float) numberCorrect / totalQuestion) * 10 : 0.0f;
 
             // Lưu kết quả bài thi
             examResultRepository.submitUploadExam(examId, userId, totalScore);

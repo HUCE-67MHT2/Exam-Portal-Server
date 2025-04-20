@@ -157,11 +157,8 @@ public class ApiExamSessionController {
     }
 
     @PostMapping("/check-password/{examSessionId}")
-    public ResponseEntity<?> checkPassword(
-            @PathVariable Long examSessionId,
-            @RequestBody String password
-    ) {
-        // Xử lý logic kiểm tra password ở đây
+    public ResponseEntity<?> checkPassword( @PathVariable Long examSessionId, @RequestBody String password)
+    {
         boolean isValid = examSessionService.checkPassword(examSessionId, password);
 
         if (isValid) {
@@ -170,5 +167,4 @@ public class ApiExamSessionController {
             return ResponseEntity.status(401).body(new ResponseDTO("Sai mật khẩu!"));
         }
     }
-
 }
