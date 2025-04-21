@@ -143,7 +143,7 @@ public class ApiExamSessionController {
     }
 
     @PutMapping("/update/exam-session-configuration/{id}")
-    public ResponseEntity<?> updateExamSessionConfiguration(@PathVariable Long id, @RequestParam int examNumber, @RequestParam int questionPerExam) {
+    public ResponseEntity<?> updateExamSessionConfiguration(@PathVariable Long id, @RequestParam int questionPerExam) {
         try {
             ExamSession updatedExamSession = examSessionService.updateExamSessionConfiguration(id, questionPerExam);
             if (updatedExamSession != null) {
