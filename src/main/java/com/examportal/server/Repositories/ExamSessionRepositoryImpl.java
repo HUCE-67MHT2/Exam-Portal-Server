@@ -92,10 +92,9 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     }
 
     @Override
-    public ExamSession updateExamSessionConfig(Long id, int defaultExamNumber, int defaultQuestionPerExam) {
+    public ExamSession updateExamSessionConfig(Long id, int defaultQuestionPerExam) {
         ExamSession existingExamSession = entityManager.find(ExamSession.class, id);
         if (existingExamSession != null) {
-            existingExamSession.setExamNumber(defaultExamNumber);
             existingExamSession.setQuestionPerExam(defaultQuestionPerExam);
             entityManager.merge(existingExamSession); // Cập nhật vào DB
             return existingExamSession;
