@@ -13,7 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Map; // Import Map
+import java.util.Map;
 import java.util.Objects;
 
 @Component
@@ -83,10 +83,9 @@ public class ExamTimeCheckScheduler {
                 User user = userRepository.getUserById(userId);
 
 
-                if(Objects.equals(examResult.getExamType(), "upload") && !examResult.isSubmit()){
+                if (Objects.equals(examResult.getExamType(), "upload") && !examResult.isSubmit()) {
                     examService.submitUploadExam(examResult.getExamId(), examResult.getUserId());
-                }
-                else{
+                } else {
                     // xử lý nộp bài cho exam với type là autogen
 
                 }

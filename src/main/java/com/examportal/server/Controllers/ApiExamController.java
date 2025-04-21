@@ -47,6 +47,8 @@ public class ApiExamController {
 
     @Autowired
     private StudentAnswerService studentAnswerService;
+    @Autowired
+    private ExamResultRepository examResultRepository;
 
     @DeleteMapping("/delete/exam/{id}")
     public ResponseEntity<?> deleteExamSession(@PathVariable Long id) {
@@ -206,7 +208,6 @@ public class ApiExamController {
         }
     }
 
-
     @PostMapping("/get/test/state/upload/exam/{examId}")
     public ResponseEntity<?> getTestState(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {
@@ -234,6 +235,8 @@ public class ApiExamController {
     }
 
 
+    // test ham (cos ther xoa di)
+
     @PostMapping("upload/submit/{examId}")
     public ResponseEntity<?> uploadSubmit(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {
@@ -253,11 +256,6 @@ public class ApiExamController {
         }
     }
 
-
-    // test ham (cos ther xoa di)
-
-    @Autowired
-    private ExamResultRepository examResultRepository;
     @PostMapping("/test")
     public ResponseEntity<?> test(HttpServletRequest request) {
         try {
@@ -281,6 +279,7 @@ public class ApiExamController {
             throw new RuntimeException(e);
         }
     }
+
     @GetMapping("/get/all/questions/and/answers/{examId}")
     public ResponseEntity<?> getAllQuestionsAndAnswers(@PathVariable("examId") Long examId) {
         try {
@@ -291,7 +290,7 @@ public class ApiExamController {
             if (exam == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("Exam not found"));
             }
-            List<ExamQuestion> examQuestions =  examQuestionService.getExamQuestionsByExamId(examId);
+            List<ExamQuestion> examQuestions = examQuestionService.getExamQuestionsByExamId(examId);
             if (examQuestions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("No questions found for the given exam ID"));
             }
@@ -323,6 +322,7 @@ public class ApiExamController {
                     .body(new ResponseDTO("An error occurred: " + e.getMessage()));
         }
     }
+
     @PostMapping("/submit/exam/type/auto-generate")
     public ResponseEntity<?> submitExamAutoGenerate(@RequestBody long examId, HttpServletRequest request) {
         try {
@@ -355,9 +355,9 @@ public class ApiExamController {
             List<StudentAnswer> studentAnswers = studentAnswerService.getStudentAnswers(examId, user.getId());
             int count = 0;
             for (StudentAnswer studentAnswer : studentAnswers) {
-                if(studentAnswer.getAnswerId() != null) {
+                if (studentAnswer.getAnswerId() != null) {
                     QuestionAnswer questionAnswer = questionAnswerService.getAnswerById(studentAnswer.getAnswerId());
-                    if(questionAnswer != null) {
+                    if (questionAnswer != null) {
                         if (questionAnswer.isCorrect()) {
                             count++;
                         }
@@ -366,7 +366,7 @@ public class ApiExamController {
 
             }
             float percentage = (float) count / (float) examResult.getExam().getTotalQuestions();
-            examResult.setTotalScore( percentage * 10);
+            examResult.setTotalScore(percentage * 10);
             examResultService.save(examResult);
             return ResponseEntity.ok(examResult);
 

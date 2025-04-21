@@ -51,11 +51,9 @@ public class ExamSession implements Serializable {
     @Column(name = "password", nullable = false)
     private String password;
 
-    @Column(name = "exam_number", length = 30, nullable = false)
-    private int examNumber = 0;
-
     @Column(name = "question_per_exam", length = 30, nullable = false)
     private int questionPerExam = 0;
+
     @OneToMany
     @JoinColumn(name = "exam_session_id", referencedColumnName = "id")
     @JsonManagedReference

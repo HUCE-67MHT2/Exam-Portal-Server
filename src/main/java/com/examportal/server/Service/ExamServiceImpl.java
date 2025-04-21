@@ -2,8 +2,8 @@ package com.examportal.server.Service;
 
 import com.examportal.server.Controllers.GoogleDriveController;
 import com.examportal.server.DTO.ExamResultStatusInfo;
-import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.DTO.UploadAnswerDTO;
+import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Repositories.ExamRepository;
@@ -168,13 +168,12 @@ public class ExamServiceImpl implements ExamService {
             }
 
             return new UploadExamStateResponseDTO("Tiếp tục làm bài",
-                statusInfo.getEndTime().toString(), dtoList);
+                    statusInfo.getEndTime().toString(), dtoList);
 
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
     }
-
 
 
     @Override

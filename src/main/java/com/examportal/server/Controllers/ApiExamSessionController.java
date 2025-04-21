@@ -157,8 +157,7 @@ public class ApiExamSessionController {
     }
 
     @PostMapping("/check-password/{examSessionId}")
-    public ResponseEntity<?> checkPassword( @PathVariable Long examSessionId, @RequestBody String password)
-    {
+    public ResponseEntity<?> checkPassword(@PathVariable Long examSessionId, @RequestBody String password) {
         boolean isValid = examSessionService.checkPassword(examSessionId, password);
 
         if (isValid) {
