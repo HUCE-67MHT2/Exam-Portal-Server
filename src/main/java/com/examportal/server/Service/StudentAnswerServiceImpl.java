@@ -93,7 +93,7 @@ public class StudentAnswerServiceImpl implements StudentAnswerService {
 
     @Override
     public StudentAnswer findStudentAnswerAutogen(Long studentId, Long examId, long questionId) {
-        return studentAnswerRepository.findStudentAnswerAutogen(studentId,examId,questionId);
+        return studentAnswerRepository.findStudentAnswerAutogen(studentId, examId, questionId);
     }
 
 }

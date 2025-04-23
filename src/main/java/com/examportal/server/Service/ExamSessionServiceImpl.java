@@ -60,7 +60,7 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     }
 
     @Override
-    public ExamSession updateExamSessionConfiguration(Long id, int examNumber, int questionPerExam) {
-        return examSessionRepository.updateExamSessionConfig(id, examNumber, questionPerExam);
+    public ExamSession updateExamSessionConfiguration(Long id, int questionPerExam) {
+        return examSessionRepository.updateExamSessionConfig(id, questionPerExam);
     }
 }

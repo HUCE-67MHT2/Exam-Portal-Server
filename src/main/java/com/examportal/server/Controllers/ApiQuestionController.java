@@ -1,8 +1,10 @@
 package com.examportal.server.Controllers;
 
 import com.examportal.server.DTO.ResponseDTO;
+import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.Question;
 import com.examportal.server.Service.ExamQuestionService;
+import com.examportal.server.Service.ExamService;
 import com.examportal.server.Service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -23,13 +25,25 @@ public class ApiQuestionController {
     @Autowired
     private ExamQuestionService examQuestionService;
 
+    @Autowired
+    private ExamService examService;
+
     @PostMapping("/add/question")
     public ResponseEntity<?> addQuestion(@RequestBody Question question) {
         try {
             questionService.save(question);
             long examSessionId = question.getExamSessionId();
 
-            examQuestionService.regenerateExamQuestions(examSessionId);
+            // Check if any exams exist for this session
+            List<Exam> examExists = examService.getExamBySessionId(examSessionId);
+
+            boolean autoGenerateExamsExist = examExists.stream()
+                    .anyMatch(exam -> "auto-generate".equals(exam.getType()));
+
+            if (autoGenerateExamsExist) {
+                // Regenerate exam questions if auto-generate exams exist
+                examQuestionService.regenerateExamQuestions(examSessionId);
+            }
 
             Map<String, Object> response = new HashMap<>();
             response.put("id", question.getId());
@@ -54,7 +68,16 @@ public class ApiQuestionController {
                         .body(new ResponseDTO("Question not found with ID: " + id));
             }
             long examSessionId = updatedQuestion.getExamSessionId();
-            examQuestionService.regenerateExamQuestions(examSessionId);
+            // Check if any exams exist for this session
+            List<Exam> examExists = examService.getExamBySessionId(examSessionId);
+
+            boolean autoGenerateExamsExist = examExists.stream()
+                    .anyMatch(exam -> "auto-generate".equals(exam.getType()));
+
+            if (autoGenerateExamsExist) {
+                // Regenerate exam questions if auto-generate exams exist
+                examQuestionService.regenerateExamQuestions(examSessionId);
+            }
             Map<String, Object> response = new HashMap<>();
             response.put("question", updatedQuestion);
             response.put("message", "Question updated successfully");
@@ -90,7 +113,16 @@ public class ApiQuestionController {
             }
 
             // Use the previously stored examSessionId
-            examQuestionService.regenerateExamQuestions(examSessionId);
+            // Check if any exams exist for this session
+            List<Exam> examExists = examService.getExamBySessionId(examSessionId);
+
+            boolean autoGenerateExamsExist = examExists.stream()
+                    .anyMatch(exam -> "auto-generate".equals(exam.getType()));
+
+            if (autoGenerateExamsExist) {
+                // Regenerate exam questions if auto-generate exams exist
+                examQuestionService.regenerateExamQuestions(examSessionId);
+            }
 
             Map<String, Object> response = new HashMap<>();
             response.put("message", "Question deleted successfully");

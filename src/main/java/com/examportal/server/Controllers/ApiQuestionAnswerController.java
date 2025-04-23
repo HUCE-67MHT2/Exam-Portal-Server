@@ -166,10 +166,10 @@ public class ApiQuestionAnswerController {
                     .body(new ResponseDTO("Lỗi khi cập nhật câu trả lời: " + e.getMessage()));
         }
     }
-    // ----------------------- Mode MANUAL -----------------------
+    // ----------------------- Mode AUTO-GENERATE -----------------------
 
     /**
-     * POST API cho mode manual.
+     * POST API cho mode auto-generate.
      * Client gửi payload như:
      * {
      * "answers": {
@@ -186,10 +186,10 @@ public class ApiQuestionAnswerController {
      * }
      * }
      * }
-     * Lưu ý: Không có examId trong payload cho mode manual.
+     * Lưu ý: Không có examId trong payload cho mode auto-generate.
      */
-    @PostMapping(value = "/manual", consumes = {"application/json;charset=UTF-8"})
-    public ResponseEntity<?> addManualQuestionAnswers(@RequestBody Map<String, Object> answerData) {
+    @PostMapping(value = "/auto-generate", consumes = {"application/json;charset=UTF-8"})
+    public ResponseEntity<?> addAutoGenerateQuestionAnswers(@RequestBody Map<String, Object> answerData) {
         try {
             ObjectMapper objectMapper = new ObjectMapper();
 
@@ -230,7 +230,7 @@ public class ApiQuestionAnswerController {
                     questionId = Long.parseLong(questionIdKey);
                 } catch (NumberFormatException nfe) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("Invalid question_id key in manual mode: " + questionIdKey));
+                            .body(new ResponseDTO("Invalid question_id key in auto-generate mode: " + questionIdKey));
                 }
                 for (Integer ord : orderings) {
                     String ansText = answerObj.get(String.valueOf(ord));
@@ -257,11 +257,11 @@ public class ApiQuestionAnswerController {
     }
 
     /**
-     * GET API cho mode manual.
-     * Client truyền questionId qua query parameter để lấy danh sách câu trả lời có source là "manual".
+     * GET API cho mode auto-generate.
+     * Client truyền questionId qua query parameter để lấy danh sách câu trả lời có source là "auto-generate".
      */
-    @GetMapping("/manual")
-    public ResponseEntity<?> getManualQuestionAnswers(@RequestParam("questionId") Long questionId) {
+    @GetMapping("/auto-generate")
+    public ResponseEntity<?> getAutoGenerateQuestionAnswers(@RequestParam("questionId") Long questionId) {
         try {
             List<QuestionAnswer> allAnswers = questionAnswerService.getList();
             List<QuestionAnswer> filtered = allAnswers.stream()
@@ -273,11 +273,11 @@ public class ApiQuestionAnswerController {
         } catch (Exception e) {
             e.printStackTrace();
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to retrieve manual question answers: " + e.getMessage()));
+                    .body(new ResponseDTO("Failed to retrieve auto-generate question answers: " + e.getMessage()));
         }
     }
 
-    @GetMapping("manual/random/by/quesionId/{questionId}")
+    @GetMapping("auto-generate/random/by/quesionId/{questionId}")
     public ResponseEntity<?> getAnswersByQuestionIdRand(@PathVariable Long questionId) {
         try {
             List<QuestionAnswer> answers = questionAnswerService.getAnswersByQuestionIdRand(questionId);

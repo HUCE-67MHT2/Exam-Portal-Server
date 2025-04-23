@@ -73,9 +73,9 @@ public class ExamResultServiceImpl implements ExamResultService {
 
         // Kiểm tra xem bài thi sắp hết hạn không (còn 5 phút)
         statusInfo.setAboutToExpire(
-            now.isBefore(endTime) &&
-            now.isAfter(endTime.minusMinutes(5)) &&
-            !statusInfo.isWarningSent()
+                now.isBefore(endTime) &&
+                        now.isAfter(endTime.minusMinutes(5)) &&
+                        !statusInfo.isWarningSent()
         );
 
         return statusInfo;

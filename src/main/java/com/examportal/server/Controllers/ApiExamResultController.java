@@ -34,6 +34,7 @@ public class ApiExamResultController {
     private ExamQuestionService examQuestionService;
     @Autowired
     private StudentAnswerService studentAnswerService;
+
     @GetMapping("get/list/student/result/in/session/{examSessionId}")
     public ResponseEntity<?> getListStudentResultInSession(@PathVariable Long examSessionId) {
         try {
@@ -74,9 +75,8 @@ public class ApiExamResultController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
             }
             ExamResult examResultcheck = examResultService.getExamResultByExamIdAndUserId(examId, user.getId());
-            if(examResultcheck != null ){
-                if(examResultcheck.isSubmit() == true)
-                {
+            if (examResultcheck != null) {
+                if (examResultcheck.isSubmit() == true) {
                     return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Bạn đã làm bài thi này rồi"));
                 }
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Tiếp tục làm bài"));
@@ -106,7 +106,7 @@ public class ApiExamResultController {
                 studentAnswer.setQuestionNo(i + 1);
                 studentAnswerService.save(studentAnswer);
             }
-            Map<String,Object> response = new HashMap<>();
+            Map<String, Object> response = new HashMap<>();
             response.put("examResultId", examResult.getId());
             response.put("examQuestions", examQuestions);
             return ResponseEntity.ok(response);
@@ -116,6 +116,7 @@ public class ApiExamResultController {
                     .body("Có lỗi xảy ra: " + e.getMessage());
         }
     }
+
     @GetMapping("/get/time/remain/exam-result/{examId}")
     public ResponseEntity<?> getTimeRemainExamResult(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {
@@ -143,13 +144,13 @@ public class ApiExamResultController {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
             }
             ExamResult examResult = examResultService.getExamResultByExamIdAndUserId(examId, user.getId());
-            if(examResult == null){
+            if (examResult == null) {
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Không tìm thấy kết quả thi"));
             }
             ExamResultTimerDTO examResultTimerDTO = new ExamResultTimerDTO();
             examResultTimerDTO.setStartTime(examResult.getStartTime());
             examResultTimerDTO.setEndTime(examResult.getEndTime());
-            Map<String , Object> map = new HashMap<>();
+            Map<String, Object> map = new HashMap<>();
             map.put("examResultTimerDTO", examResultTimerDTO);
             return ResponseEntity.ok(map);
 
@@ -160,6 +161,7 @@ public class ApiExamResultController {
 
 
     }
+
     @PostMapping("/auto/save/answer-student/{examId}")
     public ResponseEntity<?> AutoSaveAutoGen(@PathVariable("examId") Long examId,
                                              @RequestBody List<StudentAnswerAutoGen> student_answers,

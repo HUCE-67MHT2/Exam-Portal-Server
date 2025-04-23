@@ -16,6 +16,7 @@ public interface ExamResultService {
     void delete(Long id);
 
     List<StudentResultInExamSession> getListStudentResultInExamSession(Long examSessionId);
+
     ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId);
 
     ExamResultStatusInfo checkExamResultStatus(Long examId, Long userId);

@@ -24,5 +24,5 @@ public interface ExamSessionService {
 
     boolean checkPassword(Long id, String password);
 
-    ExamSession updateExamSessionConfiguration(Long id, int examNumber, int questionPerExam);
+    ExamSession updateExamSessionConfiguration(Long id, int questionPerExam);
 }

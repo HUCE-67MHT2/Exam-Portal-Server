@@ -55,6 +55,7 @@ public class ApiStudentAnswerController {
                     .body(Collections.singletonMap("message", "Có lỗi xảy ra: " + e.getMessage()));
         }
     }
+
     @GetMapping("/get/list/student-answer/auto-generate/{examId}")
     public ResponseEntity<?> getListStudentAnswerAutoGenerate(@PathVariable("examId") Long examId, HttpServletRequest request) {
         try {

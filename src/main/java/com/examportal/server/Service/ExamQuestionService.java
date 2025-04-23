@@ -18,5 +18,6 @@ public interface ExamQuestionService {
     List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId);
 
     void regenerateExamQuestions(Long Id);
+
     List<ExamQuestion> getExamQuestionsByExamId(Long examId);
 }
