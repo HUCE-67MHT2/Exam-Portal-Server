@@ -11,6 +11,4 @@ public class UploadStudentAnswerRequest {
     private Long examId;
     private Map<Integer, String> answers;
 
-    {
-    }
 }
