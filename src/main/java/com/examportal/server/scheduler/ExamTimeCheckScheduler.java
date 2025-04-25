@@ -58,8 +58,8 @@ public class ExamTimeCheckScheduler {
                 );
 
                 // SỬ DỤNG convertAndSendToUser
-                messagingTemplate.convertAndSendToUser(user.getEmail(), destination, warningPayload);
-                System.out.println("Sent 5-minute warning to user " + user.getEmail() + " for examResult " + examResult.getId());
+                messagingTemplate.convertAndSendToUser(user.getUsername(), destination, warningPayload);
+                System.out.println("Sent 5-minute warning to user " + user.getUsername() + " for examResult " + examResult.getId());
 
                 examResult.setWarningSent(true);
                 examResultRepository.save(examResult);
@@ -98,8 +98,8 @@ public class ExamTimeCheckScheduler {
                 );
 
                 // SỬ DỤNG convertAndSendToUser
-                messagingTemplate.convertAndSendToUser(user.getEmail(), destination, forceSubmitPayload);
-                System.out.println("Sent force submit notification to user " + user.getEmail() + " for examResult " + examResult.getId());
+                messagingTemplate.convertAndSendToUser(user.getUsername(), destination, forceSubmitPayload);
+                System.out.println("Sent force submit notification to user " + user.getUsername() + " for examResult " + examResult.getId());
 
             } catch (Exception e) {
                 System.out.println("Error auto-submitting or notifying for examResult " + examResult.getId() + ": " + e.getMessage());
