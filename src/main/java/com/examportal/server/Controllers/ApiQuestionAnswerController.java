@@ -42,16 +42,14 @@ public class ApiQuestionAnswerController {
             // Lấy examId từ payload
             Object examIdObj = answerData.get("examId");
             if (examIdObj == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDTO("Missing 'examId' in request answerData."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing 'examId' in request answerData."));
             }
             Long examId = objectMapper.convertValue(examIdObj, Long.class);
 
             // Lấy answers
             Object answersObj = answerData.get("answers");
             if (answersObj == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDTO("Missing 'answers' in request answerData."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing 'answers' in request answerData."));
             }
             Map<String, String> answerMap = objectMapper.convertValue(answersObj, new TypeReference<>() {
             });
@@ -75,8 +73,7 @@ public class ApiQuestionAnswerController {
                         answersToSave.add(questionAnswer);
                     }
                 } catch (NumberFormatException nfe) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
                 }
             }
             questionAnswerService.saveAll(answersToSave);
@@ -85,8 +82,7 @@ public class ApiQuestionAnswerController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to save upload question answers: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to save upload question answers: " + e.getMessage()));
         }
     }
 
@@ -98,16 +94,11 @@ public class ApiQuestionAnswerController {
     public ResponseEntity<?> getUploadQuestionAnswers(@RequestParam("examId") Long examId) {
         try {
             List<QuestionAnswer> allAnswers = questionAnswerService.getList();
-            List<QuestionAnswer> filteredAnswers = allAnswers.stream()
-                    .filter(questionAnswer -> questionAnswer.getExam_id() != null &&
-                            questionAnswer.getExam_id().equals(examId) &&
-                            "upload".equalsIgnoreCase(questionAnswer.getSource()))
-                    .collect(Collectors.toList());
+            List<QuestionAnswer> filteredAnswers = allAnswers.stream().filter(questionAnswer -> questionAnswer.getExam_id() != null && questionAnswer.getExam_id().equals(examId) && "upload".equalsIgnoreCase(questionAnswer.getSource())).collect(Collectors.toList());
             return ResponseEntity.ok(filteredAnswers);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to retrieve upload question answers: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to retrieve upload question answers: " + e.getMessage()));
         }
     }
 
@@ -119,16 +110,14 @@ public class ApiQuestionAnswerController {
             // Lấy examId từ payload
             Object examIdObj = answerData.get("examId");
             if (examIdObj == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDTO("Missing 'examId' in request answerData."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing 'examId' in request answerData."));
             }
             Long examId = objectMapper.convertValue(examIdObj, Long.class);
 
             // Lấy answers
             Object answersObj = answerData.get("answers");
             if (answersObj == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDTO("Missing 'answers' in request answerData."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing 'answers' in request answerData."));
             }
             Map<String, String> answerMap = objectMapper.convertValue(answersObj, new TypeReference<>() {
             });
@@ -152,8 +141,7 @@ public class ApiQuestionAnswerController {
                         updateAnswers.add(questionAnswer);
                     }
                 } catch (NumberFormatException nfe) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Invalid question_no key in upload mode: " + key));
                 }
             }
             questionAnswerService.update(examId, updateAnswers);
@@ -162,8 +150,7 @@ public class ApiQuestionAnswerController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Lỗi khi cập nhật câu trả lời: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Lỗi khi cập nhật câu trả lời: " + e.getMessage()));
         }
     }
     // ----------------------- Mode AUTO-GENERATE -----------------------
@@ -196,8 +183,7 @@ public class ApiQuestionAnswerController {
             // Lấy answers từ payload
             Object answersObj = answerData.get("answers");
             if (answersObj == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                        .body(new ResponseDTO("Missing 'answers' in request answerData."));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing 'answers' in request answerData."));
             }
             Map<String, Map<String, String>> answerMap = objectMapper.convertValue(answersObj, new TypeReference<>() {
             });
@@ -206,31 +192,24 @@ public class ApiQuestionAnswerController {
                 String questionIdKey = entry.getKey().trim();
                 Map<String, String> answerObj = entry.getValue();
                 if (answerObj == null || answerObj.isEmpty()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("No answers provided for question: " + questionIdKey));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("No answers provided for question: " + questionIdKey));
                 }
                 // Sắp xếp các key của answerObj theo thứ tự số tăng dần
-                List<Integer> orderings = answerObj.keySet().stream()
-                        .map(s -> {
-                            try {
-                                return Integer.parseInt(s);
-                            } catch (NumberFormatException e) {
-                                return null;
-                            }
-                        })
-                        .filter(Objects::nonNull)
-                        .sorted()
-                        .toList();
+                List<Integer> orderings = answerObj.keySet().stream().map(s -> {
+                    try {
+                        return Integer.parseInt(s);
+                    } catch (NumberFormatException e) {
+                        return null;
+                    }
+                }).filter(Objects::nonNull).sorted().toList();
                 if (orderings.isEmpty()) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("No valid ordering keys for question: " + questionIdKey));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("No valid ordering keys for question: " + questionIdKey));
                 }
                 Long questionId;
                 try {
                     questionId = Long.parseLong(questionIdKey);
                 } catch (NumberFormatException nfe) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
-                            .body(new ResponseDTO("Invalid question_id key in auto-generate mode: " + questionIdKey));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Invalid question_id key in auto-generate mode: " + questionIdKey));
                 }
                 for (Integer ord : orderings) {
                     String ansText = answerObj.get(String.valueOf(ord));
@@ -251,8 +230,7 @@ public class ApiQuestionAnswerController {
             return ResponseEntity.ok(response);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to save auto-generated question answers: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to save auto-generated question answers: " + e.getMessage()));
         }
     }
 
@@ -264,16 +242,11 @@ public class ApiQuestionAnswerController {
     public ResponseEntity<?> getAutoGenerateQuestionAnswers(@RequestParam("questionId") Long questionId) {
         try {
             List<QuestionAnswer> allAnswers = questionAnswerService.getList();
-            List<QuestionAnswer> filtered = allAnswers.stream()
-                    .filter(qa -> "auto-generate".equalsIgnoreCase(qa.getSource()) &&
-                            qa.getQuestion_id() != null &&
-                            qa.getQuestion_id().equals(questionId))
-                    .collect(Collectors.toList());
+            List<QuestionAnswer> filtered = allAnswers.stream().filter(qa -> "auto-generate".equalsIgnoreCase(qa.getSource()) && qa.getQuestion_id() != null && qa.getQuestion_id().equals(questionId)).collect(Collectors.toList());
             return ResponseEntity.ok(filtered);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to retrieve auto-generate question answers: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to retrieve auto-generate question answers: " + e.getMessage()));
         }
     }
 
@@ -284,9 +257,46 @@ public class ApiQuestionAnswerController {
             return ResponseEntity.ok(answers);
         } catch (Exception e) {
             e.printStackTrace();
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
-                    .body(new ResponseDTO("Failed to retrieve answers: " + e.getMessage()));
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to retrieve answers: " + e.getMessage()));
         }
     }
 
+    @PutMapping("/auto-generate/{questionId}")
+    public ResponseEntity<?> updateAutoGenerateQuestionAnswers(@PathVariable Long questionId, @RequestBody Map<String, String> answers) {
+        try {
+            if (answers == null || answers.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Missing or empty 'answers' in request body."));
+            }
+            List<QuestionAnswer> updateAnswers = new ArrayList<>();
+            List<Integer> orderings = answers.keySet().stream().map(s -> {
+                try {
+                    return Integer.parseInt(s);
+                } catch (NumberFormatException e) {
+                    return null;
+                }
+            }).filter(Objects::nonNull).sorted().toList();
+            if (orderings.isEmpty()) {
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("No valid ordering keys for question: " + questionId));
+            }
+            for (Integer ord : orderings) {
+                String ansText = answers.get(String.valueOf(ord));
+                if (ansText == null) continue;
+                QuestionAnswer questionAnswer = new QuestionAnswer();
+                questionAnswer.setId(null);
+                questionAnswer.setQuestion_id(questionId);
+                questionAnswer.setOrdering(ord);
+                questionAnswer.setAnswerText(ansText.trim());
+                questionAnswer.setSource("auto-generate");
+                questionAnswer.setCorrect(ord.equals(orderings.getFirst()));
+                updateAnswers.add(questionAnswer);
+            }
+            questionAnswerService.update(questionId, updateAnswers);
+            Map<String, Object> response = new HashMap<>();
+            response.put("message", "Auto-generate question answers updated successfully");
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(new ResponseDTO("Failed to update auto-generate question answers: " + e.getMessage()));
+        }
+    }
 }
