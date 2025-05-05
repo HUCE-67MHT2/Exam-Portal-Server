@@ -25,7 +25,7 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
     private EntityManager entityManager;
 
     @Override
-    public void generateExamQuestions(String examId, int questionsPerSet) {
+    public void generateExamQuestions(Long examId, int questionsPerSet) {
         // Lấy exam để truy ra examSessionId
         Exam exam = entityManager.find(Exam.class, examId);
         if (exam == null) {
@@ -45,7 +45,7 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
         for (int order = 0; order < questions.size(); order++) {
             Question question = questions.get(order);
             ExamQuestion examQuestion = new ExamQuestion();
-            examQuestion.setExamId(Long.valueOf(examId));
+            examQuestion.setExamId(examId);
             examQuestion.setQuestionId(question.getId());
             examQuestion.setOrdering(order + 1);
             examQuestionRepository.save(examQuestion);
@@ -73,7 +73,7 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
     }
 
     @Override
-    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId) {
+    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(Long examId) {
         // Implementation to retrieve exam questions by exam ID in random order
         List<ExamQuestion> examQuestions = examQuestionRepository.getExamQuestionsByExamIdRandOrder(examId);
         if (examQuestions.isEmpty()) {
@@ -102,9 +102,9 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
 
             for (Exam exam : exams) {
                 // Xóa các câu hỏi cũ
-                examQuestionRepository.deleteByExamId(String.valueOf(exam.getId()));
+                examQuestionRepository.deleteByExamId(exam.getId());
                 // Tạo mới các câu hỏi cho mỗi exam
-                generateExamQuestions(String.valueOf(exam.getId()), questionsPerExam);
+                generateExamQuestions(exam.getId(), questionsPerExam);
             }
         } catch (Exception e) {
             // Log the exception

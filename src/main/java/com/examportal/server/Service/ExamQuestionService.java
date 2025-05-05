@@ -5,7 +5,7 @@ import com.examportal.server.Entity.ExamQuestion;
 import java.util.List;
 
 public interface ExamQuestionService {
-    void generateExamQuestions(String examId, int questionsPerSet);
+    void generateExamQuestions(Long examId, int questionsPerSet);
 
     List<ExamQuestion> getList();
 
@@ -15,7 +15,7 @@ public interface ExamQuestionService {
 
     void delete(ExamQuestion examQuestion);
 
-    List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId);
+    List<ExamQuestion> getExamQuestionsByExamIdRandOrder(Long examId);
 
     void regenerateExamQuestions(Long Id);
 

@@ -283,7 +283,7 @@ public class ApiExamController {
             if (exam == null) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("Exam not found"));
             }
-            List<ExamQuestion> examQuestions = examQuestionService.getExamQuestionsByExamId(examId);
+            List<ExamQuestion> examQuestions = examQuestionService.getExamQuestionsByExamIdRandOrder(examId);
             if (examQuestions.isEmpty()) {
                 return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ResponseDTO("No questions found for the given exam ID"));
             }

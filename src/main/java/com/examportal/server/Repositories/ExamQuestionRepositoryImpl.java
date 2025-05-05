@@ -26,7 +26,7 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     }
 
     @Override
-    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(String examId) {
+    public List<ExamQuestion> getExamQuestionsByExamIdRandOrder(Long examId) {
         String hql = "FROM ExamQuestion eq WHERE eq.examId = :examId ORDER BY RAND()";
         TypedQuery<ExamQuestion> query = entityManager.createQuery(hql, ExamQuestion.class);
         query.setParameter("examId", Long.valueOf(examId));
@@ -42,7 +42,7 @@ public class ExamQuestionRepositoryImpl implements ExamQuestionRepository {
     }
 
     @Override
-    public void deleteByExamId(String examId) {
+    public void deleteByExamId(Long examId) {
         String hql = "DELETE FROM ExamQuestion eq WHERE eq.examId = :examId";
         entityManager.createQuery(hql)
                 .setParameter("examId", Long.valueOf(examId))

@@ -17,18 +17,25 @@ public class ApiExamQuestionController {
     private ExamQuestionService examQuestionService;
 
     @PostMapping("/generate")
-    public ResponseEntity<String> generateExamQuestions(@RequestParam String examId, @RequestParam("questionsPerExam") int questionsPerExam) {
+    public ResponseEntity<String> generateExamQuestions(@RequestParam Long examId, @RequestParam("questionsPerExam") int questionsPerExam) {
         // Generate a set of questions for the exam
         examQuestionService.generateExamQuestions(examId, questionsPerExam);
         return ResponseEntity.ok("Generated  questions for id " + examId + " successfully");
     }
 
     @GetMapping("get/question/by/examId/{examId}")
-    public ResponseEntity<?> getExamQuestionsByExamIdRandOrder(@PathVariable String examId) {
+    public ResponseEntity<?> getExamQuestionsByExamIdRandOrder(@PathVariable Long examId) {
         Map<String, Object> response = new HashMap<>();
         response.put("examId", examId);
         response.put("questions", examQuestionService.getExamQuestionsByExamIdRandOrder(examId));
         return ResponseEntity.ok(response);
     }
 
+    @GetMapping("get/question/by/examId/{examId}/default")
+    public ResponseEntity<?> getExamQuestionsByExamId(@PathVariable Long examId) {
+        Map<String, Object> response = new HashMap<>();
+        response.put("examId", examId);
+        response.put("questions", examQuestionService.getExamQuestionsByExamId(examId));
+        return ResponseEntity.ok(response);
+    }
 }
