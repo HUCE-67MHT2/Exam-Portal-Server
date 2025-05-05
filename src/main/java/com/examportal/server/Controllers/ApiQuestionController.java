@@ -153,4 +153,24 @@ public class ApiQuestionController {
                     .body(new ResponseDTO("Failed to get question: " + e.getMessage()));
         }
     }
+
+    @GetMapping("/get/question/by/id/{id}")
+    public ResponseEntity<?> getQuestionById(@PathVariable("id") Long id) {
+        try {
+            Question question = questionService.getQuestionById(id);
+            if (question == null) {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                        .body(new ResponseDTO("Question not found with ID: " + id));
+            }
+            Map<String, Object> response = new HashMap<>();
+            response.put("question", question);
+            response.put("message", "Question retrieved successfully");
+
+            return ResponseEntity.ok(response);
+        } catch (Exception e) {
+            e.printStackTrace();
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body(new ResponseDTO("Failed to get question: " + e.getMessage()));
+        }
+    }
 }
