@@ -1,13 +1,14 @@
 package com.examportal.server.Service;
 
-import com.google.api.client.googleapis.auth.oauth2.GoogleCredential;
 import com.google.api.client.http.InputStreamContent;
 import com.google.api.client.http.javanet.NetHttpTransport;
 import com.google.api.client.json.JsonFactory;
-import com.google.api.client.json.jackson2.JacksonFactory;
+import com.google.api.client.json.gson.GsonFactory;
 import com.google.api.services.drive.Drive;
 import com.google.api.services.drive.model.File;
 import com.google.api.services.drive.model.Permission;
+import com.google.auth.http.HttpCredentialsAdapter;
+import com.google.auth.oauth2.GoogleCredentials;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.io.ClassPathResource;
 import org.springframework.stereotype.Service;
@@ -19,17 +20,20 @@ import java.util.Collections;
 @Service
 public class GoogleDriveServiceImpl implements GoogleDriveService {
     private static final String APPLICATION_NAME = "MySpringBootApp";
-    private static final JsonFactory JSON_FACTORY = JacksonFactory.getDefaultInstance();
+    private static final JsonFactory JSON_FACTORY = GsonFactory.getDefaultInstance();
 
     @Value("${google.credentials.path}")
     private String credentialsPath;
 
     private Drive getDriveService() throws IOException {
-        GoogleCredential credential = GoogleCredential.fromStream(
-                        new ClassPathResource(credentialsPath).getInputStream())
+        GoogleCredentials credentials = GoogleCredentials.fromStream(
+                new ClassPathResource(credentialsPath).getInputStream())
                 .createScoped(Collections.singletonList("https://www.googleapis.com/auth/drive.file"));
 
-        return new Drive.Builder(new NetHttpTransport(), JSON_FACTORY, credential)
+        return new Drive.Builder(
+                new NetHttpTransport(), 
+                JSON_FACTORY, 
+                new HttpCredentialsAdapter(credentials))
                 .setApplicationName(APPLICATION_NAME)
                 .build();
     }

@@ -1,14 +1,11 @@
 package com.examportal.server.Controllers;
 
-import com.examportal.server.Service.StudentAnswerService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
 @Controller
 public class StudentAnswerController {
-    @Autowired
-    private StudentAnswerService studentAnswerService;
-
+    // Uncomment methods when needed or implement new ones
+    
 //    @GetMapping("/student_answer")
 //    public String studentAnswer(Model model) {
 //        List<StudentAnswer> studentAnswers = studentAnswerService.getList();

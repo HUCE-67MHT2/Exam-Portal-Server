@@ -24,7 +24,7 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     @Override
     public List<ExamResult> getList() {
         String hql = "FROM ExamResult";
-        return entityManager.createQuery(hql).getResultList();
+        return entityManager.createQuery(hql, ExamResult.class).getResultList();
     }
 
     @Override

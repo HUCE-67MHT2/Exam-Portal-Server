@@ -50,9 +50,10 @@ public class JwtTokenUtil {
         return getClaimsFromToken(token).getSubject();
     }
 
+    @SuppressWarnings("unchecked")
     public List<String> getRolesFromToken(String token) {
         Claims claims = getClaimsFromToken(token);
-        return claims.get("roles", List.class);
+        return (List<String>) claims.get("roles", List.class);
     }
 
     public Long getIdFromToken(String token) {

@@ -276,7 +276,6 @@ public class ApiExamController {
     @GetMapping("/get/all/questions/and/answers/{examId}")
     public ResponseEntity<?> getAllQuestionsAndAnswers(@PathVariable("examId") Long examId) {
         try {
-            Map<String, Object> response = new HashMap<>();
             ExamAutoGenDataDTO examAutoGenDataDTO = new ExamAutoGenDataDTO();
             examAutoGenDataDTO.setExam_id(examId);
             Exam exam = examService.getExamById(examId);
@@ -393,7 +392,6 @@ public class ApiExamController {
             if (user == null) {
                 return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
             }
-            Long userId = 5L;
             // Gọi phương thức getTodayExams() từ Service layer
             List<ExamSession> todayExams = examService.getTodayExams(user.getId());
 

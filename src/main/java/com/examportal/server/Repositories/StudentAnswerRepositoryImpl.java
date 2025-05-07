@@ -19,8 +19,7 @@ public class StudentAnswerRepositoryImpl implements StudentAnswerRepository {
     @Override
     public List<StudentAnswer> getList() {
         String hql = "FROM StudentAnswer";
-        return entityManager.createQuery(hql).getResultList();
-
+        return entityManager.createQuery(hql, StudentAnswer.class).getResultList();
     }
 
     @Override

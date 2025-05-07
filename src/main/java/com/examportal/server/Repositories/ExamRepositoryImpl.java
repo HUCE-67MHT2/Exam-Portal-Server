@@ -19,8 +19,7 @@ public class ExamRepositoryImpl implements ExamRepository {
     @Override
     public List<Exam> getList() {
         String hql = "FROM Exam";
-        return entityManager.createQuery(hql).getResultList();
-
+        return entityManager.createQuery(hql, Exam.class).getResultList();
     }
 
     @Override
@@ -49,7 +48,7 @@ public class ExamRepositoryImpl implements ExamRepository {
     @Override
     public List<Exam> getExamBySessionId(Long id) {
         String hql = "FROM Exam e WHERE e.examSessionId = :id";
-        return entityManager.createQuery(hql).setParameter("id", id).getResultList();
+        return entityManager.createQuery(hql, Exam.class).setParameter("id", id).getResultList();
     }
 
     @Override
