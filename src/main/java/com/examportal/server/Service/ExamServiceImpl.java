@@ -5,6 +5,7 @@ import com.examportal.server.DTO.ExamResultStatusInfo;
 import com.examportal.server.DTO.UploadAnswerDTO;
 import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.ExamSession;
 import com.examportal.server.Entity.StudentAnswer;
 import com.examportal.server.Repositories.ExamRepository;
 import com.examportal.server.Repositories.ExamResultRepository;
@@ -214,4 +215,11 @@ public class ExamServiceImpl implements ExamService {
 
 
     }
+
+    @Override
+    public List<ExamSession> getTodayExams(Long userId) {
+        return examRepository.getTodayExams(userId);
+    }
+
+
 }

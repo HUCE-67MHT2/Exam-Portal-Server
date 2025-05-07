@@ -2,6 +2,7 @@ package com.examportal.server.Service;
 
 import com.examportal.server.DTO.UploadExamStateResponseDTO;
 import com.examportal.server.Entity.Exam;
+import com.examportal.server.Entity.ExamSession;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
@@ -30,4 +31,5 @@ public interface ExamService {
 
     void submitUploadExam(Long examId, Long userId);
 
+    List<ExamSession> getTodayExams(Long userId);
 }

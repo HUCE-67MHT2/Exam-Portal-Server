@@ -367,4 +367,47 @@ public class ApiExamController {
             throw new RuntimeException(e);
         }
     }
+    @GetMapping("/today-exams") // Map yêu cầu GET đến /api/exam/today-exams
+    public ResponseEntity<?> getTodayExams() {
+        try {
+            String jwt = request.getHeader("Authorization");
+
+            if (jwt == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+            if (jwt.startsWith("Bearer ")) {
+                jwt = jwt.substring(7);
+            }
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            java.util.Date expiration = claims.getExpiration();
+            if (expiration.before(new java.util.Date())) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Token expired");
+            }
+            String username = claims.getSubject();
+
+            if (username == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
+            }
+
+            User user = userService.getUserByUsername(username);
+            if (user == null) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("User not found");
+            }
+            Long userId = 5L;
+            // Gọi phương thức getTodayExams() từ Service layer
+            List<ExamSession> todayExams = examService.getTodayExams(user.getId());
+
+            // Trả về danh sách bài thi với status 200 OK
+            return ResponseEntity.ok(todayExams);
+
+        } catch (Exception e) {
+            // Log lỗi ra console hoặc hệ thống logging thực tế
+            e.printStackTrace();
+
+            // Trả về lỗi 500 Internal Server Error nếu có vấn đề xảy ra
+            // Có thể trả về một ResponseDTO tùy chỉnh nếu bạn có
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("An error occurred while fetching today's exams: " + e.getMessage());
+        }
+    }
 }
