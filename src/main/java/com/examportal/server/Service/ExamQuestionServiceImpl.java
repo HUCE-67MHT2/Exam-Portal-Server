@@ -90,8 +90,6 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
             if (examSession == null) {
                 throw new IllegalArgumentException("Exam session not found");
             }
-            int questionsPerExam = examSession.getQuestionPerExam();
-
             List<Exam> exams = entityManager.createQuery("SELECT e FROM Exam e WHERE e.examSessionId = :examSessionId AND e.type = 'auto-generate'", Exam.class)
                     .setParameter("examSessionId", examSession.getId())
                     .getResultList();
@@ -104,7 +102,7 @@ public class ExamQuestionServiceImpl implements ExamQuestionService {
                 // Xóa các câu hỏi cũ
                 examQuestionRepository.deleteByExamId(exam.getId());
                 // Tạo mới các câu hỏi cho mỗi exam
-                generateExamQuestions(exam.getId(), questionsPerExam);
+                generateExamQuestions(exam.getId(), exam.getTotalQuestions());
             }
         } catch (Exception e) {
             // Log the exception

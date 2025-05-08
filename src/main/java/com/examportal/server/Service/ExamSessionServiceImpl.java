@@ -58,9 +58,4 @@ public class ExamSessionServiceImpl implements ExamSessionService {
     public boolean checkPassword(Long id, String password) {
         return examSessionRepository.checkPassword(password, id);
     }
-
-    @Override
-    public ExamSession updateExamSessionConfiguration(Long id, int questionPerExam) {
-        return examSessionRepository.updateExamSessionConfig(id, questionPerExam);
-    }
 }

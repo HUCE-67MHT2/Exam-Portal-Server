@@ -92,18 +92,6 @@ public class ExamSessionRepositoryImpl implements ExamSessionRepository {
     }
 
     @Override
-    public ExamSession updateExamSessionConfig(Long id, int defaultQuestionPerExam) {
-        ExamSession existingExamSession = entityManager.find(ExamSession.class, id);
-        if (existingExamSession != null) {
-            existingExamSession.setQuestionPerExam(defaultQuestionPerExam);
-            entityManager.merge(existingExamSession); // Cập nhật vào DB
-            return existingExamSession;
-        } else {
-            return null;
-        }
-    }
-
-    @Override
     public boolean checkPassword(String password, Long id) {
         try {
             ExamSession examSession = this.getExamSessionById(id);

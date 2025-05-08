@@ -142,20 +142,6 @@ public class ApiExamSessionController {
         }
     }
 
-    @PutMapping("/update/exam-session-configuration/{id}")
-    public ResponseEntity<?> updateExamSessionConfiguration(@PathVariable Long id, @RequestParam int questionPerExam) {
-        try {
-            ExamSession updatedExamSession = examSessionService.updateExamSessionConfiguration(id, questionPerExam);
-            if (updatedExamSession != null) {
-                return ResponseEntity.ok(updatedExamSession);
-            } else {
-                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Exam session not found.");
-            }
-        } catch (Exception e) {
-            return ResponseEntity.status(500).body(e.getMessage());
-        }
-    }
-
     @PostMapping("/check-password/{examSessionId}")
     public ResponseEntity<?> checkPassword(@PathVariable Long examSessionId, @RequestBody String password) {
         boolean isValid = examSessionService.checkPassword(examSessionId, password);

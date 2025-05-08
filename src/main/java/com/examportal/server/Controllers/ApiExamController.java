@@ -110,7 +110,6 @@ public class ApiExamController {
             exam.setName(examRequest.getName());
             exam.setTotalQuestions(examRequest.getTotalQuestions());
             exam.setDescription(examRequest.getDescription());
-            exam.setTotalQuestions(examRequest.getTotalQuestions());
             exam.setDuration(examRequest.getDuration());
             exam.setSubject(examRequest.getSubject());
             exam.setStartDate(examRequest.getStartDate());
@@ -143,6 +142,7 @@ public class ApiExamController {
             Exam exam = new Exam();
             exam.setExamSessionId(examRequest.getExamSessionId());
             exam.setName(examRequest.getName());
+            exam.setTotalQuestions(examRequest.getTotalQuestions());
             exam.setDescription(examRequest.getDescription());
             exam.setDuration(examRequest.getDuration());
             exam.setSubject(examRequest.getSubject());
