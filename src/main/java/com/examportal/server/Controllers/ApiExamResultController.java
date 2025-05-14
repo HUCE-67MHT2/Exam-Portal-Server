@@ -210,5 +210,14 @@ public class ApiExamResultController {
         }
     }
 
-
+    @GetMapping("/get/list/exam/result/by/user/id/{userId}")
+    public ResponseEntity<?> getListExamResultByUserId(@PathVariable("userId") Long userId) {
+        try {
+            List<ExamResult> examResults = examResultService.getListExamResultByUserId(userId);
+            return ResponseEntity.ok(examResults);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Có lỗi xảy ra: " + e.getMessage());
+        }
+    }
 }

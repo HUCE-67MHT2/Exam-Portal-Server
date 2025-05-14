@@ -20,4 +20,6 @@ public interface ExamResultService {
     ExamResult getExamResultByExamIdAndUserId(Long examId, Long userId);
 
     ExamResultStatusInfo checkExamResultStatus(Long examId, Long userId);
+
+    List<ExamResult> getListExamResultByUserId(Long userId);
 }

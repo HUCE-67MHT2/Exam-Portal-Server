@@ -35,4 +35,6 @@ public interface ExamResultRepository {
 
     // Tìm các bài thi chưa nộp và đã hết giờ (phiên bản đơn giản hơn)
     List<ExamResult> findExpiredExamsSimple(LocalDateTime now);
+
+    List<ExamResult> getListExamResultByUserId(Long userId);
 }

@@ -80,4 +80,9 @@ public class ExamResultServiceImpl implements ExamResultService {
 
         return statusInfo;
     }
+
+    @Override
+    public List<ExamResult> getListExamResultByUserId(Long userId) {
+        return examResultRepository.getListExamResultByUserId(userId);
+    }
 }

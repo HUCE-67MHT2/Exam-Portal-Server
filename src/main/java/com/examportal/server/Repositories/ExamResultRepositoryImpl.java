@@ -165,4 +165,12 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
         query.setParameter("now", now);
         return query.getResultList();
     }
+
+    @Override
+    public List<ExamResult> getListExamResultByUserId(Long userId) {
+        String jpql = "SELECT er FROM ExamResult er WHERE er.user.id = :userId";
+        TypedQuery<ExamResult> query = entityManager.createQuery(jpql, ExamResult.class);
+        query.setParameter("userId", userId);
+        return query.getResultList();
+    }
 }
