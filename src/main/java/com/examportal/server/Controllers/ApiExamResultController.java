@@ -38,8 +38,8 @@ public class ApiExamResultController {
     @GetMapping("get/list/student/result/in/session/{examSessionId}")
     public ResponseEntity<?> getListStudentResultInSession(@PathVariable Long examSessionId) {
         try {
-            List<StudentResultInExamSession> studentList =
-                    examResultService.getListStudentResultInExamSession(examSessionId);
+            List<StudentResultInExamSession> studentList = examResultService
+                    .getListStudentResultInExamSession(examSessionId);
             return ResponseEntity.ok(studentList);
         } catch (Exception e) {
             // Log lỗi nếu cần
@@ -77,7 +77,8 @@ public class ApiExamResultController {
             ExamResult examResultcheck = examResultService.getExamResultByExamIdAndUserId(examId, user.getId());
             if (examResultcheck != null) {
                 if (examResultcheck.isSubmit() == true) {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Bạn đã làm bài thi này rồi"));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ResponseDTO("Bạn đã làm bài thi này rồi"));
                 }
                 return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Tiếp tục làm bài"));
             }
@@ -145,7 +146,8 @@ public class ApiExamResultController {
             }
             ExamResult examResult = examResultService.getExamResultByExamIdAndUserId(examId, user.getId());
             if (examResult == null) {
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Không tìm thấy kết quả thi"));
+                return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                        .body(new ResponseDTO("Không tìm thấy kết quả thi"));
             }
             ExamResultTimerDTO examResultTimerDTO = new ExamResultTimerDTO();
             examResultTimerDTO.setStartTime(examResult.getStartTime());
@@ -159,13 +161,12 @@ public class ApiExamResultController {
                     .body("Có lỗi xảy ra: " + e.getMessage());
         }
 
-
     }
 
     @PostMapping("/auto/save/answer-student/{examId}")
     public ResponseEntity<?> AutoSaveAutoGen(@PathVariable("examId") Long examId,
-                                             @RequestBody List<StudentAnswerAutoGen> student_answers,
-                                             HttpServletRequest request) {
+            @RequestBody List<StudentAnswerAutoGen> student_answers,
+            HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
 
@@ -198,7 +199,8 @@ public class ApiExamResultController {
                     studentAnswer1.setAnswerId(studentAnswer.getSelected_answer_id());
                     studentAnswerService.save(studentAnswer1); // Nếu có save thì nên gọi
                 } else {
-                    return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(new ResponseDTO("Không tìm thấy câu trả lời"));
+                    return ResponseEntity.status(HttpStatus.BAD_REQUEST)
+                            .body(new ResponseDTO("Không tìm thấy câu trả lời"));
                 }
             }
 
@@ -210,9 +212,16 @@ public class ApiExamResultController {
         }
     }
 
-    @GetMapping("/get/list/exam/result/by/user/id/{userId}")
-    public ResponseEntity<?> getListExamResultByUserId(@PathVariable("userId") Long userId) {
+    @GetMapping("/get/list/exam/result/by/user")
+    public ResponseEntity<?> getListExamResultByUser(HttpServletRequest request) {
         try {
+            String jwt = request.getHeader("Authorization");
+            if (jwt == null || !jwt.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+            jwt = jwt.substring(7);
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            Long userId = claims.get("id", Long.class); 
             List<ExamResult> examResults = examResultService.getListExamResultByUserId(userId);
             return ResponseEntity.ok(examResults);
         } catch (Exception e) {
