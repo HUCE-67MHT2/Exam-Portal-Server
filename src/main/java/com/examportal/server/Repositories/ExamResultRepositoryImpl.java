@@ -4,6 +4,7 @@ import com.examportal.server.Entity.Exam;
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Entity.User;
 import com.examportal.server.Request.StudentResultInExamSession;
+import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
 import jakarta.persistence.TypedQuery;
@@ -167,10 +168,16 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     }
 
     @Override
-    public List<ExamResult> getListExamResultByUserId(Long userId) {
-        String jpql = "SELECT er FROM ExamResult er WHERE er.user.id = :userId";
-        TypedQuery<ExamResult> query = entityManager.createQuery(jpql, ExamResult.class);
-        query.setParameter("userId", userId);
-        return query.getResultList();
+    public List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId) {
+        String jpql = "SELECT new com.examportal.server.DTO.ExamResultWithSessionInfoDTO(" +
+                "er.id, er.totalScore, er.startTime, er.submitTime, er.endTime, " +
+                "es.name, es.teacherId) " +
+                "FROM ExamResult er " +
+                "JOIN er.exam e " +
+                "JOIN e.examSession es " +
+                "WHERE er.user.id = :userId";
+        return entityManager.createQuery(jpql, ExamResultWithSessionInfoDTO.class)
+                .setParameter("userId", userId)
+                .getResultList();
     }
 }

@@ -2,7 +2,7 @@ package com.examportal.server.Repositories;
 
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Request.StudentResultInExamSession;
-
+import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
 import java.time.LocalDateTime;
 import java.util.List;
 
@@ -36,5 +36,5 @@ public interface ExamResultRepository {
     // Tìm các bài thi chưa nộp và đã hết giờ (phiên bản đơn giản hơn)
     List<ExamResult> findExpiredExamsSimple(LocalDateTime now);
 
-    List<ExamResult> getListExamResultByUserId(Long userId);
+    List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId);
 }

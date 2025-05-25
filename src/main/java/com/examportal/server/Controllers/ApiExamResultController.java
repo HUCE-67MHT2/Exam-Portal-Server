@@ -2,6 +2,7 @@ package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ExamResultTimerDTO;
+import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.DTO.StudentAnswerAutoGen;
 import com.examportal.server.Entity.*;
@@ -222,7 +223,7 @@ public class ApiExamResultController {
             jwt = jwt.substring(7);
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
             Long userId = claims.get("id", Long.class); 
-            List<ExamResult> examResults = examResultService.getListExamResultByUserId(userId);
+            List<ExamResultWithSessionInfoDTO> examResults = examResultService.getListExamResultWithSessionInfoByUserId(userId);
             return ResponseEntity.ok(examResults);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
