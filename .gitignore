@@ -4,7 +4,7 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 google-credentials.json
-JpaConfig.java
+**/src/main/java/com/examportal/server/Configs/JpaConfig.java
 
 ### STS ###
 .apt_generated
