@@ -1,72 +1,37 @@
 package com.examportal.server.DTO;
 
-import java.sql.Timestamp;
-
 public class ExamResultWithSessionInfoDTO {
-    private Long examResultId;
-    private Float totalScore;
-    private Timestamp startTime;
-    private Timestamp submitTime;
-    private Timestamp endTime;
+    private Long examSessionId;
+    private Double averageScore;
     private String sessionName;
     private String teacherFullName;
 
     public ExamResultWithSessionInfoDTO(
-        Long examResultId,
-        Float totalScore,
-        Timestamp startTime,
-        Timestamp submitTime,
-        Timestamp endTime,
+        Long examSessionId,
+        Double averageScore,
         String sessionName,
         String teacherFullName
     ) {
-        this.examResultId = examResultId;
-        this.totalScore = totalScore;
-        this.startTime = startTime;
-        this.submitTime = submitTime;
-        this.endTime = endTime;
+        this.examSessionId = examSessionId;
+        this.averageScore = averageScore;
         this.sessionName = sessionName;
         this.teacherFullName = teacherFullName;
     }
 
-    public Long getExamResultId() {
-        return examResultId;
+    public Long getExamSessionId() {
+        return examSessionId;
     }
 
-    public void setExamResultId(Long examResultId) {
-        this.examResultId = examResultId;
+    public void setExamSessionId(Long examSessionId) {
+        this.examSessionId = examSessionId;
     }
 
-    public Float getTotalScore() {
-        return totalScore;
+    public Double getAverageScore() {
+        return averageScore;
     }
 
-    public void setTotalScore(Float totalScore) {
-        this.totalScore = totalScore;
-    }
-
-    public Timestamp getStartTime() {
-        return startTime;
-    }
-
-    public void setStartTime(Timestamp startTime) {
-        this.startTime = startTime;
-    }
-
-    public Timestamp getSubmitTime() {
-        return submitTime;
-    }
-
-    public void setSubmitTime(Timestamp submitTime) {
-        this.submitTime = submitTime;
-    }
-
-    public Timestamp getEndTime() {
-        return endTime;
-    }
-
-    public void setEndTime(Timestamp endTime) {
-        this.endTime = endTime;
+    public void setAverageScore(Double averageScore) {
+        this.averageScore = averageScore;
     }
 
     public String getSessionName() {
