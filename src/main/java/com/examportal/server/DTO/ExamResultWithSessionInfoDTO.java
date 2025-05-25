@@ -8,8 +8,8 @@ public class ExamResultWithSessionInfoDTO {
     private Timestamp startTime;
     private Timestamp submitTime;
     private Timestamp endTime;
-    private String sessionName;
-    private Long sessionTeacherId;
+    private String examSessionId;
+    private Long TeacherId;
 
     public Long getExamResultId() {
         return examResultId;
@@ -51,19 +51,19 @@ public class ExamResultWithSessionInfoDTO {
         this.endTime = endTime;
     }
 
-    public String getSessionName() {
-        return sessionName;
+    public String getExamSessionId() {
+        return examSessionId;
     }
 
-    public void setSessionName(String sessionName) {
-        this.sessionName = sessionName;
+    public void setExamSessionId(String examSessionId) {
+        this.examSessionId = examSessionId;
     }
 
-    public Long getSessionTeacherId() {
-        return sessionTeacherId;
+    public Long getTeacherId() {
+        return TeacherId;
     }
 
-    public void setSessionTeacherId(Long sessionTeacherId) {
-        this.sessionTeacherId = sessionTeacherId;
+    public void setTeacherId(Long teacherId) {
+        this.TeacherId = teacherId;
     }
 }
