@@ -174,7 +174,7 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
                 "es.name, es.teacherId) " +
                 "FROM ExamResult er " +
                 "JOIN er.exam e " +
-                "JOIN e.examSession es " +
+                "JOIN ExamSession es ON e.examSessionId = es.id " +
                 "WHERE er.user.id = :userId";
         return entityManager.createQuery(jpql, ExamResultWithSessionInfoDTO.class)
                 .setParameter("userId", userId)

@@ -8,8 +8,26 @@ public class ExamResultWithSessionInfoDTO {
     private Timestamp startTime;
     private Timestamp submitTime;
     private Timestamp endTime;
-    private String examSessionId;
-    private Long TeacherId;
+    private String sessionName;
+    private Long teacherId;
+
+    public ExamResultWithSessionInfoDTO(
+        Long examResultId,
+        Float totalScore,
+        Timestamp startTime,
+        Timestamp submitTime,
+        Timestamp endTime,
+        String sessionName,
+        Long teacherId
+    ) {
+        this.examResultId = examResultId;
+        this.totalScore = totalScore;
+        this.startTime = startTime;
+        this.submitTime = submitTime;
+        this.endTime = endTime;
+        this.sessionName = sessionName;
+        this.teacherId = teacherId;
+    }
 
     public Long getExamResultId() {
         return examResultId;
@@ -51,19 +69,19 @@ public class ExamResultWithSessionInfoDTO {
         this.endTime = endTime;
     }
 
-    public String getExamSessionId() {
-        return examSessionId;
+    public String getSessionName() {
+        return sessionName;
     }
 
-    public void setExamSessionId(String examSessionId) {
-        this.examSessionId = examSessionId;
+    public void setSessionName(String sessionName) {
+        this.sessionName = sessionName;
     }
 
     public Long getTeacherId() {
-        return TeacherId;
+        return teacherId;
     }
 
     public void setTeacherId(Long teacherId) {
-        this.TeacherId = teacherId;
+        this.teacherId = teacherId;
     }
 }
