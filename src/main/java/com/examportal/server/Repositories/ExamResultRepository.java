@@ -37,4 +37,6 @@ public interface ExamResultRepository {
     List<ExamResult> findExpiredExamsSimple(LocalDateTime now);
 
     List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId);
+
+    List<ExamResult> findByExamSessionId(Long examSessionId);
 }

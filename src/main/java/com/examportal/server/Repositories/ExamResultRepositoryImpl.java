@@ -181,4 +181,12 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
+
+    @Override
+    public List<ExamResult> findByExamSessionId(Long examSessionId) {
+        String jpql = "SELECT er FROM ExamResult er JOIN er.exam e WHERE e.examSessionId = :examSessionId";
+        return entityManager.createQuery(jpql, ExamResult.class)
+                .setParameter("examSessionId", examSessionId)
+                .getResultList();
+    }
 }

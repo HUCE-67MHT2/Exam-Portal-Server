@@ -86,4 +86,9 @@ public class ExamResultServiceImpl implements ExamResultService {
     public List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId) {
         return examResultRepository.getListExamResultWithSessionInfoByUserId(userId);
     }
+
+    @Override
+    public List<ExamResult> findByExamSessionId(Long examSessionId) {
+        return examResultRepository.findByExamSessionId(examSessionId);
+    }
 }

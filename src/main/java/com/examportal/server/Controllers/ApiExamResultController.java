@@ -230,4 +230,15 @@ public class ApiExamResultController {
                     .body("Có lỗi xảy ra: " + e.getMessage());
         }
     }
+
+    @GetMapping("/get/list/exam-result/by-session/{examSessionId}")
+    public ResponseEntity<?> getExamResultsBySession(@PathVariable Long examSessionId) {
+        try {
+            List<ExamResult> results = examResultService.findByExamSessionId(examSessionId);
+            return ResponseEntity.ok(results);
+        } catch (Exception e) {
+            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                    .body("Có lỗi xảy ra: " + e.getMessage());
+        }
+    }
 }

@@ -23,4 +23,6 @@ public interface ExamResultService {
     ExamResultStatusInfo checkExamResultStatus(Long examId, Long userId);
 
     List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId);
+
+    List<ExamResult> findByExamSessionId(Long examSessionId);
 }
