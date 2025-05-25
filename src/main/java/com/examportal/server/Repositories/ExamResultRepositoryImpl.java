@@ -171,10 +171,11 @@ public class ExamResultRepositoryImpl implements ExamResultRepository {
     public List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId) {
         String jpql = "SELECT new com.examportal.server.DTO.ExamResultWithSessionInfoDTO(" +
                 "er.id, er.totalScore, er.startTime, er.submitTime, er.endTime, " +
-                "es.name, es.teacherId) " +
+                "es.name, u.fullName) " +
                 "FROM ExamResult er " +
                 "JOIN er.exam e " +
                 "JOIN ExamSession es ON e.examSessionId = es.id " +
+                "JOIN User u ON es.teacherId = u.id " +
                 "WHERE er.user.id = :userId";
         return entityManager.createQuery(jpql, ExamResultWithSessionInfoDTO.class)
                 .setParameter("userId", userId)
