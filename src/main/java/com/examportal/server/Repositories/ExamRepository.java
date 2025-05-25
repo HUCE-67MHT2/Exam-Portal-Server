@@ -17,5 +17,7 @@ public interface ExamRepository {
     List<Exam> getExamBySessionId(Long id);
 
     List<ExamSession> getTodayExams(Long userId);
+
+    List<Exam> getUnfinishedExams(Long userId);
 }
 

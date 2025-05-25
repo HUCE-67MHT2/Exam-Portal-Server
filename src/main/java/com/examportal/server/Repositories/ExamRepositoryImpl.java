@@ -62,5 +62,18 @@ public class ExamRepositoryImpl implements ExamRepository {
                 .setParameter("userId", userId)
                 .getResultList();
     }
+    @Override
+    public List<Exam> getUnfinishedExams(Long userId) {
+        String hql = "FROM Exam ex " +
+                "JOIN ExamSessionEnrollment ese ON ex.examSessionId = ese.examSession.id AND ese.user.id = :userId " +
+                "LEFT JOIN ExamResult er ON er.exam.id = ex.id AND er.user.id = :userId " +
+                "WHERE er.id IS NULL";
+
+        return entityManager.createQuery(hql, Exam.class)
+                .setParameter("userId", userId)
+                .getResultList();
+    }
+
+
 
 }

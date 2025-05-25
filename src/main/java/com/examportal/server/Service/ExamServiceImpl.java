@@ -245,5 +245,10 @@ public class ExamServiceImpl implements ExamService {
         return examRepository.getTodayExams(userId);
     }
 
+    @Override
+    public List<Exam> getUnfinishedExams(Long userId) {
+        return examRepository.getUnfinishedExams(userId);
+    }
+
 
 }
