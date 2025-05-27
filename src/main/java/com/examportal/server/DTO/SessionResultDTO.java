@@ -1,12 +1,12 @@
 package com.examportal.server.DTO;
 
-public class ExamResultWithSessionInfoDTO {
+public class SessionResultDTO {
     private Long examSessionId;
     private Double averageScore;
     private String sessionName;
     private String teacherFullName;
 
-    public ExamResultWithSessionInfoDTO(
+    public SessionResultDTO(
         Long examSessionId,
         Double averageScore,
         String sessionName,

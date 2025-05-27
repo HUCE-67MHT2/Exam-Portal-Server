@@ -2,7 +2,7 @@ package com.examportal.server.Controllers;
 
 import com.examportal.server.Configs.JwtTokenUtil;
 import com.examportal.server.DTO.ExamResultTimerDTO;
-import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
+import com.examportal.server.DTO.SessionResultDTO;
 import com.examportal.server.DTO.ResponseDTO;
 import com.examportal.server.DTO.StudentAnswerAutoGen;
 import com.examportal.server.Entity.*;
@@ -16,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -213,8 +214,8 @@ public class ApiExamResultController {
         }
     }
 
-    @GetMapping("/get/list/exam/result/by/user")
-    public ResponseEntity<?> getListExamResultByUser(HttpServletRequest request) {
+    @GetMapping("/get/list/exam/result")
+    public ResponseEntity<?> getListSessionResult(HttpServletRequest request) {
         try {
             String jwt = request.getHeader("Authorization");
             if (jwt == null || !jwt.startsWith("Bearer ")) {
@@ -223,7 +224,7 @@ public class ApiExamResultController {
             jwt = jwt.substring(7);
             Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
             Long userId = claims.get("id", Long.class); 
-            List<ExamResultWithSessionInfoDTO> examResults = examResultService.getListExamResultWithSessionInfoByUserId(userId);
+            List<SessionResultDTO> examResults = examResultService.getListSessionResultByUserId(userId);
             return ResponseEntity.ok(examResults);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
@@ -231,10 +232,32 @@ public class ApiExamResultController {
         }
     }
 
-    @GetMapping("/get/list/exam-result/by-session/{examSessionId}")
-    public ResponseEntity<?> getExamResultsBySession(@PathVariable Long examSessionId) {
+    @GetMapping("/get/detail/exam-result/by-session/{examSessionId}")
+    public ResponseEntity<?> getDetailExamResultBySession(@PathVariable Long examSessionId, HttpServletRequest request) {
         try {
-            List<ExamResult> results = examResultService.findByExamSessionId(examSessionId);
+            String jwt = request.getHeader("Authorization");
+            if (jwt == null || !jwt.startsWith("Bearer ")) {
+                return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid or missing token");
+            }
+            jwt = jwt.substring(7);
+            Claims claims = jwtTokenUtil.getClaimsFromToken(jwt);
+            Long userId = claims.get("id", Long.class);
+
+            List<Exam> listExam = examService.getExamBySessionId(examSessionId);
+            List<Map<String, Object>> results = new ArrayList<>();
+            for (Exam exam : listExam) {
+                Map<String, Object> examResultList = new HashMap<>();
+                ExamResult examResult = examResultService.getExamResultByExamIdAndUserId(exam.getId(), userId);
+                if (examResult != null) {
+                    examResultList.put("examResultId", examResult.getId());
+                    examResultList.put("examId", exam.getId());
+                    examResultList.put("examName", exam.getName());
+                    examResultList.put("totalScore", examResult.getTotalScore());
+                    examResultList.put("startTime", examResult.getStartTime());
+                    examResultList.put("endTime", examResult.getEndTime());
+                    results.add(examResultList);
+                }
+            }
             return ResponseEntity.ok(results);
         } catch (Exception e) {
             return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)

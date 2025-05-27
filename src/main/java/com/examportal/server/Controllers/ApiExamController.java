@@ -43,11 +43,6 @@ public class ApiExamController {
     private UserService userService;
 
     @Autowired
-    private ExamResultService examResultService;
-
-    @Autowired
-    private StudentAnswerService studentAnswerService;
-    @Autowired
     private ExamResultRepository examResultRepository;
 
     @DeleteMapping("/delete/exam/{id}")

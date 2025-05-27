@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.DTO.ExamResultStatusInfo;
-import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
+import com.examportal.server.DTO.SessionResultDTO;
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Repositories.ExamResultRepository;
 import com.examportal.server.Request.StudentResultInExamSession;
@@ -83,12 +83,7 @@ public class ExamResultServiceImpl implements ExamResultService {
     }
 
     @Override
-    public List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId) {
-        return examResultRepository.getListExamResultWithSessionInfoByUserId(userId);
-    }
-
-    @Override
-    public List<ExamResult> findByExamSessionId(Long examSessionId) {
-        return examResultRepository.findByExamSessionId(examSessionId);
+    public List<SessionResultDTO> getListSessionResultByUserId(Long userId) {
+        return examResultRepository.getListSessionResultByUserId(userId);
     }
 }

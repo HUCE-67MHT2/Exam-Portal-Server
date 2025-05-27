@@ -1,7 +1,7 @@
 package com.examportal.server.Service;
 
 import com.examportal.server.DTO.ExamResultStatusInfo;
-import com.examportal.server.DTO.ExamResultWithSessionInfoDTO;
+import com.examportal.server.DTO.SessionResultDTO;
 import com.examportal.server.Entity.ExamResult;
 import com.examportal.server.Request.StudentResultInExamSession;
 
@@ -22,7 +22,5 @@ public interface ExamResultService {
 
     ExamResultStatusInfo checkExamResultStatus(Long examId, Long userId);
 
-    List<ExamResultWithSessionInfoDTO> getListExamResultWithSessionInfoByUserId(Long userId);
-
-    List<ExamResult> findByExamSessionId(Long examSessionId);
+    List<SessionResultDTO> getListSessionResultByUserId(Long userId);
 }
