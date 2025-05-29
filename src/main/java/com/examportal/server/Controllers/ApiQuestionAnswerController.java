@@ -24,7 +24,7 @@ public class ApiQuestionAnswerController {
 
     /**
      * POST API cho mode upload.
-     * Client gửi payload như:
+     * Client gửi payload:
      * {
      * "examId": 100,
      * "answers": {
